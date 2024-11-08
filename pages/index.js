@@ -15,11 +15,22 @@ const StyledTaskList = styled.ul`
 `;
 
 export default function HomePage({tasks}) {
+  // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
+  const getDateTimestamp = (dateString) => {
+    return new Date(dateString).getTime();
+  };
+
+  // Sortieren der Aufgaben nach dueDate (neueste zuerst)
+  const sortedTasks = [...tasks].sort((a, b) => {
+    return getDateTimestamp(b.dueDate) - getDateTimestamp(a.dueDate);
+  });
+
   return (
     <>
       <StyledContentHeading>Task List</StyledContentHeading>
       <StyledTaskList>
-        {tasks.map((task) => {
+        {/* über die einzelnen Tasks mapen, um diese einzeln darzustellen */}
+        {sortedTasks.map((task) => {
           return (
             <li key={task.id}>
               <TaskCard task={task} />
