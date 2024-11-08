@@ -1,3 +1,4 @@
+import ButtonBack from "@/components/ButtonBack";
 import { useRouter } from "next/router";
 
 export default function TaskDetails({ tasks }) {
@@ -20,6 +21,7 @@ export default function TaskDetails({ tasks }) {
             <p>{taskData.description}</p>
             <span>{taskData.priority}</span>
             <span>{taskData.dueDate}</span>
+            <ButtonBack></ButtonBack>
         </>
     )
 
