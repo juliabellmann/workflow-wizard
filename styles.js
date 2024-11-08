@@ -11,4 +11,13 @@ export default createGlobalStyle`
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
   }
+
+  a {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      color: red;
+    }
+  }
 `;
