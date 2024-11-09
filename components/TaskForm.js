@@ -8,7 +8,7 @@ const priorityOptions = [
     { id: "priority3", value: "Low", label: "Low" },
   ];
 
-export default function TaskForm() {
+export default function TaskForm({ onSubmit }) {
 
     // Initialisieren des Due Date mit aktuellem Datum
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
@@ -16,8 +16,23 @@ export default function TaskForm() {
     // Initialisieren des Priority States
     const [selectedPriority, setSelectedPriority] = useState("");
 
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        // Sammelt alle Formulardaten in einem Objekt
+        const formData = new FormData(event.target);
+        const taskData = Object.fromEntries(formData);
+       
+        onSubmit(taskData);
+        // Formular Reset nach Klick
+        event.target.reset();
+
+    }
+
     return (
         <>
+        <form onSubmit={handleSubmit}>
+
             <label htmlFor="title"><h3>Task Name: *</h3></label>
             <input type="text" id="title" name="title" placeholder="Please enter a task name here" required />
 
@@ -31,7 +46,7 @@ export default function TaskForm() {
                 value={selectedPriority}
                 onChange={(e) => setSelectedPriority(e.target.value)}
                 required
-            >
+                >
                 {priorityOptions.map((option) => (
                     <option key={option.id} value={option.value}>
                         {option.label}
@@ -44,6 +59,7 @@ export default function TaskForm() {
             <input type="date" id="dueDate" name="dueDate" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
 
             <button type="submit">Create Task</button>
+        </form>
         </>
     );
 }

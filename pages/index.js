@@ -15,7 +15,8 @@ const StyledTaskList = styled.ul`
   margin: 0;
 `;
 
-export default function HomePage({tasks}) {
+export default function HomePage({tasks, onCreateTask, onDeleteTask }) {
+
   // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
   const getDateTimestamp = (dateString) => {
     return new Date(dateString).getTime();
@@ -29,13 +30,18 @@ export default function HomePage({tasks}) {
   return (
     <>
       <StyledContentHeading>Task List</StyledContentHeading>
-      <TaskForm></TaskForm>
+      <TaskForm  
+        onSubmit={onCreateTask} 
+      />
       <StyledTaskList>
         {/* über die einzelnen Tasks mapen, um diese einzeln darzustellen */}
         {sortedTasks.map((task) => {
           return (
             <li key={task.id}>
-              <TaskCard task={task} />
+              <TaskCard 
+                task={task} 
+                onDeleteTask={() => onDeleteTask(task.id)}
+              />
             </li>
           )
         })}

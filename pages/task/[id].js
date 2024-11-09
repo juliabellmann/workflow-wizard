@@ -1,5 +1,7 @@
 import ButtonBack from "@/components/ButtonBack";
+import UpdateForm from "@/components/TaskUpdate";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 // ----- Styled Components -----
@@ -58,7 +60,7 @@ const SytledDetailsWrapper = styled.div`
     `}
 `;
 
-export default function TaskDetails({ tasks, task }) {
+export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const router = useRouter();
     const { id } = router.query;
 
@@ -66,23 +68,43 @@ export default function TaskDetails({ tasks, task }) {
     if(!router.isReady) return <div>Loading ...</div>;
 
     // finde die Tasks
-    const taskData = tasks ? tasks?.find((item) => item.id === id) : null;
+    const currentTask = tasks?.find(item => item.id === id) || null;
 
     // Fallback für fehlende Daten
-    if (!taskData) return <div>No data available</div>;
+    if (!currentTask) return <div>No data available</div>;
+
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const handleUpdateClick = () => {
+        setIsUpdating(true);
+    };
+
+    const handleUpdateSubmit = (updatedTask) => {
+        onUpdateTask(updatedTask);
+        setIsUpdating(false);
+    };
 
     return (
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
+        {isUpdating ? (
+            <UpdateForm 
+              initialData={currentTask} 
+              onSubmit={handleUpdateSubmit}
+            />
+        ) : (
         <SytledDetailsWrapper>
-            <h3>{taskData.title}</h3>
-            <p>{taskData.description}</p>
+            <h3>{currentTask.title}</h3>
+            <p>{currentTask.description}</p>
             <div className="date-prio">
-                <span>{taskData.dueDate}</span>
-                <span className={`${taskData.priority}`}>{taskData.priority}</span>
+                <span>{currentTask.dueDate}</span>
+                <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
+                <button onClick={handleUpdateClick}>Edit</button>
+                <button onClick={() => onDeleteTask(currentTask.id)}>Delete this</button>
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>
+        )}
         </>
     )
 
