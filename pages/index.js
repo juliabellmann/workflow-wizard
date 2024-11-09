@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import TaskCard from "@/components/TaskCard";
+import TaskForm from "@/components/TaskForm";
 
 // ----- Styled Components -----
 
@@ -28,6 +29,7 @@ export default function HomePage({tasks}) {
   return (
     <>
       <StyledContentHeading>Task List</StyledContentHeading>
+      <TaskForm></TaskForm>
       <StyledTaskList>
         {/* über die einzelnen Tasks mapen, um diese einzeln darzustellen */}
         {sortedTasks.map((task) => {
