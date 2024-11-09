@@ -1,26 +1,30 @@
 // UpdateForm.js
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, {css} from "styled-components";
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
+// ----- Styled Components -----
 
-const InputField = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-`;
+const StyledUpdateForm = styled.form`
+  background-color: rgba(219, 219, 219, 0.75);
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
 
-const SelectField = styled.select`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+    padding: 25px;
+    margin-top: 20px;
+
+  ${css`
+      button {
+          background-color: white;
+          padding: 5px;
+          white-space: nowrap;
+
+          border-radius: 10px;
+
+          border: 1px solid black;
+
+      }
+  `}
 `;
 
 const ButtonContainer = styled.div`
@@ -43,36 +47,45 @@ export default function UpdateForm({ initialData, onSubmit }) {
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <InputField
+    <StyledUpdateForm onSubmit={handleSubmit}>
+
+      <label htmlFor="title"><h3>Task Name: *</h3></label>
+      <input
         type="text"
         name="title"
         value={formData.title}
         onChange={handleChange}
         placeholder="Title"
       />
+
+      <label htmlFor="description"><h3>Description:</h3></label>
       <textarea
+        rows="5"
         name="description"
         value={formData.description}
         onChange={handleChange}
         placeholder="Description"
       ></textarea>
-      <InputField
+
+      <label htmlFor="priority"><h3>Priority: *</h3></label>
+      <select name="priority" value={formData.priority} onChange={handleChange}>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+
+      <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
+      <input
         type="date"
         name="dueDate"
         value={formData.dueDate}
         onChange={handleChange}
       />
-      <SelectField name="priority" value={formData.priority} onChange={handleChange}>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-      </SelectField>
       <ButtonContainer>
         <button type="submit">Update Task</button>
         <button type="button" onClick={() => window.history.back()}>Cancel</button>
       </ButtonContainer>
-    </StyledForm>
+    </StyledUpdateForm>
   );
 }
 

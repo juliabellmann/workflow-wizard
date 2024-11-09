@@ -57,6 +57,13 @@ const SytledDetailsWrapper = styled.div`
         .Low {
             background-color: rgba(21, 255, 0, 0.75);
         }
+
+        button {
+            background-color: white;
+            padding: 5px;
+
+            border-radius: 10px;
+        }
     `}
 `;
 
@@ -74,6 +81,7 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     if (!currentTask) return <div>No data available</div>;
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const handleUpdateClick = () => {
         setIsUpdating(true);
@@ -82,6 +90,12 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const handleUpdateSubmit = (updatedTask) => {
         onUpdateTask(updatedTask);
         setIsUpdating(false);
+    };
+
+    const handleDeleteConfirm = () => {
+        setIsDeleting(true);
+        onDeleteTask(currentTask.id);
+        router.push('/', { shallow: true });
     };
 
     return (
@@ -100,7 +114,9 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
                 <span>{currentTask.dueDate}</span>
                 <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
                 <button onClick={handleUpdateClick}>Edit</button>
-                <button onClick={() => onDeleteTask(currentTask.id)}>Delete this</button>
+                <button onClick={handleDeleteConfirm}>
+                    Delete this
+                </button>
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>

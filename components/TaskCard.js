@@ -60,7 +60,7 @@ export default function TaskCard({ task, onDeleteTask }) {
                     <span>{task.dueDate}</span>
                     <span className={`${task.priority}`}>{task.priority}</span>
                     <span><Link href={`task/${task.id}`}>Details</Link></span>
-                    <button onClick={() => onDeleteTask(task.id)}>Detlete</button>
+                    {/* <button onClick={() => onDeleteTask(task.id)}>Detlete</button> */}
                 </div>
             </StyledTaskCard>
         </>
