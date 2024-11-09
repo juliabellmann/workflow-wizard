@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+// Definieren der optionen für priority
 const priorityOptions = [
     { id: "priority1", value: "High", label: "High" },
     { id: "priority2", value: "Medium", label: "Medium" },
@@ -5,6 +8,10 @@ const priorityOptions = [
   ];
 
 export default function TaskForm() {
+
+    // Initialisieren des Due Date mit aktuellem Datum
+    const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
+
     return (
         <>
             <label htmlFor="title"><h3>Task Name: *</h3></label>
@@ -29,7 +36,9 @@ export default function TaskForm() {
                 ))}
             </section>
 
-            <label htmlFor="dueDate"><h3>Priority:</h3></label>
+            <label htmlFor="dueDate"><h3>Due Date:</h3></label>
+            {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
+            <input type="date" id="dueDate" name="dueDate" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
 
             <button type="submit">Create Task</button>
         </>
