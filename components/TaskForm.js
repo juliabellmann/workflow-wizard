@@ -13,14 +13,48 @@ const StyledDetails = styled.details`
 
 
 const StyledFormContainer = styled.form`
-    background-color: rgba(219, 219, 219, 0.75);
+    background-color: var(--bg-color);
     border: 1px solid black;
+    border-radius: var(--border-radius-button);
     display: flex;
     flex-direction: column;
 
     width: 300px;
     padding: 25px;
     margin-top: 20px;
+    ${css`
+      input {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
+      textarea {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
+      select {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
+      button {
+          background-color: white;
+          padding: 5px;
+          white-space: nowrap;
+
+          border: 1px solid black;
+          border-radius: var(--border-radius-button);
+
+          margin: 20px;
+      }
+  `}
 `;
 
 

@@ -12,7 +12,7 @@ const StyledContentHeading = styled.h2`
 `;
 
 const SytledDetailsWrapper = styled.div`
-    background-color: rgba(219, 219, 219, 0.75);
+    background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,6 +38,19 @@ const SytledDetailsWrapper = styled.div`
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
+        }
+
+        div.edit-delete {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            button {
+
+                padding: 5px 20px;
+                border: 1px solid black;
+                border-radius: 10px;
+            }
         }
 
         span {
@@ -95,7 +108,7 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const handleDeleteConfirm = () => {
         setIsDeleting(true);
         onDeleteTask(currentTask.id);
-        router.push('/', { shallow: true });
+        router.replace('/');
     };
 
     return (
@@ -113,10 +126,10 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
             <div className="date-prio">
                 <span>{currentTask.dueDate}</span>
                 <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
+            </div>
+            <div className="edit-delete">
                 <button onClick={handleUpdateClick}>Edit</button>
-                <button onClick={handleDeleteConfirm}>
-                    Delete this
-                </button>
+                <button onClick={handleDeleteConfirm}>Delete this</button>
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>

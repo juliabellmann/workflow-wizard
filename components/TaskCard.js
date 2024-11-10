@@ -5,10 +5,10 @@ import styled, {css} from "styled-components";
 
 const StyledTaskCard = styled.div`
 
-    background-color: rgba(219, 219, 219, 0.75);
+    background-color: var(--bg-color);
 
     border: 1px solid gray;
-    border-radius: 10px;
+    border-radius: var(--border-radius-button);
     padding: 15px;
     margin-bottom: 20px;
 
@@ -33,7 +33,7 @@ const StyledTaskCard = styled.div`
             padding: 5px;
 
             border: 1px solid black;
-            border-radius: 10px;
+            border-radius: var(--border-radius-button);
         }
       
         .High {

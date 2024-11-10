@@ -5,8 +5,9 @@ import styled, {css} from "styled-components";
 // ----- Styled Components -----
 
 const StyledUpdateForm = styled.form`
-  background-color: rgba(219, 219, 219, 0.75);
+  background-color: var(--bg-color);
     border: 1px solid black;
+    border-radius: var(--border-radius-button);
     display: flex;
     flex-direction: column;
 
@@ -14,15 +15,34 @@ const StyledUpdateForm = styled.form`
     margin-top: 20px;
 
   ${css`
+      input {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
+      textarea {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
+      select {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: var(--border-radius-input);
+        font-family: var(--text-font);
+      }
+
       button {
           background-color: white;
-          padding: 5px;
+          padding: 5px 10px;
           white-space: nowrap;
 
-          border-radius: 10px;
-
           border: 1px solid black;
-
+          border-radius: var(--border-radius-button);
       }
   `}
 `;
@@ -60,7 +80,7 @@ export default function UpdateForm({ initialData, onSubmit }) {
 
       <label htmlFor="description"><h3>Description:</h3></label>
       <textarea
-        rows="5"
+        rows="3"
         name="description"
         value={formData.description}
         onChange={handleChange}

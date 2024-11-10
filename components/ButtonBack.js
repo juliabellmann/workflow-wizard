@@ -11,11 +11,11 @@ const StyledButtonBack = styled(Link)`
     justify-content: center;
     white-space: nowrap;
 
-    padding: 10px 20px;
+    padding: 5px 10px;
 
     background-color: white;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: var(--border-radius-button);
 
 `;
 
