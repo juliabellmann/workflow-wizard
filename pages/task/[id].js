@@ -80,10 +80,19 @@ const SytledDetailsWrapper = styled.div`
     `}
 `;
 
+const DeleteButton = styled.button`
+  margin: 25px 15px;
+  padding: 10px 35px 10px 35px;
+  border-style: none;
+  border-radius: 5px;
+`;
+
 export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    
+    const [isDeleteOption, setIsDeleteOption] = useState(false);
+    const [toggleButtonName, setToggleButtonName] = useState("Delete");
+
     const router = useRouter();
     const { id } = router.query;
 
@@ -97,20 +106,33 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     if (!currentTask) return <div>No data available</div>;
 
 
-    const handleUpdateClick = () => {
+    function  handleUpdateClick() {
         setIsUpdating(true);
     };
 
-    const handleUpdateSubmit = (updatedTask) => {
+    function handleUpdateSubmit(updatedTask) {
         onUpdateTask(updatedTask);
         setIsUpdating(false);
     };
 
-    const handleDeleteConfirm = () => {
+    // toggle für confirm delete
+    function toggleDeleteOption() {
+        setIsDeleteOption((prevState) => !prevState);
+    
+        if (toggleButtonName === "Delete") {
+          setToggleButtonName("Cancel");
+        } else {
+          setToggleButtonName("Delete");
+        }
+    };
+
+    // delete und rückführung zur Übersicht
+    function handleDelete() {
         setIsDeleting(true);
         onDeleteTask(currentTask.id);
         router.replace('/');
     };
+
 
     return (
         <>
@@ -130,7 +152,11 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
             </div>
             <div className="edit-delete">
                 <button onClick={handleUpdateClick}>Edit</button>
-                <button onClick={handleDeleteConfirm}>Delete this</button>
+                {/* delete confirm Abfrage */}
+                {isDeleteOption && (
+                    <DeleteButton onClick={() => handleDelete(id)}>Delete</DeleteButton>
+                )}
+                    <DeleteButton onClick={toggleDeleteOption}>{toggleButtonName}</DeleteButton>
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>

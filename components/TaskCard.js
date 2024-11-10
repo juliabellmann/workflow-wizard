@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import styled, {css} from "styled-components";
 
 // ----- Styled Components -----
@@ -51,6 +53,22 @@ const StyledTaskCard = styled.div`
 `;
 
 export default function TaskCard({ task, onDeleteTask }) {
+    const [isDeleteOption, setIsDeleteOption] = useState(false);
+    const [toggleButtonName, setToggleButtonName] = useState("Delete");
+    const router = useRouter();
+
+        // toggle für confirm delete
+        function toggleDeleteOption() {
+            setIsDeleteOption((prevState) => !prevState);
+            setToggleButtonName(toggleButtonName === "Delete" ? "Cancel" : "Delete");
+        };
+    
+        // delete und rückführung zur Übersicht
+        function handleDelete() {
+            setIsDeleting(true);
+            onDeleteTask(currentTask.id);
+            router.replace('/');
+        };
     return (
         <>
             <StyledTaskCard>
@@ -60,7 +78,11 @@ export default function TaskCard({ task, onDeleteTask }) {
                     <span>{task.dueDate}</span>
                     <span className={`${task.priority}`}>{task.priority}</span>
                     <span><Link href={`task/${task.id}`}>Details</Link></span>
+                                    {/* delete confirm Abfrage */}
+                {isDeleteOption && (
                     <button onClick={() => onDeleteTask(task.id)}>Detlete</button>
+                )}
+                    <button onClick={toggleDeleteOption}>{toggleButtonName}</button>
                 </div>
             </StyledTaskCard>
         </>
