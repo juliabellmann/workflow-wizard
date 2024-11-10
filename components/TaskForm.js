@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled, {css} from "styled-components";
 
 // ----- Styled Components -----
@@ -23,37 +23,41 @@ const StyledFormContainer = styled.form`
     padding: 25px;
     margin-top: 20px;
     ${css`
-      input {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
+        h3 {
+            margin: 10px 0;
+        }
 
-      textarea {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
+        input {
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: var(--border-radius-input);
+            font-family: var(--text-font);
+        }
 
-      select {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
+        textarea {
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: var(--border-radius-input);
+            font-family: var(--text-font);
+        }
 
-      button {
-          background-color: white;
-          padding: 5px;
-          white-space: nowrap;
+        select {
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: var(--border-radius-input);
+            font-family: var(--text-font);
+        }
 
-          border: 1px solid black;
-          border-radius: var(--border-radius-button);
+        button {
+            background-color: white;
+            padding: 5px;
+            white-space: nowrap;
 
-          margin: 20px;
-      }
+            border: 1px solid black;
+            border-radius: var(--border-radius-button);
+
+            margin: 20px 40px 0 40px;
+        }
   `}
 `;
 
@@ -89,55 +93,55 @@ export default function TaskForm({ onSubmit }) {
 
     return (
         <>
-        <StyledDetails>
-            <summary>Create New Task</summary>
-                <StyledFormContainer onSubmit={handleSubmit}>
+            <StyledDetails>
+                <summary>Create New Task</summary>
+                    <StyledFormContainer onSubmit={handleSubmit}>
 
-                    <label htmlFor="title"><h3>Task Name: *</h3></label>
-                    <input 
-                        type="text" 
-                        id="title" 
-                        name="title" 
-                        placeholder="Please enter a task name here" 
-                        required 
-                    />
+                        <label htmlFor="title"><h3>Task Name: *</h3></label>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            placeholder="Please enter a task name here" 
+                            required 
+                        />
 
-                    <label htmlFor="description"><h3>Description:</h3></label>
-                    <textarea 
-                        rows="5" 
-                        id="description" 
-                        name="description" 
-                        placeholder="Optional: enter a task description here" 
-                    />
+                        <label htmlFor="description"><h3>Description:</h3></label>
+                        <textarea 
+                            rows="3" 
+                            id="description" 
+                            name="description" 
+                            placeholder="Optional: enter a task description here" 
+                        />
 
-                    <label htmlFor="priority"><h3>Priority: *</h3></label>
-                    <select
-                        id="priority"
-                        name="priority"
-                        value={selectedPriority}
-                        onChange={(e) => setSelectedPriority(e.target.value)}
-                        required
-                        >
-                        {priorityOptions.map((option) => (
-                            <option key={option.id} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                        <label htmlFor="priority"><h3>Priority: *</h3></label>
+                        <select
+                            id="priority"
+                            name="priority"
+                            value={selectedPriority}
+                            onChange={(e) => setSelectedPriority(e.target.value)}
+                            required
+                            >
+                            {priorityOptions.map((option) => (
+                                <option key={option.id} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
 
-                    <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
-                    {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
-                    <input 
-                        type="date" 
-                        id="dueDate" 
-                        name="dueDate" 
-                        value={dueDate} 
-                        onChange={(e) => setDueDate(e.target.value)} 
-                    />
+                        <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
+                        {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
+                        <input 
+                            type="date" 
+                            id="dueDate" 
+                            name="dueDate" 
+                            value={dueDate} 
+                            onChange={(e) => setDueDate(e.target.value)} 
+                        />
 
-                    <button type="submit">Create Task</button>
-                </StyledFormContainer>
-        </StyledDetails>
+                        <button type="submit">Create Task</button>
+                    </StyledFormContainer>
+            </StyledDetails>
         </>
     );
 }

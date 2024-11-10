@@ -8,6 +8,7 @@ export default function App({ Component, pageProps }) {
 
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {defaultValue: initialTasks});
 
+  
   function handleCreateTask(newTask) {
     const taskWithId = { id: uuidv4(), ...newTask };
     // fügt neue task am Anfang hinzu

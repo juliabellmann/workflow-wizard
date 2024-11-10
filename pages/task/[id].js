@@ -81,6 +81,9 @@ const SytledDetailsWrapper = styled.div`
 `;
 
 export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    
     const router = useRouter();
     const { id } = router.query;
 
@@ -93,8 +96,6 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     // Fallback für fehlende Daten
     if (!currentTask) return <div>No data available</div>;
 
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const handleUpdateClick = () => {
         setIsUpdating(true);
