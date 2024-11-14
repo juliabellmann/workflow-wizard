@@ -65,6 +65,12 @@ const StyledFormContainer = styled.form`
   `}
 `;
 
+const StyledSummary = styled.summary`
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px; 
+`;
+
 
 // Definieren der Optionen für priority
 const priorityOptions = [
@@ -98,7 +104,7 @@ export default function TaskForm({ onSubmit }) {
     return (
         <>
             <StyledDetails>
-                <summary>Create New Task</summary>
+                <StyledSummary>Create New Task</StyledSummary>
                     <StyledFormContainer onSubmit={handleSubmit}>
 
                         <label htmlFor="title"><h3>Task Name: *</h3></label>

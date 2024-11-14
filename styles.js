@@ -70,11 +70,12 @@ export const StyledUpdateForm = styled.form`
         border-radius: var(--border-radius-input);
         font-family: var(--text-font);
       }
-
+      
       button {
-          background-color: white;
-          padding: 5px 10px;
-          white-space: nowrap;
+        background-color: white;
+        padding: 5px 10px;
+        white-space: nowrap;
+        border: 1px solid black;
 
           display: flex;
           align-items: center;

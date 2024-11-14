@@ -62,8 +62,6 @@ const StyledTaskCard = styled.div`
 
         button {
             background-color: white;
-            border: 0 solid black;
-            /* border-radius: var(--border-radius-button); */
 
             display: flex;
             align-items: center;

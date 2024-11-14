@@ -8,9 +8,6 @@ const StyledButton = styled.button`
     align-items: center;
 
     background-color: white;
-    border-radius: 1px solid black;
-    border-radius: var(--border-radius-button);
-
 `;
 
 export default function UpdateForm({ initialData, onSubmit }) {

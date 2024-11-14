@@ -1,10 +1,12 @@
 import ButtonBack from "@/components/ButtonBack";
 import UpdateForm from "@/components/TaskUpdate";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 // ----- Styled Components -----
+// TODO: Styles Überarbeiten -> Verschachtelung aufheben
 
 const StyledContentHeading = styled.h2`
   display: flex;
@@ -33,6 +35,7 @@ const SytledDetailsWrapper = styled.div`
             padding-top: 10px;
         }
 
+        /* TODO: $variant verwenden */
         div.date-prio {
             width: 100%;
             display: flex;
@@ -105,6 +108,18 @@ const DeleteButton = styled.button`
     justify-content: center;
 `;
 
+const StyledToggebuttonWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+
+
+    width: 75px;
+    button {
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+`;
+
 export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -151,6 +166,7 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
         router.replace('/');
     };
 
+    // TODO: svgs anders einbinden
     const TrashcanSVG = () => {
         return (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -179,17 +195,30 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
         <SytledDetailsWrapper>
             <h3>{currentTask.title}</h3>
             <p>{currentTask.description}</p>
+            {/* className mit $variant ersetzen */}
             <div className="date-prio">
                 <span>{currentTask.dueDate}</span>
                 <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
             </div>
             <div className="edit-delete">
                 <button onClick={handleUpdateClick}><EditSVG /></button>
-                {/* delete confirm Abfrage */}
-                {isDeleteOption && (
-                    <DeleteButton onClick={() => handleDelete(id)}><TrashcanSVG/></DeleteButton>
-                )}
-                    <DeleteButton onClick={toggleDeleteOption}>{toggleButtonName}</DeleteButton>
+                    <StyledToggebuttonWrapper>
+                    {/* delete confirm Abfrage */}
+                    <button onClick={toggleDeleteOption}>
+                    <Image
+                        src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
+                        alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
+                        width={20}
+                        height={20}
+                        unoptimized
+                        />
+                    </button>
+                    {isDeleteOption && (
+                        <button onClick={() => onDeleteTask(task.id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
+                    )}
+
+                    </StyledToggebuttonWrapper>
+
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>

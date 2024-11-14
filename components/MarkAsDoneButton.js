@@ -6,10 +6,11 @@ const StyledDoneButton = styled.button`
     position: absolute;
     top: 0;
     right: 2rem;
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
 
-    border: 1px solid black;
+    border: 1px solid black ;
+    border-top: 0;
     border-radius: 0 0 5px 5px;
 
     display: flex;
