@@ -22,7 +22,7 @@ const StyledTaskList = styled.ul`
   `}
 `;
 
-export default function HomePage({tasks, onCreateTask, onDeleteTask }) {
+export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone }) {
 
   // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
   const getDateTimestamp = (dateString) => {
@@ -49,6 +49,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask }) {
                 <TaskCard 
                   task={task} 
                   onDeleteTask={() => onDeleteTask(task.id)}
+                  onToggleDone={() => toggleDone(task.id)}
                 />
               </li>
             )

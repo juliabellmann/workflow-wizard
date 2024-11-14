@@ -1,67 +1,20 @@
 // UpdateForm.js
 import React, { useState } from 'react';
-import styled, {css} from "styled-components";
-
-// ----- Styled Components -----
-
-const StyledUpdateForm = styled.form`
-  background-color: var(--bg-color);
-    border: 1px solid black;
-    border-radius: var(--border-radius-button);
-    display: flex;
-    flex-direction: column;
-
-    padding: 25px;
-    margin-top: 20px;
-
-  ${css`
-      input {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
-
-      textarea {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
-
-      select {
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: var(--border-radius-input);
-        font-family: var(--text-font);
-      }
-
-      button {
-          background-color: white;
-          padding: 5px 10px;
-          white-space: nowrap;
-
-          border: 1px solid black;
-          border-radius: var(--border-radius-button);
-      }
-  `}
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
+import {StyledUpdateForm, ButtonContainer } from "../styles";
 
 export default function UpdateForm({ initialData, onSubmit }) {
+
+  // Initialisiert den Zustand des Formulars mit den Daten aus initialData und stellt eine Fkt zur Aktualisierung dieser Daten bereit
   const [formData, setFormData] = useState(initialData);
 
-  const handleChange = (e) => {
+  // dieser Handler aktualisiert den Zustand bei jeder Änderung eines Formularelements.
+  function handleChange(e) {
     const { name, value } = e.target;
+    //es wird dank des Spread-operator eine neue kopie des gesamten formData-Objekts und überschreibt nur den Wert des geänderten Feldes
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     onSubmit(formData);
   };

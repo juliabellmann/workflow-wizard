@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled, {css} from "styled-components";
+import MarkAsDoneButton from "./MarkAsDoneButton";
 
 // ----- Styled Components -----
 
@@ -14,6 +15,7 @@ const StyledTaskCard = styled.div`
     width: 335px;
     padding: 15px;
     margin-bottom: 20px;
+    position: relative;
 
     ${css`
         h3 {
@@ -65,7 +67,7 @@ const StyledTaskCard = styled.div`
     `}
 `;
 
-export default function TaskCard({ task, onDeleteTask }) {
+export default function TaskCard({ task, onDeleteTask, onToggleDone}) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
     const [toggleButtonName, setToggleButtonName] = useState("Delete");
     const router = useRouter();
@@ -95,26 +97,30 @@ export default function TaskCard({ task, onDeleteTask }) {
         setToggleButtonName(toggleButtonName === "Delete" ? "Cancel"  : "Delete");
     };
 
-    // delete und rückführung zur Übersicht
-    function handleDelete() {
-        setIsDeleting(true);
-        onDeleteTask(currentTask.id);
-    };
+    // // delete und rückführung zur Übersicht
+    // function handleDelete() {
+    //     setIsDeleting(true);
+    //     onDeleteTask(currentTask.id);
+    // };
 
     return (
         <>
             <StyledTaskCard>
                 <h3>{task.title}</h3>
                 <hr></hr>
-                <div>
+                    <MarkAsDoneButton 
+                        isDone={task.isDone}
+                        onToggleDone={onToggleDone}
+                        />
+                    <div>
                     <span>{task.dueDate}</span>
                     <span className={`${task.priority}`}>{task.priority}</span>
                     <span><Link href={`task/${task.id}`}><MagnifyingGlassIcon /></Link></span>
-                                    {/* delete confirm Abfrage */}
-                {isDeleteOption && (
-                    <button onClick={() => onDeleteTask(task.id)}><Trashcan/></button>
-                )}
-                    <button onClick={toggleDeleteOption}>{toggleButtonName}</button>
+                    {/* delete confirm Abfrage */}
+                    {isDeleteOption && (
+                        <button onClick={() => onDeleteTask(task.id)}><Trashcan/></button>
+                    )}
+                        <button onClick={toggleDeleteOption}>{toggleButtonName}</button>
                 </div>
             </StyledTaskCard>
         </>

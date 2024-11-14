@@ -61,15 +61,15 @@ const SytledDetailsWrapper = styled.div`
             border-radius: 10px;
         }
         .High {
-            background-color: rgba(255, 0, 0, 0.75);
+            background-color: var(--bg-high);
         }
         
         .Medium {
-            background-color: rgba(255, 196, 0, 0.75);
+            background-color: var(--bg-medium);
         }
         
         .Low {
-            background-color: rgba(21, 255, 0, 0.75);
+            background-color: var(--bg-low);
         }
 
         button {
