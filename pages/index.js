@@ -34,26 +34,42 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
     return getDateTimestamp(b.dueDate) - getDateTimestamp(a.dueDate);
   });
 
+  // Filtert die Tasks nach Done und undone und sortiert sie gleich nach dueDate
+  const undoneTasks = sortedTasks.filter(task => !task.isDone);
+  const doneTasks = sortedTasks.filter(task => task.isDone);
+
   return (
     <>
       <TaskForm onSubmit={onCreateTask} />
       <StyledContentHeading>Task List</StyledContentHeading>
-        {/* über die einzelnen Tasks mapen, um diese einzeln darzustellen */} 
-        <StyledTaskList>
-        {/* Überprüfen, ob Aufgaben vorhanden sind */}
+
+      <StyledTaskList>
         {tasks.length > 0 ? (
-          // Wenn Aufgaben vorhanden sind, zeige die sortierte Liste an
-          sortedTasks.map((task) => {
-            return (
-              <li key={task.id}>
-                <TaskCard 
-                  task={task} 
-                  onDeleteTask={() => onDeleteTask(task.id)}
-                  onToggleDone={() => toggleDone(task.id)}
-                />
-              </li>
-            )
-          })
+          <>
+            <h2>To Do</h2>
+            {undoneTasks.map(task => (
+              <TaskCard 
+                key={task.id} 
+                task={task} 
+                onDeleteTask={() => onDeleteTask(task.id)} 
+                onToggleDone={() => toggleDone(task.id)} 
+              />
+            ))}
+            
+            {doneTasks.length > 0 && (
+              <>
+                <h2>Done</h2>
+                {doneTasks.map(task => (
+                  <TaskCard 
+                    key={task.id} 
+                    task={task} 
+                    onDeleteTask={() => onDeleteTask(task.id)} 
+                    onToggleDone={() => toggleDone(task.id)} 
+                  />
+                ))}
+              </>
+            )}
+          </>
         ) : (
           // Wenn keine Aufgaben vorhanden sind, zeige eine Meldung an
           <li>No tasks available. Please enter a new task.</li>

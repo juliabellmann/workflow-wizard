@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styled, {css} from "styled-components";
+import NavBar from "./NavBar";
 
 // ----- Styled Components -----
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
             <StyledMain>
                 {children}
             </StyledMain>
+            <NavBar />
         </>
     );
 }

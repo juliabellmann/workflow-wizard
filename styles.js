@@ -12,6 +12,8 @@ export default createGlobalStyle`
     --border-radius-button: 10px;
     --border-radius-input: 5px;
 
+    --nav-height: 50px;
+
   }
   *,
   *::before,
@@ -23,6 +25,7 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: var(--text-font);
+    margin-bottom: calc(var(--nav-height) + 20px);
   }
 
   a {
@@ -73,8 +76,9 @@ export const StyledUpdateForm = styled.form`
           padding: 5px 10px;
           white-space: nowrap;
 
-          border: 1px solid black;
-          border-radius: var(--border-radius-button);
+          display: flex;
+          align-items: center;
+          justify-content: center;
       }
   `}
 `;

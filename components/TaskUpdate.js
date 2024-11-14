@@ -1,6 +1,17 @@
-// UpdateForm.js
 import React, { useState } from 'react';
 import {StyledUpdateForm, ButtonContainer } from "../styles";
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border-radius: 1px solid black;
+    border-radius: var(--border-radius-button);
+
+`;
 
 export default function UpdateForm({ initialData, onSubmit }) {
 
@@ -54,9 +65,10 @@ export default function UpdateForm({ initialData, onSubmit }) {
         value={formData.dueDate}
         onChange={handleChange}
       />
+
       <ButtonContainer>
-        <button type="submit">Update Task</button>
-        <button type="button" onClick={() => window.history.back()}>Cancel</button>
+        <StyledButton type="submit">Update Task</StyledButton>
+        <StyledButton type="button" onClick={() => window.history.back()}>Cancel</StyledButton>
       </ButtonContainer>
     </StyledUpdateForm>
   );

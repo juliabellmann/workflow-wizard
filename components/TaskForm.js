@@ -57,6 +57,10 @@ const StyledFormContainer = styled.form`
             border-radius: var(--border-radius-button);
 
             margin: 20px 40px 0 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
   `}
 `;

@@ -51,6 +51,10 @@ const SytledDetailsWrapper = styled.div`
                 padding: 5px 20px;
                 border: 1px solid black;
                 border-radius: 10px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -59,6 +63,7 @@ const SytledDetailsWrapper = styled.div`
             background-color: white;
 
             border-radius: 10px;
+
         }
         .High {
             background-color: var(--bg-high);
@@ -77,6 +82,10 @@ const SytledDetailsWrapper = styled.div`
             padding: 5px;
 
             border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         svg {
@@ -86,10 +95,14 @@ const SytledDetailsWrapper = styled.div`
 `;
 
 const DeleteButton = styled.button`
-  margin: 25px 15px;
-  padding: 10px 35px 10px 35px;
-  border-style: none;
-  border-radius: 5px;
+    margin: 25px 15px;
+    padding: 10px 35px 10px 35px;
+    border-style: none;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
@@ -154,9 +167,6 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
         );
     };
 
-
-
-
     return (
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
@@ -186,6 +196,4 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
         )}
         </>
     )
-
-
 }
