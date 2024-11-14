@@ -88,7 +88,6 @@ export default function TaskForm({ onSubmit }) {
     // Initialisieren des Priority States
     const [selectedPriority, setSelectedPriority] = useState("");
 
-
     function handleSubmit(event) {
         event.preventDefault();
         // Sammelt alle Formulardaten in einem Objekt
@@ -98,7 +97,6 @@ export default function TaskForm({ onSubmit }) {
         onSubmit(taskData);
         // Formular Reset nach Klick
         event.target.reset();
-
     }
 
     return (

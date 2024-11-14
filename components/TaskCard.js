@@ -75,7 +75,6 @@ const StyledTaskCard = styled.div`
 `;
 
 const StyledToggebuttonWrapper = styled.div`
-    /* border: 1px solid red; */
     width: 75px;
     button {
         border: 1px solid black;
@@ -104,26 +103,25 @@ export default function TaskCard({ task, onDeleteTask, onToggleDone}) {
                         onToggleDone={onToggleDone}
                         />
                     <div>
-                    <span>{task.dueDate}</span>
-                    <span className={`${task.priority}`}>{task.priority}</span>
-                    <span><Link href={`task/${task.id}`}><Image src={"/icons/magnifying-glass.svg"} width="20" height="20" alt="Icon magnifying-glass" /></Link></span>
-                    <StyledToggebuttonWrapper>
-                    {/* delete confirm Abfrage */}
-                    <button onClick={toggleDeleteOption}>
-                    <Image
-                        src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
-                        alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                        width={20}
-                        height={20}
-                        unoptimized
-                        />
-                    </button>
-                    {isDeleteOption && (
-                        <button onClick={() => onDeleteTask(task.id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
-                    )}
-
-                    </StyledToggebuttonWrapper>
-                </div>
+                        <span>{task.dueDate}</span>
+                        <span className={`${task.priority}`}>{task.priority}</span>
+                        <span><Link href={`task/${task.id}`}><Image src={"/icons/magnifying-glass.svg"} width="20" height="20" alt="Icon magnifying-glass" /></Link></span>
+                        <StyledToggebuttonWrapper>
+                            {/* delete confirm Abfrage */}
+                            <button onClick={toggleDeleteOption}>
+                                <Image
+                                    src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
+                                    alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
+                                    width={20}
+                                    height={20}
+                                    unoptimized
+                                />
+                            </button>
+                            {isDeleteOption && (
+                                <button onClick={() => onDeleteTask(task.id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
+                            )}
+                        </StyledToggebuttonWrapper>
+                    </div>
             </StyledTaskCard>
         </>
     );

@@ -23,7 +23,6 @@ export default function MarkAsDoneButton({ isDone, onToggleDone, id }) {
         <>
             <StyledDoneButton onClick={() => onToggleDone(id)}>
             <Image
-            
                 src={isDone ? "/icons/square-check-regular.svg" : "/icons/square-regular.svg" }
                 alt={isDone ? "Icon is Done" : "/icons/square-regular.svg" }
                 width={20}

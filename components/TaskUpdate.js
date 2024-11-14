@@ -8,8 +8,10 @@ const StyledButton = styled.button`
     align-items: center;
 
     background-color: white;
+    border-radius: 5px;
 `;
 
+// TODO: Formulare zusammen legen -> value etc in TaskForm
 export default function UpdateForm({ initialData, onSubmit }) {
 
   // Initialisiert den Zustand des Formulars mit den Daten aus initialData und stellt eine Fkt zur Aktualisierung dieser Daten bereit

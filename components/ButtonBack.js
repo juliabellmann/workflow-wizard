@@ -16,7 +16,6 @@ const StyledButtonBack = styled(Link)`
     background-color: white;
     border: 1px solid black;
     border-radius: var(--border-radius-button);
-
 `;
 
 export default function ButtonBack() {

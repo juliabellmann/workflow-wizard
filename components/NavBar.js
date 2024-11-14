@@ -10,14 +10,11 @@ const StyledNav = styled.nav`
   right: 0;
   left: 0;
   z-index: 3;
-  /* width: 100%; */
 
   height: var(--nav-height);
   background-color: white;
 
-  border-top: 1px solid black;
-
-  
+  border-top: 1px solid black;  
 `;
 
 const StyledNavLink = styled(Link)`

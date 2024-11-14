@@ -7,16 +7,15 @@ import NavBar from "./NavBar";
 const StyledHeader= styled.header`
 
     ${css`
-
+    
         h1 {
             display: flex;
             justify-content: center;
             white-space: nowrap;
         }
-
     `}
-
 `;
+
 const StyledMain = styled.main`
     margin: 0 20px;
 `;
