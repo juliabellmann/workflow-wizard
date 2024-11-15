@@ -100,12 +100,12 @@ export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMod
     }
 
         // Änderung der Funktion je nach Edit oder Create Mode
-        if(isEditMode) {
-            onEditTask({ ...formData, ...taskData });
-            onCancel();
-          } else {
-            onCreateTask({ ...formData, ...taskData });
-          }
+        // if(isEditMode) {
+        //     onEditTask({ ...formData, ...taskData });
+        //     onCancel();
+        //   } else {
+        //     onCreateTask({ ...formData, ...taskData });
+        //   }
 
         // Formular Reset nach Klick
         event.target.reset();
@@ -161,10 +161,7 @@ export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMod
                             defaultValue={formData.dueDate}
                             onChange={(e) => setDueDate(e.target.value)} 
                         />
-                        <div className="button">
-                        <StyledButton type="submit" $variant={isEditMode ? "Edit" : "Create"} $isEditMode={isEditMode}>{isEditMode ? "Edit"  : "Create"}</StyledButton>
-                        {isEditMode ? <StyledButton type="button" onClick={onCancel}>Cancel</StyledButton> : null}
-                        </div>
+                        <button type="submit">Create Task</button>
                     </StyledFormContainer>
             </StyledDetails>
         </>

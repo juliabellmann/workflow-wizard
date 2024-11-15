@@ -171,10 +171,9 @@ export default function TaskDetails({ tasks, onUpdateTask, handleCreateTask, onD
         ) : (
         <SytledDetailsWrapper>
             <StyledPlacingMarkButton>
-                <MarkAsDoneButton 
-                    isDone={currentTask.isDone}
-                    toggleDone={toggleDone}
-                    id={currentTask.id}
+                <UpdateForm 
+                initialData={currentTask} 
+                onSubmit={handleUpdateSubmit}
                 />
             </StyledPlacingMarkButton>
             <h3>{currentTask.title}</h3>
