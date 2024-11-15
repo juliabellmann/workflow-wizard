@@ -87,6 +87,23 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     const [toggleButtonName, setToggleButtonName] = useState("Delete");
     const router = useRouter();
 
+    function getVariant(task) {
+        const currentDate = new Date();
+        const taskDueDate = new Date(task.dueDate);
+        
+    // Remove time information from both dates
+    currentDate.setHours(0, 0, 0, 0);
+    taskDueDate.setHours(0, 0, 0, 0);
+
+    if (currentDate > taskDueDate) {
+        return 'overdue';
+      } else if (currentDate.toDateString() === taskDueDate.toDateString()) {
+        return 'today';
+      } else {
+        return 'default';
+      }
+    }
+
     // toggle für confirm delete
     function toggleDeleteOption() {
         setIsDeleteOption((prevState) => !prevState);
@@ -95,7 +112,9 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
 
     return (
         <>
-            <StyledTaskCard $isDone={task.isDone}>
+
+            <StyledTaskCard className={getVariant(task)}  $isDone={task.isDone}>
+
                 <h3>{task.title}</h3>
                 <hr></hr>
                     <MarkAsDoneButton 
