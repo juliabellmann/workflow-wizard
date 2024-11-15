@@ -7,8 +7,6 @@ import styled, {css} from "styled-components";
 
 const StyledTaskCard = styled.div`
 
-    background-color: var(--bg-color);
-
     border: 1px solid gray;
     border-radius: var(--border-radius-button);
     width: 335px;
@@ -87,7 +85,24 @@ export default function TaskCard({ task, onDeleteTask }) {
         );
       };
 
+    function getVariant(task) {
+        const currentDate = new Date();
+        const taskDueDate = new Date(task.dueDate);
+        
+    // Remove time information from both dates
+    currentDate.setHours(0, 0, 0, 0);
+    taskDueDate.setHours(0, 0, 0, 0);
 
+    if (currentDate > taskDueDate) {
+        return 'overdue';
+      } else if (currentDate.toDateString() === taskDueDate.toDateString()) {
+        return 'today';
+      } else {
+        return 'default';
+      }
+    }
+
+    console.log(task);
 
     // toggle für confirm delete
     function toggleDeleteOption() {
@@ -103,7 +118,10 @@ export default function TaskCard({ task, onDeleteTask }) {
 
     return (
         <>
-            <StyledTaskCard>
+            {/* <StyledTaskCard $variant={task.isDueDate ? "today" : task.isOverdue ? "overdue" : "default"}> */}
+            {/* $variant={task.variant} */}
+            {/* <StyledTaskCard className={getBackgroundColor()}> */}
+            <StyledTaskCard className={getVariant(task)}>
                 <h3>{task.title}</h3>
                 <hr></hr>
                 <div>

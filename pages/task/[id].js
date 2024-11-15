@@ -23,6 +23,8 @@ const SytledDetailsWrapper = styled.div`
     padding: 20px;
     margin-bottom: 20px;
 
+    width: 300px;
+
     ${css`
         p {
             min-height: 15vh;
@@ -91,6 +93,12 @@ const DeleteButton = styled.button`
   border-style: none;
   border-radius: 5px;
 `;
+const StyledFlexbox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 
 export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
     const [isUpdating, setIsUpdating] = useState(false);
@@ -161,11 +169,15 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
         {isUpdating ? (
-            <UpdateForm 
-              initialData={currentTask} 
-              onSubmit={handleUpdateSubmit}
-            />
+            <StyledFlexbox>
+                <UpdateForm 
+                initialData={currentTask} 
+                onSubmit={handleUpdateSubmit}
+                />
+            </StyledFlexbox>
+
         ) : (
+            <StyledFlexbox>
         <SytledDetailsWrapper>
             <h3>{currentTask.title}</h3>
             <p>{currentTask.description}</p>
@@ -183,6 +195,7 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
             </div>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>
+        </StyledFlexbox>
         )}
         </>
     )
