@@ -22,7 +22,7 @@ const StyledTaskList = styled.ul`
   `}
 `;
 
-export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone }) {
+export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone, handleCreateTask }) {
 
   // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
   const getDateTimestamp = (dateString) => {
@@ -40,7 +40,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
 
   return (
     <>
-      <TaskForm onSubmit={onCreateTask} />
+      <TaskForm onSubmit={handleCreateTask} />
       <StyledContentHeading>Task List</StyledContentHeading>
 
       <StyledTaskList>
@@ -52,6 +52,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
                 key={task.id} 
                 task={task} 
                 onDeleteTask={() => onDeleteTask(task.id)} 
+                onCreateTask={() => onCreateTask(task.id)} 
                 toggleDone={() => toggleDone(task.id)} 
               />
             ))}
@@ -64,6 +65,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
                     key={task.id} 
                     task={task} 
                     onDeleteTask={() => onDeleteTask(task.id)} 
+                    onCreateTask={() => onCreateTask(task.id)} 
                     toggleDone={() => toggleDone(task.id)} 
                   />
                 ))}

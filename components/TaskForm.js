@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, {css} from "styled-components";
+import { StyledButton } from "./StyledButton";
 
 // ----- Styled Components -----
 
@@ -11,7 +12,6 @@ const StyledDetails = styled.details`
     margin-bottom: 20px;
 `;
 
-
 const StyledFormContainer = styled.form`
     background-color: var(--bg-color);
     border: 1px solid black;
@@ -22,6 +22,7 @@ const StyledFormContainer = styled.form`
     width: 300px;
     padding: 25px;
     margin-top: 20px;
+
     ${css`
         h3 {
             margin: 10px 0;
@@ -71,7 +72,6 @@ const StyledSummary = styled.summary`
     padding: 5px 10px; 
 `;
 
-
 // Definieren der Optionen für priority
 const priorityOptions = [
     { id: "default", value: "", label: "Please select a priority" },
@@ -80,7 +80,7 @@ const priorityOptions = [
     { id: "priority3", value: "Low", label: "Low" },
   ];
 
-export default function TaskForm({ onSubmit }) {
+export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMode = false, formData ={}, onCancel }) {
 
     // Initialisieren des Due Date mit aktuellem Datum
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
@@ -90,11 +90,23 @@ export default function TaskForm({ onSubmit }) {
 
     function handleSubmit(event) {
         event.preventDefault();
+
         // Sammelt alle Formulardaten in einem Objekt
         const formData = new FormData(event.target);
         const taskData = Object.fromEntries(formData);
        
-        onSubmit(taskData);
+    if (onSubmit) {
+      onSubmit(taskData);
+    }
+
+        // Änderung der Funktion je nach Edit oder Create Mode
+        if(isEditMode) {
+            onEditTask({ ...formData, ...taskData });
+            onCancel();
+          } else {
+            onCreateTask({ ...formData, ...taskData });
+          }
+
         // Formular Reset nach Klick
         event.target.reset();
     }
@@ -111,6 +123,7 @@ export default function TaskForm({ onSubmit }) {
                             id="title" 
                             name="title" 
                             placeholder="Please enter a task name here" 
+                            defaultValue={formData?.title || ""}
                             required 
                         />
 
@@ -120,6 +133,7 @@ export default function TaskForm({ onSubmit }) {
                             id="description" 
                             name="description" 
                             placeholder="Optional: enter a task description here" 
+                            defaultValue={formData?.description || ""}
                         />
 
                         <label htmlFor="priority"><h3>Priority: *</h3></label>
@@ -144,10 +158,13 @@ export default function TaskForm({ onSubmit }) {
                             id="dueDate" 
                             name="dueDate" 
                             value={dueDate} 
+                            defaultValue={formData.dueDate}
                             onChange={(e) => setDueDate(e.target.value)} 
                         />
-
-                        <button type="submit">Create Task</button>
+                        <div className="button">
+                        <StyledButton type="submit" $variant={isEditMode ? "Edit" : "Create"} $isEditMode={isEditMode}>{isEditMode ? "Edit"  : "Create"}</StyledButton>
+                        {isEditMode ? <StyledButton type="button" onClick={onCancel}>Cancel</StyledButton> : null}
+                        </div>
                     </StyledFormContainer>
             </StyledDetails>
         </>

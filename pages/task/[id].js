@@ -1,5 +1,6 @@
 import ButtonBack from "@/components/ButtonBack";
 import MarkAsDoneButton from "@/components/MarkAsDoneButton";
+import TaskForm from "@/components/TaskForm";
 import UpdateForm from "@/components/TaskUpdate";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -110,7 +111,7 @@ const StyledPlacingMarkButton = styled.div`
         right: 30px;
 `;
 
-export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleDone }) {
+export default function TaskDetails({ tasks, onUpdateTask, handleCreateTask, onDeleteTask, toggleDone, handleUpdateTask, handleCancel }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -159,8 +160,12 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
         {isUpdating ? (
-            <UpdateForm 
-                initialData={currentTask} 
+            <TaskForm 
+                onCreateTask={handleCreateTask} 
+                onUpdateTask={handleUpdateTask} 
+                onCancel={handleCancel}
+                isEditMode={true} 
+                initialData={currentTask}
                 onSubmit={handleUpdateSubmit}
             />
         ) : (
