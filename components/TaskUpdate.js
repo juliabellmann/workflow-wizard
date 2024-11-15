@@ -14,6 +14,8 @@ const StyledUpdateForm = styled.form`
     padding: 25px;
     margin-top: 20px;
 
+    width: 300px;
+
   ${css`
       input {
         padding: 5px;
