@@ -8,7 +8,6 @@ export default function App({ Component, pageProps }) {
 
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {defaultValue: initialTasks});
 
-  
   function handleCreateTask(newTask) {
     const taskWithId = { id: uuidv4(), ...newTask };
     // fügt neue task am Anfang hinzu
@@ -27,6 +26,21 @@ export default function App({ Component, pageProps }) {
     setTasks(updatedTasks);
   }
 
+  function handleToggleDone(id) {
+    const task = tasks.find((task) => task.id === id);
+    if(!task) {
+      // Aufgabe nicht gefunden -> neue Aufgabe hinzufügen
+      setTasks([...tasks, {id, isDone: true }]);
+    } else {
+      // Aufgabe gefunden -> Status toggeln
+      setTasks(
+        tasks.map((task) =>
+          task.id === id ? { ...task, isDone: !task.isDone } : task 
+        )
+      );
+    }
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -37,6 +51,7 @@ export default function App({ Component, pageProps }) {
           onCreateTask={handleCreateTask}
           onDeleteTask={handleDeleteTask}
           onUpdateTask={handleUpdateTask}
+          toggleDone={handleToggleDone}
           />
       </RootLayout>
     </>

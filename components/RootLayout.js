@@ -1,21 +1,21 @@
 import Head from "next/head";
 import styled, {css} from "styled-components";
+import NavBar from "./NavBar";
 
 // ----- Styled Components -----
 
 const StyledHeader= styled.header`
 
     ${css`
-
+    
         h1 {
             display: flex;
             justify-content: center;
             white-space: nowrap;
         }
-
     `}
-
 `;
+
 const StyledMain = styled.main`
     margin: 0 20px;
 `;
@@ -32,6 +32,7 @@ export default function RootLayout({ children }) {
             <StyledMain>
                 {children}
             </StyledMain>
+            <NavBar />
         </>
     );
 }
