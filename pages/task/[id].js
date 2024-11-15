@@ -1,11 +1,10 @@
 import ButtonBack from "@/components/ButtonBack";
-import MarkAsDoneButton from "@/components/MarkAsDoneButton";
-import TaskForm from "@/components/TaskForm";
 import UpdateForm from "@/components/TaskUpdate";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import MarkAsDoneButton from "@/components/MarkAsDoneButton";
 
 // ----- Styled Components -----
 // TODO: Styles Überarbeiten -> Verschachtelung aufheben
@@ -26,8 +25,6 @@ const SytledDetailsWrapper = styled.div`
 
     padding: 20px;
     margin-bottom: 20px;
-
-
 
     ${css`
         p {
@@ -111,7 +108,7 @@ const StyledPlacingMarkButton = styled.div`
         right: 30px;
 `;
 
-export default function TaskDetails({ tasks, onUpdateTask, handleCreateTask, onDeleteTask, toggleDone, handleUpdateTask, handleCancel }) {
+export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleDone }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -160,20 +157,17 @@ export default function TaskDetails({ tasks, onUpdateTask, handleCreateTask, onD
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
         {isUpdating ? (
-            <TaskForm 
-                onCreateTask={handleCreateTask} 
-                onUpdateTask={handleUpdateTask} 
-                onCancel={handleCancel}
-                isEditMode={true} 
+            <UpdateForm 
                 initialData={currentTask}
                 onSubmit={handleUpdateSubmit}
             />
         ) : (
         <SytledDetailsWrapper>
             <StyledPlacingMarkButton>
-                <UpdateForm 
-                initialData={currentTask} 
-                onSubmit={handleUpdateSubmit}
+                <MarkAsDoneButton 
+                    isDone={currentTask.isDone}
+                    toggleDone={toggleDone}
+                    id={currentTask.id}
                 />
             </StyledPlacingMarkButton>
             <h3>{currentTask.title}</h3>
@@ -191,8 +185,8 @@ export default function TaskDetails({ tasks, onUpdateTask, handleCreateTask, onD
                         <Image
                             src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
                             alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                            width={20}
-                            height={20}
+                            width="20"
+                            height="20"
                             unoptimized
                         />
                     </button>

@@ -9,6 +9,8 @@ import Image from "next/image";
 
 const StyledTaskCard = styled.div`
 
+    background-color: var(--bg-color);
+
     border: 1px solid gray;
     border-radius: var(--border-radius-button);
     width: 335px;
@@ -99,7 +101,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
                     <MarkAsDoneButton 
                         isDone={task.isDone}
                         toggleDone={toggleDone}
-                    />
+                        />
                     <div>
                         <span>{task.dueDate}</span>
                         <span className={`${task.priority}`}>{task.priority}</span>
@@ -110,8 +112,8 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
                                 <Image
                                     src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
                                     alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                                    width={20}
-                                    height={20}
+                                    width="20"
+                                    height="20"
                                     unoptimized
                                 />
                             </button>

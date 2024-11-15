@@ -19,7 +19,6 @@ const StyledDoneButton = styled.button`
 `;
 
 export default function MarkAsDoneButton({ isDone, toggleDone, id }) {
-
     return (
         <>
             <StyledDoneButton onClick={() => toggleDone(id)}>

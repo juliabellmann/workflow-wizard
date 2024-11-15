@@ -99,14 +99,6 @@ export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMod
       onSubmit(taskData);
     }
 
-        // Änderung der Funktion je nach Edit oder Create Mode
-        // if(isEditMode) {
-        //     onEditTask({ ...formData, ...taskData });
-        //     onCancel();
-        //   } else {
-        //     onCreateTask({ ...formData, ...taskData });
-        //   }
-
         // Formular Reset nach Klick
         event.target.reset();
     }
