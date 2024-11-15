@@ -9,8 +9,6 @@ import Image from "next/image";
 
 const StyledTaskCard = styled.div`
 
-    background-color: var(--bg-color);
-
     border: 1px solid gray;
     border-radius: var(--border-radius-button);
     width: 335px;
@@ -71,7 +69,9 @@ const StyledTaskCard = styled.div`
         svg {
             height: 20px;
         }
-    `};
+
+        ${props => props.$isDone ? `background-color: lightgrey; color: grey; text-decoration:line-through; ` : ``}
+  `};
 `;
 
 const StyledToggebuttonWrapper = styled.div`
@@ -95,7 +95,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
 
     return (
         <>
-            <StyledTaskCard>
+            <StyledTaskCard $isDone={task.isDone}>
                 <h3>{task.title}</h3>
                 <hr></hr>
                     <MarkAsDoneButton 
