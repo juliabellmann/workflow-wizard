@@ -21,7 +21,7 @@ export default function TasksDone({ tasks, toggleDone }) {
         {tasksDone.map((task) => {
           return (
             <li key={task.id}>
-              <TaskCard task={task} onToggleDone={() => toggleDone(task.id)} />
+              <TaskCard task={task} toggleDone={() => toggleDone(task.id)} />
             </li>
           );
         })}

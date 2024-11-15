@@ -1,4 +1,5 @@
 import ButtonBack from "@/components/ButtonBack";
+import MarkAsDoneButton from "@/components/MarkAsDoneButton";
 import UpdateForm from "@/components/TaskUpdate";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -24,6 +25,8 @@ const SytledDetailsWrapper = styled.div`
 
     padding: 20px;
     margin-bottom: 20px;
+
+
 
     ${css`
         p {
@@ -101,7 +104,13 @@ const StyledDivDatePrio = styled.div`
         }
 `;
 
-export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
+const StyledPlacingMarkButton = styled.div`
+        position: absolute;
+        top: 140px;
+        right: 30px;
+`;
+
+export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleDone }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -156,6 +165,13 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask }) {
             />
         ) : (
         <SytledDetailsWrapper>
+            <StyledPlacingMarkButton>
+                <MarkAsDoneButton 
+                    isDone={currentTask.isDone}
+                    toggleDone={toggleDone}
+                    id={currentTask.id}
+                />
+            </StyledPlacingMarkButton>
             <h3>{currentTask.title}</h3>
             <p>{currentTask.description}</p>
             {/* className mit $variant ersetzen */}

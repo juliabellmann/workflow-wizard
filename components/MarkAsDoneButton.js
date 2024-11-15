@@ -18,15 +18,16 @@ const StyledDoneButton = styled.button`
     justify-content: center;
 `;
 
-export default function MarkAsDoneButton({ isDone, onToggleDone, id }) {
+export default function MarkAsDoneButton({ isDone, toggleDone, id }) {
+
     return (
         <>
-            <StyledDoneButton onClick={() => onToggleDone(id)}>
+            <StyledDoneButton onClick={() => toggleDone(id)}>
             <Image
                 src={isDone ? "/icons/square-check-regular.svg" : "/icons/square-regular.svg" }
                 alt={isDone ? "Icon is Done" : "/icons/square-regular.svg" }
-                width={20}
-                height={20}
+                width="20"
+                height="20"
                 unoptimized
              />
             </StyledDoneButton>

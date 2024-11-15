@@ -9,8 +9,6 @@ import Image from "next/image";
 
 const StyledTaskCard = styled.div`
 
-    background-color: var(--bg-color);
-
     border: 1px solid gray;
     border-radius: var(--border-radius-button);
     width: 335px;
@@ -71,7 +69,7 @@ const StyledTaskCard = styled.div`
         svg {
             height: 20px;
         }
-    `}
+    `};
 `;
 
 const StyledToggebuttonWrapper = styled.div`
@@ -82,7 +80,7 @@ const StyledToggebuttonWrapper = styled.div`
     }
 `;
 
-export default function TaskCard({ task, onDeleteTask, onToggleDone}) {
+export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
     const [toggleButtonName, setToggleButtonName] = useState("Delete");
     const router = useRouter();
@@ -100,8 +98,8 @@ export default function TaskCard({ task, onDeleteTask, onToggleDone}) {
                 <hr></hr>
                     <MarkAsDoneButton 
                         isDone={task.isDone}
-                        onToggleDone={onToggleDone}
-                        />
+                        toggleDone={toggleDone}
+                    />
                     <div>
                         <span>{task.dueDate}</span>
                         <span className={`${task.priority}`}>{task.priority}</span>

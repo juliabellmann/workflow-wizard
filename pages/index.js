@@ -52,7 +52,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
                 key={task.id} 
                 task={task} 
                 onDeleteTask={() => onDeleteTask(task.id)} 
-                onToggleDone={() => toggleDone(task.id)} 
+                toggleDone={() => toggleDone(task.id)} 
               />
             ))}
             
@@ -64,7 +64,7 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
                     key={task.id} 
                     task={task} 
                     onDeleteTask={() => onDeleteTask(task.id)} 
-                    onToggleDone={() => toggleDone(task.id)} 
+                    toggleDone={() => toggleDone(task.id)} 
                   />
                 ))}
               </>
