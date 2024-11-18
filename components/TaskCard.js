@@ -1,5 +1,4 @@
 import Link from "next/link"; 
-import { useRouter } from "next/router";
 import { useState } from "react";
 import styled, {css} from "styled-components";
 import MarkAsDoneButton from "@/components/MarkAsDoneButton";
@@ -84,8 +83,6 @@ const StyledToggebuttonWrapper = styled.div`
 
 export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
-    const [toggleButtonName, setToggleButtonName] = useState("Delete");
-    const router = useRouter();
 
     // toggle für confirm delete
     function toggleDeleteOption() {

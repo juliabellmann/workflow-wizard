@@ -25,7 +25,7 @@ export default function NavBar() {
     return (
         <StyledNav>
             <StyledNavLink href="/">All Tasks</StyledNavLink>
-            <StyledNavLink href="tasksdone">Done</StyledNavLink>
+            <StyledNavLink href="/tasksdone">Done</StyledNavLink>
         </StyledNav>
     )
 }
