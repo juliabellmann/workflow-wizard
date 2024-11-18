@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import MarkAsDoneButton from "@/components/MarkAsDoneButton";
+import Head from "next/head";
 
 // ----- Styled Components -----
 // TODO: Styles Überarbeiten -> Verschachtelung aufheben
@@ -163,6 +164,9 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
 
     return (
         <>
+            <Head>
+                <title>Details - Workflow Wizard</title>
+            </Head>
         <StyledContentHeading>Task Details</StyledContentHeading>
         {isUpdating ? (
             <StyledFlexbox>

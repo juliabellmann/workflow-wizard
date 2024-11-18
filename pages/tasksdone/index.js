@@ -27,6 +27,7 @@ export default function TasksDone({ tasks, toggleDone, onDeleteTask }) {
         onDeleteTask(currentTask.id);
         router.replace('/');
     };
+
   return (
     <>
       <h2>Done List</h2>
@@ -39,7 +40,7 @@ export default function TasksDone({ tasks, toggleDone, onDeleteTask }) {
         {tasksDone.map((task) => {
           return (
             <li key={task.id}>
-              <TaskCard task={task} toggleDone={() => toggleDone(task.id)} />
+              <TaskCard task={task} toggleDone={() => toggleDone(task.id)} onDeleteTask={() => onDeleteTask(task.id)} />
             </li>
           );
         })}
