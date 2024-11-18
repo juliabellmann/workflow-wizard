@@ -8,7 +8,6 @@ const StyledDetails = styled.details`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90vw;
     margin-bottom: 20px;
 `;
 

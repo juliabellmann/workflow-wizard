@@ -36,6 +36,14 @@ export default createGlobalStyle`
       color: red;
     }
   }
+
+  .overdue {
+    background-color: red;
+  }
+
+  .today {
+    background-color: orange;
+  }
 `;
 // ----- Styled Components -----
 

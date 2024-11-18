@@ -26,6 +26,8 @@ const SytledDetailsWrapper = styled.div`
     padding: 20px;
     margin-bottom: 20px;
 
+    width: 300px;
+
     ${css`
         p {
             min-height: 15vh;
@@ -83,6 +85,12 @@ const StyledToggebuttonWrapper = styled.div`
         border-radius: 5px;
     }
 `;
+const StyledFlexbox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 
 const StyledDivDatePrio = styled.div`
         width: 70%;
@@ -157,11 +165,15 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
         <>
         <StyledContentHeading>Task Details</StyledContentHeading>
         {isUpdating ? (
-            <UpdateForm 
-                initialData={currentTask}
+            <StyledFlexbox>
+                <UpdateForm 
+                initialData={currentTask} 
                 onSubmit={handleUpdateSubmit}
-            />
+                />
+            </StyledFlexbox>
+
         ) : (
+            <StyledFlexbox>
         <SytledDetailsWrapper>
             <StyledPlacingMarkButton>
                 <MarkAsDoneButton 
@@ -197,6 +209,7 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
             </StyledDivDatePrio>
             <ButtonBack></ButtonBack>
         </SytledDetailsWrapper>
+        </StyledFlexbox>
         )}
         </>
     )
