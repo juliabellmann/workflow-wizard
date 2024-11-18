@@ -5,13 +5,18 @@ export default createGlobalStyle`
 
   :root {
     --text-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --bg-color: rgba(219, 219, 219, 0.25);
-    --bg-high: rgba(255, 0, 0, 0.5);
-    --bg-medium:rgba(255, 196, 0, 0.5);
-    --bg-low: rgba(21, 255, 0, 0.5);
-    --border-radius-button: 10px;
-    --border-radius-input: 5px;
 
+    --bg-color: rgba(219, 219, 219, 0.25);
+    --bg-high: rgb(178, 34, 34);
+    --bg-medium:rgb(255, 149, 0);
+    --bg-low: rgb(30, 157, 61);
+    --border-radius-button: 10px;
+
+    --bg-default: rgba(219, 219, 219, 0.25);
+    --bg-today: rgba(255, 149, 0, 0.5);
+    --bg-overdue: rgba(178, 34, 34, 0.5);
+    
+    --border-radius-input: 5px;
     --nav-height: 50px;
 
   }
@@ -35,14 +40,6 @@ export default createGlobalStyle`
     &:hover {
       color: red;
     }
-  }
-
-  .overdue {
-    background-color: red;
-  }
-
-  .today {
-    background-color: orange;
   }
 `;
 // ----- Styled Components -----

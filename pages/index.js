@@ -1,6 +1,7 @@
 import styled, {css} from "styled-components";
 import TaskCard from "@/components/TaskCard";
 import TaskForm from "@/components/TaskForm";
+import Head from "next/head";
 
 // ----- Styled Components -----
 
@@ -40,6 +41,9 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
 
   return (
     <>
+      <Head>
+        <title>Home - Workflow Wizard</title>
+      </Head>
       <TaskForm onSubmit={onCreateTask} />
       <StyledContentHeading>Task List</StyledContentHeading>
 

@@ -3,10 +3,13 @@ import RootLayout from "@/components/RootLayout";
 import initialTasks from "@/assets/tasks";
 import useLocalStorageState from "use-local-storage-state";
 import { v4 as uuidv4 } from "uuid";
+import Head from "next/head";
+import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
 
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {defaultValue: initialTasks});
+  const [toggleButtonName, setToggleButtonName] = useState("Delete");
 
   function handleCreateTask(newTask) {
     const taskWithId = { id: uuidv4(), ...newTask };
@@ -43,6 +46,9 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <title>Done - Workflow Wizard</title>
+      </Head>
       <GlobalStyle />
       <RootLayout>
         <Component 

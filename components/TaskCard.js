@@ -15,6 +15,14 @@ const StyledTaskCard = styled.div`
     margin-bottom: 20px;
     position: relative;
 
+    background-color: ${({ $variant }) =>
+    $variant === "overdue"
+      ? "var(--bg-overdue)"
+      : $variant === "today"
+      ? "var(--bg-today)"
+      : "var(--bg-default)"};
+
+
     ${css`
         h3 {
             margin-bottom: 0;
@@ -83,6 +91,7 @@ const StyledToggebuttonWrapper = styled.div`
 
 export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
+    const [toggleButtonName, setToggleButtonName] = useState("Delete");
 
     function getVariant(task) {
         const currentDate = new Date();
@@ -104,13 +113,30 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     // toggle für confirm delete
     function toggleDeleteOption() {
         setIsDeleteOption((prevState) => !prevState);
-        setToggleButtonName(!isDeleteOption);
+    
+        if (toggleButtonName === "Delete") {
+          setToggleButtonName("Cancel");
+        } else {
+          setToggleButtonName("Delete");
+        }
     };
 
+    //  Determine the variant
+  function getTaskVariant(dueDate) {
+    const currentDate = new Date().toISOString().split("T")[0];
+    const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
+
+    if (currentDate > taskDueDate) return "overdue";
+    if (currentDate === taskDueDate) return "today";
+    return "default";
+  }
+
+   // get the Variant
+  const taskVariant = getTaskVariant(task.dueDate);
     return (
         <>
 
-            <StyledTaskCard className={getVariant(task)}  $isDone={task.isDone}>
+            <StyledTaskCard $variant={taskVariant} $isDone={task.isDone}>
 
                 <h3>{task.title}</h3>
                 <hr></hr>

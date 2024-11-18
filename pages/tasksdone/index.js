@@ -6,9 +6,27 @@ const StyledTaskDoneList = styled.ul`
   padding: 0;
 `;
 
-export default function TasksDone({ tasks, toggleDone }) {
+export default function TasksDone({ tasks, toggleDone, onDeleteTask }) {
   const tasksDone = tasks.filter((task) => task.isDone);
 
+
+        // toggle für confirm delete
+        function toggleDeleteOption() {
+          setIsDeleteOption((prevState) => !prevState);
+      
+          if (toggleButtonName === "Delete") {
+            setToggleButtonName("Cancel");
+          } else {
+            setToggleButtonName("Delete");
+          }
+      };
+      
+      // delete und rückführung zur Übersicht
+      function handleDelete() {
+        setIsDeleting(true);
+        onDeleteTask(currentTask.id);
+        router.replace('/');
+    };
   return (
     <>
       <h2>Done List</h2>
