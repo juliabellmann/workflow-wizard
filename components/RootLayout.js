@@ -1,21 +1,14 @@
-import Head from "next/head";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
+import NavBar from "./NavBar";
 
 // ----- Styled Components -----
 
-const StyledHeader= styled.header`
-
-    ${css`
-
-        h1 {
-            display: flex;
-            justify-content: center;
-            white-space: nowrap;
-        }
-
-    `}
-
+const StyledHeadline= styled.h1`
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
 `;
+
 const StyledMain = styled.main`
     margin: 0 20px;
 `;
@@ -23,15 +16,13 @@ const StyledMain = styled.main`
 export default function RootLayout({ children }) {
     return (
         <>
-            <Head>
-                <title>Workflow Wizzard</title>
-            </Head>
-            <StyledHeader>
-                <h1>Workflow Wizzard 🧙‍♂️</h1>
-            </StyledHeader>
+            <header>
+                <StyledHeadline>Workflow Wizzard</StyledHeadline>
+            </header>
             <StyledMain>
                 {children}
             </StyledMain>
+            <NavBar />
         </>
     );
 }

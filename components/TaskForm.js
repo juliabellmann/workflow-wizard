@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, {css} from "styled-components";
+import { StyledButton } from "./StyledButton";
 
 // ----- Styled Components -----
 
@@ -9,7 +10,6 @@ const StyledDetails = styled.details`
     align-items: center;
     margin-bottom: 20px;
 `;
-
 
 const StyledFormContainer = styled.form`
     background-color: var(--bg-color);
@@ -21,6 +21,7 @@ const StyledFormContainer = styled.form`
     width: 300px;
     padding: 25px;
     margin-top: 20px;
+
     ${css`
         h3 {
             margin: 10px 0;
@@ -56,10 +57,19 @@ const StyledFormContainer = styled.form`
             border-radius: var(--border-radius-button);
 
             margin: 20px 40px 0 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
   `}
 `;
 
+const StyledSummary = styled.summary`
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px; 
+`;
 
 // Definieren der Optionen für priority
 const priorityOptions = [
@@ -69,7 +79,7 @@ const priorityOptions = [
     { id: "priority3", value: "Low", label: "Low" },
   ];
 
-export default function TaskForm({ onSubmit }) {
+export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMode = false, formData ={}, onCancel }) {
 
     // Initialisieren des Due Date mit aktuellem Datum
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
@@ -77,23 +87,25 @@ export default function TaskForm({ onSubmit }) {
     // Initialisieren des Priority States
     const [selectedPriority, setSelectedPriority] = useState("");
 
-
     function handleSubmit(event) {
         event.preventDefault();
+
         // Sammelt alle Formulardaten in einem Objekt
         const formData = new FormData(event.target);
         const taskData = Object.fromEntries(formData);
        
-        onSubmit(taskData);
+    if (onSubmit) {
+      onSubmit(taskData);
+    }
+
         // Formular Reset nach Klick
         event.target.reset();
-
     }
 
     return (
         <>
             <StyledDetails>
-                <summary>Create New Task</summary>
+                <StyledSummary>Create New Task</StyledSummary>
                     <StyledFormContainer onSubmit={handleSubmit}>
 
                         <label htmlFor="title"><h3>Task Name: *</h3></label>
@@ -102,6 +114,7 @@ export default function TaskForm({ onSubmit }) {
                             id="title" 
                             name="title" 
                             placeholder="Please enter a task name here" 
+                            defaultValue={formData?.title || ""}
                             required 
                         />
 
@@ -111,6 +124,7 @@ export default function TaskForm({ onSubmit }) {
                             id="description" 
                             name="description" 
                             placeholder="Optional: enter a task description here" 
+                            defaultValue={formData?.description || ""}
                         />
 
                         <label htmlFor="priority"><h3>Priority: *</h3></label>
@@ -135,9 +149,9 @@ export default function TaskForm({ onSubmit }) {
                             id="dueDate" 
                             name="dueDate" 
                             value={dueDate} 
+                            defaultValue={formData.dueDate}
                             onChange={(e) => setDueDate(e.target.value)} 
                         />
-
                         <button type="submit">Create Task</button>
                     </StyledFormContainer>
             </StyledDetails>
