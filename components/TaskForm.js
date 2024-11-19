@@ -1,78 +1,5 @@
-import { StyledForm } from "@/styles";
 import React, { useState } from "react";
 import styled, {css} from "styled-components";
-
-
-// ----- Styled Components -----
-
-const StyledDetails = styled.details`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-`;
-
-const StyledFormContainer = styled.form`
-    background-color: var(--bg-color);
-    border: 1px solid black;
-    border-radius: var(--border-radius-button);
-    display: flex;
-    flex-direction: column;
-
-    width: 300px;
-    padding: 25px;
-    margin-top: 20px;
-
-    ${css`
-        h3 {
-            margin: 10px 0;
-        }
-
-        input {
-            padding: 5px;
-            border: 1px solid black;
-            border-radius: var(--border-radius-input);
-            font-family: var(--text-font);
-        }
-
-        textarea {
-            padding: 5px;
-            border: 1px solid black;
-            border-radius: var(--border-radius-input);
-            font-family: var(--text-font);
-        }
-
-        select {
-            padding: 5px;
-            border: 1px solid black;
-            border-radius: var(--border-radius-input);
-            font-family: var(--text-font);
-        }
-
-        button {
-            background-color: white;
-            padding: 5px;
-            white-space: nowrap;
-
-            border: 1px solid black;
-            border-radius: var(--border-radius-button);
-
-            margin: 20px 40px 0 40px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-  `}
-`;
-
-const StyledSummary = styled.summary`
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px 10px; 
-`;
-
-
 
 // Definieren der Optionen für priority
 const priorityOptions = [
@@ -93,7 +20,7 @@ export default function TaskForm({
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Initialisieren des Priority States
-    const [selectedPriority, setSelectedPriority] = useState(initialData.priority || "");
+    // const [selectedPriority, setSelectedPriority] = useState(initialData.priority || "");
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -106,9 +33,9 @@ export default function TaskForm({
         if(isEditMode) {
             onEditTask(data);
             onCancel();
-          } else {
+        } else {
             onCreateTask({ ...initialData, ...data });
-          }
+        }
 
         // Formular Reset nach Klick
         event.target.reset();
@@ -117,52 +44,119 @@ export default function TaskForm({
     return (
         <>
             <StyledForm onSubmit={handleSubmit}>
-
-                <label htmlFor="title"><h3>Task Name: *</h3></label>
-                <input 
-                    type="text" 
-                    id="title" 
-                    name="title" 
-                    placeholder="Please enter a task name here" 
+                <label htmlFor="title">
+                    <h3>Task Name: *</h3>
+                </label>
+                <StyledInput
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Please enter a task name here"
                     defaultValue={initialData?.title || ""}
-                    required 
+                    required
                 />
 
-                <label htmlFor="description"><h3>Description:</h3></label>
-                <textarea 
-                    rows="3" 
-                    id="description" 
-                    name="description" 
-                    placeholder="Optional: enter a task description here" 
+                <label htmlFor="description">
+                    <h3>Description:</h3>
+                </label>
+                <StyledTextarea
+                    rows="3"
+                    id="description"
+                    name="description"
+                    placeholder="Optional: enter a task description here"
                     defaultValue={initialData?.description || ""}
                 />
 
-                <label htmlFor="priority"><h3>Priority: *</h3></label>
-                <select 
+                <label htmlFor="priority">
+                    <h3>Priority: *</h3>
+                </label>
+                <StyledSelect
                     id="priority"
                     name="priority"
                     defaultValue={initialData.priority}
                     required
-                    >
+                >
                     {priorityOptions.map((option) => (
-                        <option key={option.id} value={option.value}>
-                            {option.label}
-                        </option>
+                    <option key={option.id} value={option.value}>
+                        {option.label}
+                    </option>
                     ))}
-                </select>
+                </StyledSelect>
 
-                <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
-                {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
-                <input 
-                    type="date" 
-                    id="dueDate" 
-                    name="dueDate" 
-                    defaultValue={initialData.dueDate}
+                <label htmlFor="dueDate">
+                    <h3>Due Date: *</h3>
+                </label>
+                <StyledInput
+                    type="date"
+                    id="dueDate"
+                    name="dueDate"
+                    defaultValue={initialData.dueDate || dueDate}
                 />
-                <button type="submit">Save</button>
-                <button type="button" onClick={onCancel}>Cancel</button>
+                <StyledFormBtnContainer>
+                    <StyledFormBtn
+                    type="submit"
+                    $variant={isEditMode ? "update" : "create"}
+                    $isEditMode={isEditMode}
+                    >
+                    {isEditMode ? "Save" : "Create"}
+                    </StyledFormBtn>
+                    {isEditMode ? (
+                    <StyledFormBtn type="button" onClick={onCancel}>
+                        Cancel
+                    </StyledFormBtn>
+                    ) : null}
+                </StyledFormBtnContainer>
             </StyledForm>
-
-        </>
+      </>
     );
 }
+
+// ----- Styled Components -----
+
+const StyledForm = styled.form`
+    background-color: var(--bg-color-card);
+    border: 1px solid black;
+    border-radius: var(--border-radius-form);
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 25px;
+    margin-top: 20px;
+    width: 90vw;
+`;
+
+const StyledInput = styled.input`
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: var(--border-radius-input);
+    font-family: var(--text-font-form);
+`;
+
+const StyledTextarea = styled.textarea`
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: var(--border-radius-input);
+    font-family: var(--text-font-form);
+`;
+
+const StyledSelect = styled.select`
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: var(--border-radius-input);
+    font-family: var(--text-font-form);
+`;
+
+const StyledFormBtnContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 20px 0; 
+`;
+
+const StyledFormBtn = styled.button`
+    padding: var(--padding-btn);
+    border: var(--border-btn);
+    border-radius: var(--border-radius-btn);
+    background-color: var(--bg-color-btn);
+`;
+

@@ -6,62 +6,26 @@ import styled, { css } from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
 import TaskForm from "@/components/TaskForm";
+import { StyledContentHeading } from "@/styles";
 
 // ----- Styled Components -----
 // TODO: Styles Überarbeiten -> Verschachtelung aufheben
 
-const StyledContentHeading = styled.h2`
-  display: flex;
-  justify-content: center;
-`;
-
 const SytledDetailsWrapper = styled.div`
-    background-color: var(--bg-color);
+    position: relative;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    background-color: var(--bg-color-card);
 
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: var(--border-radius-form);
 
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 35px 20px 20px 20px;
 
-    width: 300px;
-
-    ${css`
-        p {
-            min-height: 15vh;
-            text-align: left;
-            margin: 0 0 20px 0;
-
-            border-top: 1px solid black;
-            padding-top: 10px;
-        }
-
-        span {
-            padding: 5px 10px;
-            background-color: white;
-
-            border-radius: 10px;
-            border: 1px solid black;
-        }
-
-        button {
-            background-color: white;
-            padding: 5px;
-
-            border-radius: 10px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        svg {
-            height: 20px;
-        }
-    `}
+    width: 90vw;
 `;
 
 const StyledToggebuttonWrapper = styled.div`
@@ -100,9 +64,24 @@ const StyledDivDatePrio = styled.div`
 `;
 
 const StyledPlacingMarkButton = styled.div`
-        position: absolute;
-        top: 140px;
-        right: 30px;
+    position: absolute;
+    top: 0;
+    right: 10px;
+`;
+
+const StyledEditBtn = styled.button`
+    position: fixed;
+    top: 50px;
+    right: 25px;
+    z-index: 10;
+
+    height: 48px;
+    width: 48px;
+
+    border-radius: 50%;
+    border: 1px solid var(--accent-color);
+
+    background-color: var(--bg-color-btn);
 `;
 
 export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateTask,  toggleDone }) {
@@ -165,15 +144,15 @@ export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateT
 
             <StyledContentHeading>Task Details</StyledContentHeading>
 
-            <button onClick={toggleFormVisibility}>
+            <StyledEditBtn onClick={toggleFormVisibility}>
                 <Image
                     src={"/icons/pencil-solid.svg"}
                     alt="Icon Pencil for Edit"
-                    width="20"
-                    height="20"
+                    width="30"
+                    height="30"
                     unoptimized
                 />
-            </button>
+            </StyledEditBtn>
 
             {isFormVisible && <>
                 <TaskForm 
@@ -190,12 +169,12 @@ export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateT
             {isUpdating ? (
             <StyledFlexbox>
                 <TaskForm 
-                onCreateTask={onCreateTask} 
-                onEditTask={handleEdit} 
-                onCancel={handleCancel}
-                isFormVisible={isFormVisible}
-                isEditMode={true} 
-                initialData={currentTask}
+                    onCreateTask={onCreateTask} 
+                    onEditTask={handleEdit} 
+                    onCancel={handleCancel}
+                    isFormVisible={isFormVisible}
+                    isEditMode={true} 
+                    initialData={currentTask}
                 />
             </StyledFlexbox>
 
@@ -215,9 +194,8 @@ export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateT
                     <StyledDivDatePrio>
                         <span>{currentTask.dueDate}</span>
                         <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
-                    </StyledDivDatePrio>
-                    <StyledDivDatePrio>
-                        <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button>
+
+                        {/* <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button> */}
                         <StyledToggebuttonWrapper>
                         {/* delete confirm Abfrage */}
                             <button onClick={toggleDeleteOption}>

@@ -2,16 +2,16 @@ import Image from "next/image";
 import styled from "styled-components";
 
 const StyledDoneButton = styled.button`
-    padding: 10px;
     position: absolute;
     top: 0;
-    right: 2rem;
-    height: 30px;
-    width: 30px;
+    right: 5vw;
+    height: 48px;
+    width: 48px;
 
     border: 1px solid black ;
     border-top: 0;
     border-radius: 0 0 5px 5px;
+    background-color: var(--bg-color-btn);
 
     display: flex;
     align-items: center;
@@ -24,8 +24,8 @@ export default function BtnMarkAsDone({ isDone, toggleDone, id }) {
             <Image
                 src={isDone ? "/icons/square-check-regular.svg" : "/icons/square-regular.svg" }
                 alt={isDone ? "Icon is Done" : "/icons/square-regular.svg" }
-                width="20"
-                height="20"
+                width="35"
+                height="35"
                 unoptimized
             />
         </StyledDoneButton>

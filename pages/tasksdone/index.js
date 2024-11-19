@@ -1,9 +1,23 @@
 import styled from "styled-components";
 import TaskCard from "@/components/TaskCard";
+import ButtonBack from "@/components/BtnBack";
+import Image from "next/image";
+import { StyledContentHeading } from "@/styles";
 
-const StyledTaskDoneList = styled.ul`
-  list-style: none;
-  padding: 0;
+const StyledFlexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 50px;
+
+  margin: 50px 0;
+
+
+`;
+const StyledParagraph = styled.p`
+  text-align: center;
 `;
 
 export default function TasksDone({ tasks, toggleDone, onDeleteTask }) {
@@ -30,21 +44,37 @@ export default function TasksDone({ tasks, toggleDone, onDeleteTask }) {
 
   return (
     <>
-      <h2>Done List</h2>
+      <ButtonBack />
+
+      <StyledContentHeading>Done List</StyledContentHeading>
       
       {tasksDone.length === 0 && (
-        <p>Unfortunately, you have not yet done any tasks.</p>
+        <StyledFlexbox>
+
+        <StyledParagraph>Unfortunately, you have not yet done any tasks.</StyledParagraph>
+        <Image
+            src={"/icons/notask.svg"}
+            alt={"Icon of empty task"}
+            width="50"
+            height="50"
+            unoptimized
+            />
+        </StyledFlexbox>
       )}
       {/* FYI: Icon for error message follows after merge */}
-      <StyledTaskDoneList>
+      <ul>
         {tasksDone.map((task) => {
           return (
             <li key={task.id}>
-              <TaskCard task={task} toggleDone={() => toggleDone(task.id)} onDeleteTask={() => onDeleteTask(task.id)} />
+              <TaskCard 
+                  task={task} 
+                  toggleDone={() => toggleDone(task.id)} 
+                  onDeleteTask={() => onDeleteTask(task.id)} 
+              />
             </li>
           );
         })}
-      </StyledTaskDoneList>
+      </ul>
     </>
   );
 }
