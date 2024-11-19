@@ -20,9 +20,9 @@ const StyledNav = styled.nav`
 
 const StyledNavLink = styled(Link)`
     padding: 10px 30px;
-    color: ${({ isActive }) => (isActive ? "lightblue" : "black")};
-    background-color: ${({ isActive }) => (isActive ? "grey" : "")};
-    text-decoration: ${({ isActive }) => (isActive ? "underline" : "none")};
+    color: ${({ $isactive }) => ($isactive ? "lightblue" : "black")};
+    background-color: ${({ $isactive }) => ($isactive ? "grey" : "")};
+    text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
 `;
 
 export default function NavBar() {
@@ -30,8 +30,9 @@ export default function NavBar() {
 
     return (
         <StyledNav>
-        <StyledNavLink href="/" isActive={pathname === "/"}>All Tasks</StyledNavLink>
-        <StyledNavLink href="/tasksdone" isActive={pathname === "/tasksdone"}>Done</StyledNavLink>
+        <StyledNavLink href="/" $isactive={pathname === "/"}>All Tasks</StyledNavLink>
+        <StyledNavLink href="/tasksdone" $isactive={pathname === "/tasksdone"}>Done</StyledNavLink>
+        <StyledNavLink href="/taskcreate" $isactive={pathname === "/taskcreate"}>Create</StyledNavLink>
       </StyledNav>
     )
 }

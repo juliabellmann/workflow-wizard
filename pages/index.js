@@ -44,7 +44,11 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
       <Head>
         <title>Home - Workflow Wizard</title>
       </Head>
-      <TaskForm onSubmit={onCreateTask} />
+      <details>
+
+      <summary>Create New Task</summary>
+      <TaskForm onSubmit={onCreateTask}  onCreateTask={onCreateTask}/>
+      </details>
       <StyledContentHeading>Task List</StyledContentHeading>
 
       <StyledTaskList>

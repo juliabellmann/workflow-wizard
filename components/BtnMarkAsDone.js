@@ -18,7 +18,7 @@ const StyledDoneButton = styled.button`
     justify-content: center;
 `;
 
-export default function MarkAsDoneButton({ isDone, toggleDone, id }) {
+export default function BtnMarkAsDone({ isDone, toggleDone, id }) {
     return (
         <StyledDoneButton onClick={() => toggleDone(id)}>
             <Image

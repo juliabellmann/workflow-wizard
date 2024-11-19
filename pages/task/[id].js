@@ -1,11 +1,11 @@
-import ButtonBack from "@/components/ButtonBack";
-import UpdateForm from "@/components/TaskUpdate";
+import BtnBack from "@/components/BtnBack";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import MarkAsDoneButton from "@/components/MarkAsDoneButton";
+import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
+import TaskForm from "@/components/TaskForm";
 
 // ----- Styled Components -----
 // TODO: Styles Überarbeiten -> Verschachtelung aufheben
@@ -45,18 +45,6 @@ const SytledDetailsWrapper = styled.div`
 
             border-radius: 10px;
             border: 1px solid black;
-        }
-
-        .High {
-            background-color: var(--bg-high);
-        }
-        
-        .Medium {
-            background-color: var(--bg-medium);
-        }
-        
-        .Low {
-            background-color: var(--bg-low);
         }
 
         button {
@@ -117,11 +105,12 @@ const StyledPlacingMarkButton = styled.div`
         right: 30px;
 `;
 
-export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleDone }) {
+export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateTask,  toggleDone }) {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteOption, setIsDeleteOption] = useState(false);
     const [toggleButtonName, setToggleButtonName] = useState("Delete");
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     const router = useRouter();
     const { id } = router.query;
@@ -137,11 +126,6 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
 
     function  handleUpdateClick() {
         setIsUpdating(true);
-    };
-
-    function handleUpdateSubmit(updatedTask) {
-        onUpdateTask(updatedTask);
-        setIsUpdating(false);
     };
 
     // toggle für confirm delete
@@ -162,57 +146,96 @@ export default function TaskDetails({ tasks, onUpdateTask, onDeleteTask, toggleD
         router.replace('/');
     };
 
+    function handleEdit(updatedTask) {
+        onEditTask(currentTask.id, updatedTask);
+    };
+
+    function handleCancel() {
+        setIsFormVisible(false);
+    };
+
+    function toggleFormVisibility() {
+        setIsFormVisible((prevState) => !prevState);
+      }
     return (
         <>
             <Head>
                 <title>Details - Workflow Wizard</title>
             </Head>
-        <StyledContentHeading>Task Details</StyledContentHeading>
-        {isUpdating ? (
+
+            <StyledContentHeading>Task Details</StyledContentHeading>
+
+            <button onClick={toggleFormVisibility}>
+                <Image
+                    src={"/icons/pencil-solid.svg"}
+                    alt="Icon Pencil for Edit"
+                    width="20"
+                    height="20"
+                    unoptimized
+                />
+            </button>
+
+            {isFormVisible && <>
+                <TaskForm 
+                    onCreateTask={onCreateTask} 
+                    onEditTask={handleEdit} 
+                    onCancel={handleCancel}
+                    isFormVisible={isFormVisible}
+                    isEditMode={true} 
+                    initialData={currentTask}
+                />
+      </>
+      }
+
+            {isUpdating ? (
             <StyledFlexbox>
-                <UpdateForm 
-                initialData={currentTask} 
-                onSubmit={handleUpdateSubmit}
+                <TaskForm 
+                onCreateTask={onCreateTask} 
+                onEditTask={handleEdit} 
+                onCancel={handleCancel}
+                isFormVisible={isFormVisible}
+                isEditMode={true} 
+                initialData={currentTask}
                 />
             </StyledFlexbox>
 
         ) : (
             <StyledFlexbox>
-        <SytledDetailsWrapper>
-            <StyledPlacingMarkButton>
-                <MarkAsDoneButton 
-                    isDone={currentTask.isDone}
-                    toggleDone={toggleDone}
-                    id={currentTask.id}
-                />
-            </StyledPlacingMarkButton>
-            <h3>{currentTask.title}</h3>
-            <p>{currentTask.description}</p>
-            {/* className mit $variant ersetzen */}
-            <StyledDivDatePrio>
-                <span>{currentTask.dueDate}</span>
-                <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
-            </StyledDivDatePrio>
-            <StyledDivDatePrio>
-                <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button>
-                <StyledToggebuttonWrapper>
-                    {/* delete confirm Abfrage */}
-                    <button onClick={toggleDeleteOption}>
-                        <Image
-                            src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
-                            alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                            width="20"
-                            height="20"
-                            unoptimized
+                <SytledDetailsWrapper>
+                    <StyledPlacingMarkButton>
+                        <BtnMarkAsDone 
+                            isDone={currentTask.isDone}
+                            toggleDone={toggleDone}
+                            id={currentTask.id}
                         />
-                    </button>
-                    {isDeleteOption && (
-                        <button onClick={() => handleDelete(id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
-                    )}
-                </StyledToggebuttonWrapper>
-            </StyledDivDatePrio>
-            <ButtonBack></ButtonBack>
-        </SytledDetailsWrapper>
+                    </StyledPlacingMarkButton>
+                    <h3>{currentTask.title}</h3>
+                    <p>{currentTask.description}</p>
+                    {/* className mit $variant ersetzen */}
+                    <StyledDivDatePrio>
+                        <span>{currentTask.dueDate}</span>
+                        <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
+                    </StyledDivDatePrio>
+                    <StyledDivDatePrio>
+                        <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button>
+                        <StyledToggebuttonWrapper>
+                        {/* delete confirm Abfrage */}
+                            <button onClick={toggleDeleteOption}>
+                                <Image
+                                    src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
+                                    alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
+                                    width="20"
+                                    height="20"
+                                    unoptimized
+                                />
+                            </button>
+                            {isDeleteOption && (
+                                <button onClick={() => handleDelete(id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
+                            )}
+                        </StyledToggebuttonWrapper>
+                    </StyledDivDatePrio>
+                    <BtnBack></BtnBack>
+                </SytledDetailsWrapper>
         </StyledFlexbox>
         )}
         </>

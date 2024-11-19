@@ -1,7 +1,7 @@
 import Link from "next/link"; 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, {css} from "styled-components";
-import MarkAsDoneButton from "@/components/MarkAsDoneButton";
+import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
 
 // ----- Styled Components -----
@@ -15,6 +15,7 @@ const StyledTaskCard = styled.div`
     margin-bottom: 20px;
     position: relative;
 
+    /* Hintergrundfarbe für die Visualisierung des Datums */
     background-color: ${({ $variant }) =>
     $variant === "overdue"
       ? "var(--bg-overdue)"
@@ -38,7 +39,6 @@ const StyledTaskCard = styled.div`
         }
 
         span {
-            background-color: white;
             text-align: center;
             padding: 5px;
 
@@ -50,21 +50,6 @@ const StyledTaskCard = styled.div`
             justify-content: center;
         }
       
-        .High {
-            background-color: var(--bg-high);
-            width: 70px;
-        }
-        
-        .Medium {
-            background-color: var(--bg-medium);
-            width: 70px;
-        }
-        
-        .Low {
-            background-color: var(--bg-low);
-            width: 70px;
-        }
-
         button {
             background-color: white;
 
@@ -89,26 +74,33 @@ const StyledToggebuttonWrapper = styled.div`
     }
 `;
 
-export default function TaskCard({ task, onDeleteTask, toggleDone}) {
+const StyledPriority = styled.span`
+  background-color: ${({ $variant }) =>
+    $variant === "High" ? "var(--bg-High)"
+      : $variant === "Medium" ? "var(--bg-Medium)"
+      : $variant === "Low" ? "var(--bg-Low)" : null };
+`;
+
+export default function TaskCard({ task, onDeleteTask, toggleDone }) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
     const [toggleButtonName, setToggleButtonName] = useState("Delete");
+        // Initialisieren des Priority States
+        const [selectedPriority, setSelectedPriority] = useState("");
 
-    function getVariant(task) {
-        const currentDate = new Date();
-        const taskDueDate = new Date(task.dueDate);
+    useEffect(() => {
+        setSelectedPriority(task.priority || "");
+    }, [task]);
+
+    function getTaskVariant(dueDate) {
+        const currentDate = new Date().toISOString().split("T")[0];
+        const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
         
-    // Remove time information from both dates
-    currentDate.setHours(0, 0, 0, 0);
-    taskDueDate.setHours(0, 0, 0, 0);
-
-    if (currentDate > taskDueDate) {
-        return 'overdue';
-      } else if (currentDate.toDateString() === taskDueDate.toDateString()) {
-        return 'today';
-      } else {
-        return 'default';
+        if (currentDate > taskDueDate) return "overdue";
+        if (currentDate === taskDueDate) return "today";
+        return "default";
       }
-    }
+
+      const taskVariant = getTaskVariant(task.dueDate);
 
     // toggle für confirm delete
     function toggleDeleteOption() {
@@ -121,18 +113,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
         }
     };
 
-    //  Determine the variant
-  function getTaskVariant(dueDate) {
-    const currentDate = new Date().toISOString().split("T")[0];
-    const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
-
-    if (currentDate > taskDueDate) return "overdue";
-    if (currentDate === taskDueDate) return "today";
-    return "default";
-  }
-
-   // get the Variant
-  const taskVariant = getTaskVariant(task.dueDate);
+    console.log("task prio", task.priority);
     return (
         <>
 
@@ -140,13 +121,13 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
 
                 <h3>{task.title}</h3>
                 <hr></hr>
-                    <MarkAsDoneButton 
+                    <BtnMarkAsDone 
                         isDone={task.isDone}
                         toggleDone={toggleDone}
                         />
                     <div>
                         <span>{task.dueDate}</span>
-                        <span className={`${task.priority}`}>{task.priority}</span>
+                        <StyledPriority $variant={task.priority}>{task.priority}</StyledPriority>
                         <span><Link href={`task/${task.id}`}><Image src={"/icons/magnifying-glass.svg"} width="20" height="20" alt="Icon magnifying-glass" /></Link></span>
                         <StyledToggebuttonWrapper>
                             {/* delete confirm Abfrage */}

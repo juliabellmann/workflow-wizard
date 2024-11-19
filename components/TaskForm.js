@@ -1,6 +1,7 @@
+import { StyledForm } from "@/styles";
 import React, { useState } from "react";
 import styled, {css} from "styled-components";
-import { StyledButton } from "./StyledButton";
+
 
 // ----- Styled Components -----
 
@@ -71,6 +72,8 @@ const StyledSummary = styled.summary`
     padding: 5px 10px; 
 `;
 
+
+
 // Definieren der Optionen für priority
 const priorityOptions = [
     { id: "default", value: "", label: "Please select a priority" },
@@ -79,82 +82,87 @@ const priorityOptions = [
     { id: "priority3", value: "Low", label: "Low" },
   ];
 
-export default function TaskForm({ onSubmit, onCreateTask, onEditTask, isEditMode = false, formData ={}, onCancel }) {
-
+export default function TaskForm({ 
+    onCreateTask,
+    onEditTask, 
+    isEditMode = false,
+    initialData = {}, 
+    onCancel
+}) {
     // Initialisieren des Due Date mit aktuellem Datum
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Initialisieren des Priority States
-    const [selectedPriority, setSelectedPriority] = useState("");
+    const [selectedPriority, setSelectedPriority] = useState(initialData.priority || "");
 
     function handleSubmit(event) {
         event.preventDefault();
 
         // Sammelt alle Formulardaten in einem Objekt
         const formData = new FormData(event.target);
-        const taskData = Object.fromEntries(formData);
+        const data = Object.fromEntries(formData);
        
-    if (onSubmit) {
-      onSubmit(taskData);
-    }
+        console.log("data", data);
+        if(isEditMode) {
+            onEditTask(data);
+            onCancel();
+          } else {
+            onCreateTask({ ...initialData, ...data });
+          }
 
         // Formular Reset nach Klick
         event.target.reset();
     }
-
+  
     return (
         <>
-            <StyledDetails>
-                <StyledSummary>Create New Task</StyledSummary>
-                    <StyledFormContainer onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
 
-                        <label htmlFor="title"><h3>Task Name: *</h3></label>
-                        <input 
-                            type="text" 
-                            id="title" 
-                            name="title" 
-                            placeholder="Please enter a task name here" 
-                            defaultValue={formData?.title || ""}
-                            required 
-                        />
+                <label htmlFor="title"><h3>Task Name: *</h3></label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    placeholder="Please enter a task name here" 
+                    defaultValue={initialData?.title || ""}
+                    required 
+                />
 
-                        <label htmlFor="description"><h3>Description:</h3></label>
-                        <textarea 
-                            rows="3" 
-                            id="description" 
-                            name="description" 
-                            placeholder="Optional: enter a task description here" 
-                            defaultValue={formData?.description || ""}
-                        />
+                <label htmlFor="description"><h3>Description:</h3></label>
+                <textarea 
+                    rows="3" 
+                    id="description" 
+                    name="description" 
+                    placeholder="Optional: enter a task description here" 
+                    defaultValue={initialData?.description || ""}
+                />
 
-                        <label htmlFor="priority"><h3>Priority: *</h3></label>
-                        <select
-                            id="priority"
-                            name="priority"
-                            value={selectedPriority}
-                            onChange={(e) => setSelectedPriority(e.target.value)}
-                            required
-                            >
-                            {priorityOptions.map((option) => (
-                                <option key={option.id} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                <label htmlFor="priority"><h3>Priority: *</h3></label>
+                <select 
+                    id="priority"
+                    name="priority"
+                    defaultValue={initialData.priority}
+                    required
+                    >
+                    {priorityOptions.map((option) => (
+                        <option key={option.id} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
 
-                        <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
-                        {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
-                        <input 
-                            type="date" 
-                            id="dueDate" 
-                            name="dueDate" 
-                            value={dueDate} 
-                            defaultValue={formData.dueDate}
-                            onChange={(e) => setDueDate(e.target.value)} 
-                        />
-                        <button type="submit">Create Task</button>
-                    </StyledFormContainer>
-            </StyledDetails>
+                <label htmlFor="dueDate"><h3>Due Date: *</h3></label>
+                {/* onChange: Aktualisiert den Zustand "dueDate", wenn der Nutzer ein neues Datum wählt */}
+                <input 
+                    type="date" 
+                    id="dueDate" 
+                    name="dueDate" 
+                    defaultValue={initialData.dueDate}
+                />
+                <button type="submit">Save</button>
+                <button type="button" onClick={onCancel}>Cancel</button>
+            </StyledForm>
+
         </>
     );
 }

@@ -1,18 +1,6 @@
 import styled from "styled-components";
 import NavBar from "./NavBar";
 
-// ----- Styled Components -----
-
-const StyledHeadline= styled.h1`
-    display: flex;
-    justify-content: center;
-    white-space: nowrap;
-`;
-
-const StyledMain = styled.main`
-    margin: 0 20px;
-`;
-
 export default function RootLayout({ children }) {
     return (
         <>
@@ -26,3 +14,15 @@ export default function RootLayout({ children }) {
         </>
     );
 }
+
+// ----- Styled Components -----
+
+const StyledHeadline= styled.h1`
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+`;
+
+const StyledMain = styled.main`
+    margin: 0 20px;
+`;
