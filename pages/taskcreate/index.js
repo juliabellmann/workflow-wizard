@@ -9,7 +9,6 @@ const StyledFormWrapper = styled.div`
 `;
 
 export default function MyPlants({ onCreateTask }) {
-
   return (
     <>
       <BtnBack />
@@ -17,11 +16,8 @@ export default function MyPlants({ onCreateTask }) {
       <StyledContentHeading>Create a new Task</StyledContentHeading>
 
       <StyledFormWrapper>
-              <TaskForm
-                  onCreateTask={onCreateTask} 
-                  isEditMode={false} 
-              />
-        </StyledFormWrapper>
+        <TaskForm onCreateTask={onCreateTask} />
+      </StyledFormWrapper>
     </>
   );
 }

@@ -5,20 +5,18 @@ import { Roboto, Uncial_Antiqua } from "next/font/google";
 const fonthead = Uncial_Antiqua({
   subsets: ["latin"],
   weight: ["400"],
-  variable: "--font-fonthead",
 });
 
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400"],
-  variable: "--font-roboto",
 });
 
 export default createGlobalStyle`
 
   :root {
     --text-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --text-font-form: var(--font-roboto), 'Times New Roman', Times, serif;
+    --text-font-form: ${roboto.style.fontFamily}, 'Times New Roman', Times, serif; 
 
     --bg-color-body: #ffffff;
     --bg-color-card: #f8f8f8;
@@ -56,6 +54,7 @@ export default createGlobalStyle`
 
 
   body {
+   
     background-color: var(--bg-color-body);
     font-family: var(--text-font);
     margin-bottom: calc(var(--nav-height) + 10px);
@@ -65,8 +64,8 @@ export default createGlobalStyle`
     align-items: center;
   }
 
-  h1 {
-    font-family: fonthead;
+  header {
+    font-family: ${fonthead.style.fontFamily};
   }
 
   main {
@@ -89,22 +88,22 @@ export default createGlobalStyle`
 `;
 
 export const StyledContentHeading = styled.h2`
-display: flex;
-justify-content: center;
-margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 `;
 
 export const StyledCardDate = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    gap: 5px;
+  gap: 5px;
 
-    padding: 5px 10px; 
-    border-radius: var(--border-radius-btn);
+  padding: 5px 10px;
+  border-radius: var(--border-radius-btn);
 
-    background-color: ${({ $variant }) =>
+  background-color: ${({ $variant }) =>
     $variant === "overdue"
       ? "var(--bg-overdue)"
       : $variant === "today"
