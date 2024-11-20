@@ -40,7 +40,7 @@ export default createGlobalStyle`
     
     --border-radius-input: 5px;
     
-    --nav-height: 75px;
+    --nav-height: 60px;
     
     --border-radius-form: var(--border-radius-btn);
 
@@ -92,4 +92,22 @@ export const StyledContentHeading = styled.h2`
 display: flex;
 justify-content: center;
 margin: 20px 0;
+`;
+
+export const StyledCardDate = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 5px 10px; 
+    border-radius: var(--border-radius-btn);
+
+    background-color: ${({ $variant }) =>
+    $variant === "overdue"
+      ? "var(--bg-overdue)"
+      : $variant === "today"
+      ? "var(--bg-today)"
+      : "var(--bg-default)"};
 `;

@@ -2,42 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import HomeBtn from "@/assets/icons/home.svg";
+import SquareCkeckBtn from "@/assets/icons/square-check-regular.svg";
+import SquarePlusBtn from "@/assets/icons/square-plus-regular.svg";
 
 export default function NavBar() {
     const { pathname } = useRouter();
+
+    const isActive = true;
 
     return (
         <StyledNav>
 
             <StyledNavLink href="/tasksdone" $isactive={pathname === "/tasksdone"}>
-                <Image
-                      src="/icons/square-check-regular.svg"
-                      alt="Icon steering wheel"
-                      width="35"
-                      height="35"
-                      optimized
-                  />
+                <SquareCkeckBtn $isactive={isActive} />
             </StyledNavLink>
 
             <StyledNavLink href="/" $isactive={pathname === "/"}>
-                <Image
-                    src="/icons/home.svg"
-                    alt="Icon steering wheel"
-                    width="35"
-                    height="35"
-                    optimized
-                />
+                <HomeBtn $isactive={isActive} />
             </StyledNavLink>
 
             <StyledNavLink href="/taskcreate" $isactive={pathname === "/taskcreate"}>
-                <Image
-                      src="/icons/square-plus-regular.svg"
-                      alt="Icon Done"
-                      width="35"
-                      height="35"
-                      optimized
-                 />
+                <SquarePlusBtn $isactive={isActive} />
             </StyledNavLink>
+
         </StyledNav>
     )
 }
@@ -64,10 +52,18 @@ const StyledNav = styled.nav`
 `;
 
 const StyledNavLink = styled(Link)`
-    padding: 10px;
-    /* color: ${({ $isactive }) => ($isactive ? "lightblue" : "black")}; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 48px;
+    height: 48px;
+
+    padding: 7px;
+
+    fill: ${({ $isactive }) => ($isactive ? "lightblue" : "black")};
     background-color: ${({ $isactive }) => ($isactive ? "var(--bg-color-body)" : "")};
     border: ${({ $isactive }) => ($isactive ? "3px solid var(--accent-color)" : "")};
-    border-radius: ${({ $isactive }) => ($isactive ? "50%" : "")};
+    border-radius: ${({ $isactive }) => ($isactive ? "5px" : "")};
     text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
 `;

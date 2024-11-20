@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
+import { StyledCardDate } from "@/styles";
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -193,24 +194,6 @@ const StyledCardInfo = styled.span`
     border-radius: var(--border-radius-btn);
 
     background-color: var(--bg-color-btn);
-`;
-
-const StyledCardDate = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 5px;
-
-    padding: 5px; 
-    border-radius: var(--border-radius-btn);
-
-    background-color: ${({ $variant }) =>
-    $variant === "overdue"
-      ? "var(--bg-overdue)"
-      : $variant === "today"
-      ? "var(--bg-today)"
-      : "var(--bg-default)"};
 `;
 
 const StyledCardBtn = styled.button`

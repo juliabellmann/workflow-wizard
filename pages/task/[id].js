@@ -6,7 +6,7 @@ import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
 import TaskForm from "@/components/TaskForm";
-import { StyledContentHeading } from "@/styles";
+import { StyledCardDate, StyledContentHeading } from "@/styles";
 
 export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateTask,  toggleDone }) {
     const [isUpdating, setIsUpdating] = useState(false);
@@ -257,24 +257,6 @@ const StyledCardBtn = styled.button`
 
     height: 48px;
     width: 48px;
-`;
-
-const StyledCardDate = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 5px;
-
-    padding: 5px; 
-    border-radius: var(--border-radius-btn);
-
-    background-color: ${({ $variant }) =>
-    $variant === "overdue"
-      ? "var(--bg-overdue)"
-      : $variant === "today"
-      ? "var(--bg-today)"
-      : "var(--bg-default)"};
 `;
 
 const StyledPriority = styled.span`
