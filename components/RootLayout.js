@@ -5,7 +5,7 @@ export default function RootLayout({ children }) {
     return (
         <>
             <header>
-                <StyledHeadline>Workflow Wizzard</StyledHeadline>
+                <StyledHeadline>Workflow Wizard</StyledHeadline>
             </header>
             <StyledMain>
                 {children}

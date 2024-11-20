@@ -1,127 +1,8 @@
 import Link from "next/link"; 
 import { useState, useEffect } from "react";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
-
-// ----- Styled Components -----
-
-const StyledTaskCard = styled.div`
-
-    border: 1px solid black;
-    border-radius: var(--border-radius-btn);
-    width: 335px;
-    padding: 15px;
-    margin-bottom: 20px;
-    position: relative;
-
-    /* Hintergrundfarbe für die Visualisierung des Datums */
-    ${props => props.$isDone ? `background-color: lightgrey; color: grey; text-decoration:line-through; ` : ``}
-`;
-
-const StyledContentWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    border-top: 3px solid red;
-    padding-top: 10px;
-
-    border-top: ${({ $variant }) =>
-    $variant === "High" ? "3px solid var(--bg-High)"
-      : $variant === "Medium" ? "3px solid var(--bg-Medium)"
-      : $variant === "Low" ? "3px solid var(--bg-Low)" : null };
-`;
-
-const StyledDelBtnWrapper = styled.div`
-    display: flex;
-    flex-direction: row-reverse; 
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-`;
-const StyledBtnWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-`;
-
-const StyledPriority = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 30px;
-    width: 30px;
-
-    border: 1px solid black;
-    border-radius: var(--border-radius-btn);
-
-  background-color: ${({ $variant }) =>
-    $variant === "High" ? "var(--bg-High)"
-      : $variant === "Medium" ? "var(--bg-Medium)"
-      : $variant === "Low" ? "var(--bg-Low)" : null };
-
-`;
-
-const StyledCardInfo = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 48px;
-    width: 48px;
-
-    border: 1px solid black;
-    border-radius: var(--border-radius-btn);
-
-    background-color: var(--bg-color-btn);
-
-`;
-
-const StyledCardDate = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 5px;
-
-    padding: 5px; 
-    border-radius: var(--border-radius-btn);
-
-    background-color: ${({ $variant }) =>
-    $variant === "overdue"
-      ? "var(--bg-overdue)"
-      : $variant === "today"
-      ? "var(--bg-today)"
-      : "var(--bg-default)"};
-`;
-
-const StyledCardBtn = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: var(--border-btn);
-    border-radius: var(--border-radius-btn);
-    background-color: var(--bg-color-btn);
-
-    height: 48px;
-    width: 48px;
-`;
-
-const StyledUpperContentWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-`;
-
-
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
     const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -149,9 +30,9 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
         setIsDeleteOption((prevState) => !prevState);
     
         if (toggleButtonName === "Delete") {
-          setToggleButtonName("Cancel");
+            setToggleButtonName("Cancel");
         } else {
-          setToggleButtonName("Delete");
+            setToggleButtonName("Delete");
         }
     };
 
@@ -159,11 +40,11 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
 
     const priority = task.priority;
     if (priority === "High") {
-      prioIconSrc = "/icons/high.svg";
+        prioIconSrc = "/icons/high.svg";
     } else if (priority === "Medium") {
-      prioIconSrc = "/icons/medium.svg";
+        prioIconSrc = "/icons/medium.svg";
     } else if (priority === "Low") {
-      prioIconSrc = "/icons/low.svg";
+        prioIconSrc = "/icons/low.svg";
     }
 
     return (
@@ -190,7 +71,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
             />
             <StyledContentWrapper $variant={task.priority}>
 
-                <StyledCardDate  $variant={taskVariant}>
+                <StyledCardDate $variant={taskVariant}>
                     <Image 
                         src={"/icons/calendar-regular.svg"} 
                         width="20" 
@@ -236,3 +117,118 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
         </StyledTaskCard>
     );
 }
+
+// ----- Styled Components -----
+
+const StyledTaskCard = styled.div`
+    position: relative;
+
+    border: 1px solid black;
+    border-radius: var(--border-radius-btn);
+    
+    width: 335px;
+    padding: 15px;
+    margin-bottom: 20px;
+
+    /* Hintergrundfarbe für die Visualisierung des Datums */
+    ${props => props.$isDone ? `background-color: lightgrey; color: grey; text-decoration:line-through; ` : ``}
+`;
+
+const StyledContentWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    border-top: 3px solid red;
+    padding-top: 10px;
+
+    border-top: ${({ $variant }) =>
+    $variant === "High" ? "3px solid var(--bg-High)"
+        : $variant === "Medium" ? "3px solid var(--bg-Medium)"
+        : $variant === "Low" ? "3px solid var(--bg-Low)" : null };
+`;
+
+const StyledDelBtnWrapper = styled.div`
+    display: flex;
+    flex-direction: row-reverse; 
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const StyledBtnWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const StyledPriority = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 30px;
+    width: 30px;
+
+    border: 1px solid black;
+    border-radius: var(--border-radius-btn);
+
+  background-color: ${({ $variant }) =>
+    $variant === "High" ? "var(--bg-High)"
+      : $variant === "Medium" ? "var(--bg-Medium)"
+      : $variant === "Low" ? "var(--bg-Low)" : null };
+`;
+
+const StyledCardInfo = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 48px;
+    width: 48px;
+
+    border: 1px solid black;
+    border-radius: var(--border-radius-btn);
+
+    background-color: var(--bg-color-btn);
+`;
+
+const StyledCardDate = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 5px; 
+    border-radius: var(--border-radius-btn);
+
+    background-color: ${({ $variant }) =>
+    $variant === "overdue"
+      ? "var(--bg-overdue)"
+      : $variant === "today"
+      ? "var(--bg-today)"
+      : "var(--bg-default)"};
+`;
+
+const StyledCardBtn = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: var(--border-btn);
+    border-radius: var(--border-radius-btn);
+    background-color: var(--bg-color-btn);
+
+    height: 48px;
+    width: 48px;
+`;
+
+const StyledUpperContentWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+`;

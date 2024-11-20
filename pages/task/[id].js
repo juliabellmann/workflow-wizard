@@ -2,87 +2,11 @@ import BtnBack from "@/components/BtnBack";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
 import TaskForm from "@/components/TaskForm";
 import { StyledContentHeading } from "@/styles";
-
-// ----- Styled Components -----
-// TODO: Styles Überarbeiten -> Verschachtelung aufheben
-
-const SytledDetailsWrapper = styled.div`
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    background-color: var(--bg-color-card);
-
-    border: 1px solid black;
-    border-radius: var(--border-radius-form);
-
-    padding: 35px 20px 20px 20px;
-
-    width: 90vw;
-`;
-
-const StyledToggebuttonWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-
-    width: 75px;
-    button {
-        border: 1px solid black;
-        border-radius: 5px;
-    }
-`;
-const StyledFlexbox = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-
-const StyledDivDatePrio = styled.div`
-        width: 70%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        button {
-            height: 30px;
-            padding: 5px 20px;
-            border: 1px solid black;
-            border-radius: 10px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-`;
-
-const StyledPlacingMarkButton = styled.div`
-    position: absolute;
-    top: 0;
-    right: 10px;
-`;
-
-const StyledEditBtn = styled.button`
-    position: fixed;
-    top: 50px;
-    right: 25px;
-    z-index: 10;
-
-    height: 48px;
-    width: 48px;
-
-    border-radius: 50%;
-    border: 1px solid var(--accent-color);
-
-    background-color: var(--bg-color-btn);
-`;
 
 export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateTask,  toggleDone }) {
     const [isUpdating, setIsUpdating] = useState(false);
@@ -136,6 +60,28 @@ export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateT
     function toggleFormVisibility() {
         setIsFormVisible((prevState) => !prevState);
       }
+
+      function getTaskVariant(dueDate) {
+        const currentDate = new Date().toISOString().split("T")[0];
+        const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
+        
+        if (currentDate > taskDueDate) return "overdue";
+        if (currentDate === taskDueDate) return "today";
+        return "default";
+    };
+      const taskVariant = getTaskVariant(currentTask.dueDate);
+
+    let prioIconSrc = ""; 
+
+    const priority = currentTask.priority;
+    if (priority === "High") {
+    prioIconSrc = "/icons/high.svg";
+    } else if (priority === "Medium") {
+    prioIconSrc = "/icons/medium.svg";
+    } else if (priority === "Low") {
+    prioIconSrc = "/icons/low.svg";
+    }
+  
     return (
         <>
             <Head>
@@ -163,59 +109,193 @@ export default function TaskDetails({ tasks, onEditTask, onDeleteTask, onCreateT
                     isEditMode={true} 
                     initialData={currentTask}
                 />
-      </>
-      }
+        </>
+            }
+        <BtnBack></BtnBack>
 
-            {isUpdating ? (
-            <StyledFlexbox>
-                <TaskForm 
-                    onCreateTask={onCreateTask} 
-                    onEditTask={handleEdit} 
-                    onCancel={handleCancel}
-                    isFormVisible={isFormVisible}
-                    isEditMode={true} 
-                    initialData={currentTask}
+        <SytledDetailsCardWrapper>
+            <StyledPlacingMarkButton>
+                <BtnMarkAsDone 
+                    isDone={currentTask.isDone}
+                    toggleDone={toggleDone}
+                    id={currentTask.id}
                 />
-            </StyledFlexbox>
+            </StyledPlacingMarkButton>
 
-        ) : (
-            <StyledFlexbox>
-                <SytledDetailsWrapper>
-                    <StyledPlacingMarkButton>
-                        <BtnMarkAsDone 
-                            isDone={currentTask.isDone}
-                            toggleDone={toggleDone}
-                            id={currentTask.id}
+            <h3>{currentTask.title}</h3>
+            <StyledDescription $variant={currentTask.priority}>{currentTask.description}</StyledDescription>
+            <StyledBtnWrapper>
+                <StyledDivDatePrio>
+                    <StyledCardDate $variant={taskVariant}>
+                    <Image 
+                        src={"/icons/calendar-regular.svg"} 
+                        width="20" 
+                        height="20" 
+                        alt="Icon Details" 
+                    />{currentTask.dueDate}</StyledCardDate>
+                    <StyledPriority  $variant={currentTask.priority}>
+                        <Image
+                            src={prioIconSrc}
+                            alt={"Icon of the Priority"}
+                            width="25"
+                            height="25"
+                            unoptimized
                         />
-                    </StyledPlacingMarkButton>
-                    <h3>{currentTask.title}</h3>
-                    <p>{currentTask.description}</p>
-                    {/* className mit $variant ersetzen */}
-                    <StyledDivDatePrio>
-                        <span>{currentTask.dueDate}</span>
-                        <span className={`${currentTask.priority}`}>{currentTask.priority}</span>
+                    </StyledPriority>
+                </StyledDivDatePrio>
+                {/* <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button> */}
+                <StyledDelBtnWrapper>
+                    {/* delete confirm Abfrage */}
+                    <StyledCardBtn onClick={toggleDeleteOption}>
+                        <Image
+                            src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
+                            alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
+                            width="35"
+                            height="35"
+                            unoptimized
+                            />
+                    </StyledCardBtn>
+                    {isDeleteOption && (
+                        <StyledCardBtn onClick={() => onDeleteTask(task.id)}>
+                            <Image src={"/icons/trash-can-regular.svg"} width="35" height="35" alt="Icon trash can" /></StyledCardBtn>
+                    )}
+                </StyledDelBtnWrapper>
+                
+            </StyledBtnWrapper>
 
-                        {/* <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button> */}
-                        <StyledToggebuttonWrapper>
-                        {/* delete confirm Abfrage */}
-                            <button onClick={toggleDeleteOption}>
-                                <Image
-                                    src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
-                                    alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                                    width="20"
-                                    height="20"
-                                    unoptimized
-                                />
-                            </button>
-                            {isDeleteOption && (
-                                <button onClick={() => handleDelete(id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
-                            )}
-                        </StyledToggebuttonWrapper>
-                    </StyledDivDatePrio>
-                    <BtnBack></BtnBack>
-                </SytledDetailsWrapper>
-        </StyledFlexbox>
-        )}
+        </SytledDetailsCardWrapper>
+
+
         </>
     )
 }
+
+// ----- Styled Components -----
+
+const StyledEditBtn = styled.button`
+    position: fixed;
+    top: 50px;
+    right: 25px;
+    z-index: 10;
+
+    height: 48px;
+    width: 48px;
+
+    border-radius: 50%;
+    border: 1px solid var(--accent-color);
+
+    background-color: var(--bg-color-btn);
+`;
+
+const SytledDetailsCardWrapper = styled.div`
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: var(--bg-color-card);
+
+    border: 1px solid black;
+    border-radius: var(--border-radius-form);
+
+    padding: 35px 20px 20px 20px;
+
+`;
+
+const StyledPlacingMarkButton = styled.div`
+    position: absolute;
+    top: 0;
+    right: 10px;
+`;
+
+const StyledDescription = styled.p`
+    margin: 20px 10px 30px 10px;
+    padding-top: 20px;
+
+    width: 100%;
+
+    text-align: center;
+
+    border-top: ${({ $variant }) =>
+    $variant === "High" ? "3px solid var(--bg-High)"
+        : $variant === "Medium" ? "3px solid var(--bg-Medium)"
+        : $variant === "Low" ? "3px solid var(--bg-Low)" : null };
+`;
+
+const StyledBtnWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    /* drückt auch automatisch die Card Größe nach außen */
+    width: 80vw;
+`;
+
+const StyledDivDatePrio = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 20px;
+`;
+
+const StyledDelBtnWrapper = styled.div`
+    display: flex;
+    flex-direction: row-reverse; 
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const StyledCardBtn = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: var(--border-btn);
+    border-radius: var(--border-radius-btn);
+    background-color: var(--bg-color-btn);
+
+    height: 48px;
+    width: 48px;
+`;
+
+const StyledCardDate = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 5px; 
+    border-radius: var(--border-radius-btn);
+
+    background-color: ${({ $variant }) =>
+    $variant === "overdue"
+      ? "var(--bg-overdue)"
+      : $variant === "today"
+      ? "var(--bg-today)"
+      : "var(--bg-default)"};
+`;
+
+const StyledPriority = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 30px;
+    width: 30px;
+
+    border: 1px solid black;
+    border-radius: var(--border-radius-btn);
+
+  background-color: ${({ $variant }) =>
+    $variant === "High" ? "var(--bg-High)"
+      : $variant === "Medium" ? "var(--bg-Medium)"
+      : $variant === "Low" ? "var(--bg-Low)" : null };
+
+`;
+
+const StyledToggebuttonWrapper = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+`;

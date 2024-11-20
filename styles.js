@@ -1,11 +1,24 @@
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
+import { Roboto, Uncial_Antiqua } from "next/font/google";
+
+const fonthead = Uncial_Antiqua({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-fonthead",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-roboto",
+});
 
 export default createGlobalStyle`
 
   :root {
     --text-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --text-font-form: 'Times New Roman', Times, serif;
+    --text-font-form: var(--font-roboto), 'Times New Roman', Times, serif;
 
     --bg-color-body: #ffffff;
     --bg-color-card: #f8f8f8;
@@ -41,6 +54,7 @@ export default createGlobalStyle`
     padding: 0;
   }
 
+
   body {
     background-color: var(--bg-color-body);
     font-family: var(--text-font);
@@ -51,8 +65,8 @@ export default createGlobalStyle`
     align-items: center;
   }
 
-  header {
-    font-family: 'Trebuchet MS', sans-serif;
+  h1 {
+    font-family: fonthead;
   }
 
   main {
