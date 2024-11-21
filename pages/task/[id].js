@@ -1,7 +1,7 @@
 import BtnBack from "@/components/BtnBack";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
@@ -20,6 +20,7 @@ export default function TaskDetails({
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [subtasks, setSubtasks] = useState([]);
 
   const router = useRouter();
   const { id } = router.query;
@@ -32,6 +33,28 @@ export default function TaskDetails({
 
   // Fallback für fehlende Daten
   if (!currentTask) return <div>No data available</div>;
+
+  useEffect(() => {
+    if (currentTask && currentTask.subtasks) {
+      setSubtasks(currentTask.subtasks);
+    }
+  }, [currentTask]);
+
+  const renderSubtasks = () => {
+    return subtasks.map((subtask, index) => (
+      <li key={index}>{subtask.title}</li>
+    ));
+  };
+
+  const handleSubtaskChange = (index, newValue) => {
+    setSubtasks(subtasks.map((subtask, i) => 
+      i === index ? { ...subtask, title: newValue } : subtask
+    ));
+  };
+
+  const handleAddSubtask = () => {
+    setSubtasks([...subtasks, { title: "" }]);
+  };
 
   function handleUpdateClick() {
     setIsUpdating(true);
@@ -87,7 +110,7 @@ export default function TaskDetails({
   } else if (priority === "Low") {
     prioIconSrc = "/icons/low.svg";
   }
-
+  
   return (
     <>
       <Head>
@@ -132,6 +155,11 @@ export default function TaskDetails({
         <StyledDescription $variant={currentTask.priority}>
           {currentTask.description}
         </StyledDescription>
+        <div>
+          <h4>Subtasks:</h4>
+          <ul>{renderSubtasks()}</ul>
+        </div>
+
         <StyledBtnWrapper>
           <StyledDivDatePrio>
             <StyledCardDate $variant={taskVariant}>

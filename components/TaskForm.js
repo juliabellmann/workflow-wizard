@@ -19,8 +19,17 @@ export default function TaskForm({
     // Initialisieren des Due Date mit aktuellem Datum
     const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
 
-    // Initialisieren des Priority States
-    // const [selectedPriority, setSelectedPriority] = useState(initialData.priority || "");
+    const [subtasks, setSubtasks] = useState(initialData.subtasks || []);
+
+    const handleAddSubtask = () => {
+      setSubtasks([...subtasks, { title: "" }]);
+    };
+  
+    const handleSubtaskChange = (index, newValue) => {
+      setSubtasks(subtasks.map((subtask, i) => 
+        i === index ? { ...subtask, title: newValue } : subtask
+      ));
+    };
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -28,6 +37,9 @@ export default function TaskForm({
         // Sammelt alle Formulardaten in einem Objekt
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
+
+        // fügt die Subtasks zur Formulardaten hinzu
+        data.subtasks = subtasks;
        
         console.log("data", data);
         if(isEditMode) {
@@ -92,6 +104,23 @@ export default function TaskForm({
                     name="dueDate"
                     defaultValue={initialData.dueDate || dueDate}
                 />
+                <label htmlFor="subtask">
+                    <h3>Subtask:</h3>
+                </label>
+                <StyledFormBtn type="button" onClick={handleAddSubtask}>+ Add Subtask</StyledFormBtn>
+                {subtasks.map((subtask, index) => (
+                <StyledInput
+                    key={index}
+                    type="text"
+                    name={`subtask_${index}`}
+                    placeholder={`Subtask ${index + 1}`}
+                    defaultValue={subtask.title}
+                    onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                />
+                ))}
+
+
+
                 <StyledFormBtnContainer>
                     <StyledFormBtn
                     type="submit"
