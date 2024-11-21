@@ -21,6 +21,7 @@ export default function TaskDetails({
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [subtasks, setSubtasks] = useState([]);
+  const [subtaskStates, setSubtaskStates] = useState({});
 
   const router = useRouter();
   const { id } = router.query;
@@ -40,10 +41,29 @@ export default function TaskDetails({
     }
   }, [currentTask]);
 
+  const isChecked = false;
+
   const renderSubtasks = () => {
     return subtasks.map((subtask, index) => (
-      <li key={index}>{index + 1}: {subtask.title}</li>
+      <li key={index} $ischecked={isChecked}>
+        <input 
+        type="checkbox"
+        // onChange={() => handleToggleSubtask(subtask.isChecked)}
+        />
+        <span>
+        {/* <span > */}
+          {index + 1}: {subtask.title}
+        </span>
+        
+        </li>
     ));
+  };
+
+  const handleToggleSubtask = (isChecked) => {
+    setSubtaskStates(prevState => ({
+      ...prevState,
+      [isChecked]: !prevState[isChecked]
+    }));
   };
 
   const handleSubtaskChange = (index, newValue) => {
