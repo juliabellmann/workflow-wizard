@@ -3,6 +3,7 @@ import TaskCard from "@/components/TaskCard";
 import TaskForm from "@/components/TaskForm";
 import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
+import NoTaskIcon from "@/assets/icons/notask.svg";
 
 export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone }) {
 
@@ -66,7 +67,15 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
           </>
         ) : (
           // Wenn keine Aufgaben vorhanden sind, zeige eine Meldung an
-          <li>No tasks available. Please enter a new task.</li>
+          <>
+            <StyledInfoWrapper>
+              <li>No tasks available. Please enter a new task.</li>
+              <NoTaskIconContainer>
+                <NoTaskIcon />
+              </NoTaskIconContainer>
+            </StyledInfoWrapper>
+
+          </>
         )}
       </StyledTaskList>
     </>
@@ -96,7 +105,30 @@ const StyledListHeading = styled.h3`
 `;
 
 const StyledTaskList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
   list-style: none;
   padding: 0;
   margin: 0;
+`;
+
+const StyledInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5vw;
+`;
+
+const NoTaskIconContainer = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 5vw;
+  width: 5vw;
 `;

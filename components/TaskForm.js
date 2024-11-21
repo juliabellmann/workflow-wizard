@@ -31,6 +31,10 @@ export default function TaskForm({
       ));
     };
 
+    const handleDeleteSubtask = (index) => {
+        setSubtasks(subtasks.filter((_, i) => i !== index));
+    };
+
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -109,14 +113,20 @@ export default function TaskForm({
                 </label>
                 <StyledFormBtn type="button" onClick={handleAddSubtask}>+ Add Subtask</StyledFormBtn>
                 {subtasks.map((subtask, index) => (
-                <StyledInput
-                    key={index}
-                    type="text"
-                    name={`subtask_${index}`}
-                    placeholder={`Subtask ${index + 1}`}
-                    defaultValue={subtask.title}
-                    onChange={(e) => handleSubtaskChange(index, e.target.value)}
-                />
+                    <StyledSubtaskList key={index}>
+                        <label htmlFor={`subtask_${index}`}>
+                            <h4>{index + 1}: </h4>
+                        </label>
+                        <StyledInput
+                            key={`${index}_input`}
+                            type="text"
+                            name={`subtask_${index}`}
+                            placeholder={`Subtask ${index + 1} title`}
+                            defaultValue={subtask.title}
+                            onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                        />
+                        <button onClick={() => handleDeleteSubtask(index)}>X</button>
+                    </StyledSubtaskList>
                 ))}
 
 
@@ -189,3 +199,7 @@ const StyledFormBtn = styled.button`
     background-color: var(--bg-color-btn);
 `;
 
+const StyledSubtaskList = styled.div`
+    display: flex;
+    margin: 5px;
+`;

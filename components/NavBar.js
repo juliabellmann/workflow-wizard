@@ -58,11 +58,11 @@ const StyledNavLink = styled(Link)`
 
   padding: 7px;
 
-  fill: ${({ $isactive }) => ($isactive ? "lightblue" : "black")};
+  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "black")};
   background-color: ${({ $isactive }) =>
     $isactive ? "var(--bg-color-body)" : ""};
   border: ${({ $isactive }) =>
     $isactive ? "3px solid var(--accent-color)" : ""};
-  border-radius: ${({ $isactive }) => ($isactive ? "5px" : "")};
+  border-radius: ${({ $isactive }) => ($isactive ? "5px" : "5px")};
   text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
 `;

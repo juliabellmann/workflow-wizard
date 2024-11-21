@@ -15,7 +15,7 @@ export default function TaskDetails({
   onCreateTask,
   toggleDone,
 }) {
-  const [isUpdating, setIsUpdating] = useState(false);
+  // const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
@@ -33,7 +33,14 @@ export default function TaskDetails({
   const currentTask = tasks?.find((item) => item.id === id) || null;
 
   // Fallback für fehlende Daten
-  if (!currentTask) return <div>No data available</div>;
+  if (!currentTask) {
+    return (
+      <div>
+        No data available
+        <p> diese Anzeige darf eig nicht kommen </p>
+      </div>
+    );
+  }
 
   useEffect(() => {
     if (currentTask && currentTask.subtasks) {
@@ -45,17 +52,17 @@ export default function TaskDetails({
 
   const renderSubtasks = () => {
     return subtasks.map((subtask, index) => (
-      <li key={index} $ischecked={isChecked}>
+      <StyledSubtaskLi key={index} $ischecked={isChecked}>
+        {/* <span > style={{ textDecoration: subtaskStates[subtask.id] ? 'line-through' : 'none' }}*/}
         <input 
         type="checkbox"
         // onChange={() => handleToggleSubtask(subtask.isChecked)}
         />
         <span>
-        {/* <span > */}
           {index + 1}: {subtask.title}
         </span>
         
-        </li>
+        </StyledSubtaskLi>
     ));
   };
 
@@ -72,14 +79,6 @@ export default function TaskDetails({
     ));
   };
 
-  const handleAddSubtask = () => {
-    setSubtasks([...subtasks, { title: "" }]);
-  };
-
-  function handleUpdateClick() {
-    setIsUpdating(true);
-  }
-
   // toggle für confirm delete
   function toggleDeleteOption() {
     setIsDeleteOption((prevState) => !prevState);
@@ -95,6 +94,8 @@ export default function TaskDetails({
   function handleDelete() {
     setIsDeleting(true);
     onDeleteTask(currentTask.id);
+    // TODO: Rückführung funktioniert nicht
+    // Nach dem Löschvorgang wird zur Startseite zurückgeführt
     router.replace("/");
   }
 
@@ -177,7 +178,7 @@ export default function TaskDetails({
         </StyledDescription>
         <div>
           <h4>Subtasks:</h4>
-          <ul>{renderSubtasks()}</ul>
+          <StyledSubtaskList>{renderSubtasks()}</StyledSubtaskList>
         </div>
 
         <StyledBtnWrapper>
@@ -200,7 +201,6 @@ export default function TaskDetails({
               />
             </StyledPriority>
           </StyledDivDatePrio>
-          {/* <button onClick={handleUpdateClick}><Image src={"/icons/pen-to-square-regular.svg"} width="20" height="20" alt="Icon Edit" /></button> */}
           <StyledDelBtnWrapper>
             {/* delete confirm Abfrage */}
             <StyledCardBtn onClick={toggleDeleteOption}>
@@ -216,7 +216,7 @@ export default function TaskDetails({
               />
             </StyledCardBtn>
             {isDeleteOption && (
-              <StyledCardBtn onClick={() => onDeleteTask(task.id)}>
+              <StyledCardBtn onClick={() => handleDelete()}>
                 <Image
                   src={"/icons/trash-can-regular.svg"}
                   width="35"
@@ -240,8 +240,13 @@ const StyledEditBtn = styled.button`
   right: 25px;
   z-index: 10;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   height: 48px;
   width: 48px;
+  padding: var(--border-radius-btn);
 
   border-radius: 50%;
   border: 1px solid var(--accent-color);
@@ -287,6 +292,18 @@ const StyledDescription = styled.p`
       : $variant === "Low"
       ? "3px solid var(--bg-Low)"
       : null};
+`;
+
+const StyledSubtaskList = styled.ul`
+
+  margin-bottom: 20px;
+`;
+
+const StyledSubtaskLi = styled.li`
+  background-color: var(--bg-color-btn);
+  padding: 5px 10px;
+  margin: 5px;
+  min-width: 60vw;
 `;
 
 const StyledBtnWrapper = styled.div`
