@@ -1,127 +1,20 @@
-import Link from "next/link"; 
-import { useState } from "react";
-import styled, {css} from "styled-components";
-import MarkAsDoneButton from "@/components/MarkAsDoneButton";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
+import { StyledCardDate } from "@/styles";
 
-// ----- Styled Components -----
+export default function TaskCard({ task, onDeleteTask, toggleDone }) {
+  const [isDeleteOption, setIsDeleteOption] = useState(false);
+  const [toggleButtonName, setToggleButtonName] = useState("Delete");
+  // Initialisieren des Priority States
+  const [selectedPriority, setSelectedPriority] = useState("");
 
-const StyledTaskCard = styled.div`
+  useEffect(() => {
+    setSelectedPriority(task.priority || "");
+  }, [task]);
 
-    border: 1px solid gray;
-    border-radius: var(--border-radius-button);
-    width: 335px;
-    padding: 15px;
-    margin-bottom: 20px;
-    position: relative;
-
-    background-color: ${({ $variant }) =>
-    $variant === "overdue"
-      ? "var(--bg-overdue)"
-      : $variant === "today"
-      ? "var(--bg-today)"
-      : "var(--bg-default)"};
-
-
-    ${css`
-        h3 {
-            margin-bottom: 0;
-        }
-
-        hr {
-            margin: 15px 0;
-        }
-
-        div {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        span {
-            background-color: white;
-            text-align: center;
-            padding: 5px;
-
-            border: 1px solid black;
-            border-radius: var(--border-radius-button);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-      
-        .High {
-            background-color: var(--bg-high);
-            width: 70px;
-        }
-        
-        .Medium {
-            background-color: var(--bg-medium);
-            width: 70px;
-        }
-        
-        .Low {
-            background-color: var(--bg-low);
-            width: 70px;
-        }
-
-        button {
-            background-color: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        svg {
-            height: 20px;
-        }
-
-        ${props => props.$isDone ? `background-color: lightgrey; color: grey; text-decoration:line-through; ` : ``}
-  `};
-`;
-
-const StyledToggebuttonWrapper = styled.div`
-    width: 75px;
-    button {
-        border: 1px solid black;
-        border-radius: 5px;
-    }
-`;
-
-export default function TaskCard({ task, onDeleteTask, toggleDone}) {
-    const [isDeleteOption, setIsDeleteOption] = useState(false);
-    const [toggleButtonName, setToggleButtonName] = useState("Delete");
-
-    function getVariant(task) {
-        const currentDate = new Date();
-        const taskDueDate = new Date(task.dueDate);
-        
-    // Remove time information from both dates
-    currentDate.setHours(0, 0, 0, 0);
-    taskDueDate.setHours(0, 0, 0, 0);
-
-    if (currentDate > taskDueDate) {
-        return 'overdue';
-      } else if (currentDate.toDateString() === taskDueDate.toDateString()) {
-        return 'today';
-      } else {
-        return 'default';
-      }
-    }
-
-    // toggle für confirm delete
-    function toggleDeleteOption() {
-        setIsDeleteOption((prevState) => !prevState);
-    
-        if (toggleButtonName === "Delete") {
-          setToggleButtonName("Cancel");
-        } else {
-          setToggleButtonName("Delete");
-        }
-    };
-
-    //  Determine the variant
   function getTaskVariant(dueDate) {
     const currentDate = new Date().toISOString().split("T")[0];
     const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
@@ -131,40 +24,204 @@ export default function TaskCard({ task, onDeleteTask, toggleDone}) {
     return "default";
   }
 
-   // get the Variant
   const taskVariant = getTaskVariant(task.dueDate);
-    return (
-        <>
 
-            <StyledTaskCard $variant={taskVariant} $isDone={task.isDone}>
+  // toggle für confirm delete
+  function toggleDeleteOption() {
+    setIsDeleteOption((prevState) => !prevState);
 
-                <h3>{task.title}</h3>
-                <hr></hr>
-                    <MarkAsDoneButton 
-                        isDone={task.isDone}
-                        toggleDone={toggleDone}
-                        />
-                    <div>
-                        <span>{task.dueDate}</span>
-                        <span className={`${task.priority}`}>{task.priority}</span>
-                        <span><Link href={`task/${task.id}`}><Image src={"/icons/magnifying-glass.svg"} width="20" height="20" alt="Icon magnifying-glass" /></Link></span>
-                        <StyledToggebuttonWrapper>
-                            {/* delete confirm Abfrage */}
-                            <button onClick={toggleDeleteOption}>
-                                <Image
-                                    src={!isDeleteOption ? "/icons/trash-can-regular.svg" : "/icons/rectangle-xmark-regular.svg" }
-                                    alt={!isDeleteOption ? "Icon Delete" : "Icon Close" }
-                                    width="20"
-                                    height="20"
-                                    unoptimized
-                                />
-                            </button>
-                            {isDeleteOption && (
-                                <button onClick={() => onDeleteTask(task.id)}><Image src={"/icons/trash-can-regular.svg"} width="20" height="20" alt="Icon trash can" /></button>
-                            )}
-                        </StyledToggebuttonWrapper>
-                    </div>
-            </StyledTaskCard>
-        </>
-    );
+    if (toggleButtonName === "Delete") {
+      setToggleButtonName("Cancel");
+    } else {
+      setToggleButtonName("Delete");
+    }
+  }
+
+  let prioIconSrc = "";
+
+  const priority = task.priority;
+  if (priority === "High") {
+    prioIconSrc = "/icons/high.svg";
+  } else if (priority === "Medium") {
+    prioIconSrc = "/icons/medium.svg";
+  } else if (priority === "Low") {
+    prioIconSrc = "/icons/low.svg";
+  }
+
+  return (
+    <StyledTaskCard $isDone={task.isDone}>
+      <StyledUpperContentWrapper>
+        <StyledPriority $variant={task.priority}>
+          {/* {task.priority} */}
+          <Image
+            src={prioIconSrc}
+            alt={"Icon of the Priority"}
+            width="25"
+            height="25"
+          />
+        </StyledPriority>
+        <h3>{task.title}</h3>
+      </StyledUpperContentWrapper>
+
+      <BtnMarkAsDone isDone={task.isDone} toggleDone={toggleDone} />
+      <StyledContentWrapper $variant={task.priority}>
+        <StyledCardDate $variant={taskVariant}>
+          <Image
+            src={"/icons/calendar-regular.svg"}
+            width="20"
+            height="20"
+            alt="Icon Details"
+          />
+          {task.dueDate}
+        </StyledCardDate>
+
+        <StyledBtnWrapper>
+          <StyledDelBtnWrapper>
+            {/* delete confirm Abfrage */}
+            <StyledCardBtn onClick={toggleDeleteOption}>
+              <Image
+                src={
+                  !isDeleteOption
+                    ? "/icons/trash-can-regular.svg"
+                    : "/icons/rectangle-xmark-regular.svg"
+                }
+                alt={!isDeleteOption ? "Icon Delete" : "Icon Close"}
+                width="35"
+                height="35"
+              />
+            </StyledCardBtn>
+            {isDeleteOption && (
+              <StyledCardBtn onClick={() => onDeleteTask(task.id)}>
+                <Image
+                  src={"/icons/trash-can-regular.svg"}
+                  width="35"
+                  height="35"
+                  alt="Icon trash can"
+                />
+              </StyledCardBtn>
+            )}
+          </StyledDelBtnWrapper>
+
+          <StyledCardInfo>
+            <Link href={`task/${task.id}`}>
+              <Image
+                src={"/icons/info-solid.svg"}
+                width="35"
+                height="35"
+                alt="Icon Details"
+              />
+            </Link>
+          </StyledCardInfo>
+        </StyledBtnWrapper>
+      </StyledContentWrapper>
+    </StyledTaskCard>
+  );
 }
+
+// ----- Styled Components -----
+
+const StyledTaskCard = styled.div`
+  position: relative;
+
+  border: 1px solid black;
+  border-radius: var(--border-radius-btn);
+
+  width: 335px;
+  padding: 15px;
+  margin-bottom: 20px;
+
+  /* Hintergrundfarbe für die Visualisierung des Datums */
+  ${(props) =>
+    props.$isDone
+      ? `background-color: lightgrey; color: grey; text-decoration:line-through; `
+      : ``}
+`;
+
+const StyledContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: 3px solid red;
+  padding-top: 10px;
+
+  border-top: ${({ $variant }) =>
+    $variant === "High"
+      ? "3px solid var(--bg-High)"
+      : $variant === "Medium"
+      ? "3px solid var(--bg-Medium)"
+      : $variant === "Low"
+      ? "3px solid var(--bg-Low)"
+      : null};
+`;
+
+const StyledDelBtnWrapper = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const StyledBtnWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const StyledPriority = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 30px;
+  width: 30px;
+
+  border: 1px solid black;
+  border-radius: var(--border-radius-btn);
+
+  background-color: ${({ $variant }) =>
+    $variant === "High"
+      ? "var(--bg-High)"
+      : $variant === "Medium"
+      ? "var(--bg-Medium)"
+      : $variant === "Low"
+      ? "var(--bg-Low)"
+      : null};
+`;
+
+const StyledCardInfo = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 48px;
+  width: 48px;
+
+  border: 1px solid black;
+  border-radius: var(--border-radius-btn);
+
+  background-color: var(--bg-color-btn);
+`;
+
+const StyledCardBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: var(--border-btn);
+  border-radius: var(--border-radius-btn);
+  background-color: var(--bg-color-btn);
+
+  height: 48px;
+  width: 48px;
+`;
+
+const StyledUpperContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+`;

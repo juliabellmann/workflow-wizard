@@ -5,9 +5,10 @@ import useLocalStorageState from "use-local-storage-state";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
-
+  const router = useRouter();
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {defaultValue: initialTasks});
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
 
@@ -17,16 +18,19 @@ export default function App({ Component, pageProps }) {
     setTasks([taskWithId, ...tasks]);
   }
 
-  function handleUpdateTask(updatedTask) {
-    const updatedTasks = tasks.map(task => 
-      task.id === updatedTask.id ? { ...updatedTask } : task
+  function handleEditTask(taskId, editedTask) {
+    console.log("taskid", taskId, editedTask);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => 
+        task.id === taskId ? { ...task, ...editedTask } : task
+      )
     );
-    setTasks(updatedTasks);
   }
 
   function handleDeleteTask(taskId) {
     const updatedTasks = tasks.filter(task => task.id !== taskId);
     setTasks(updatedTasks);
+    // router.push("/");
   }
 
   function handleToggleDone(id) {
@@ -56,7 +60,7 @@ export default function App({ Component, pageProps }) {
           tasks={tasks}
           onCreateTask={handleCreateTask}
           onDeleteTask={handleDeleteTask}
-          onUpdateTask={handleUpdateTask}
+          onEditTask={handleEditTask}
           toggleDone={handleToggleDone}
           />
       </RootLayout>
