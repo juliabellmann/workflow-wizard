@@ -42,7 +42,7 @@ export default function TaskDetails({
 
   const renderSubtasks = () => {
     return subtasks.map((subtask, index) => (
-      <li key={index}>{subtask.title}</li>
+      <li key={index}>{index + 1}: {subtask.title}</li>
     ));
   };
 

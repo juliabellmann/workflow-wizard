@@ -4,6 +4,7 @@ import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
 import { StyledCardDate } from "@/styles";
+import SubtasksIcon from "@/assets/icons/list-solid.svg";
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -74,6 +75,13 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           />
           {task.dueDate}
         </StyledCardDate>
+
+        <StyledSubtasksIconContainer>
+          <StyledSubtasksIcon>
+            <SubtasksIcon />
+          </StyledSubtasksIcon>
+          <p>{task.subtasks?.length || 0}</p>
+        </StyledSubtasksIconContainer>
 
         <StyledBtnWrapper>
           <StyledDelBtnWrapper>
@@ -162,6 +170,23 @@ const StyledDelBtnWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
+`;
+
+const StyledSubtasksIconContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+`;
+
+const StyledSubtasksIcon = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 15px;
+    width: 15px;
 `;
 
 const StyledBtnWrapper = styled.div`
