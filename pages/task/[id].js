@@ -42,7 +42,15 @@ export default function TaskDetails({
     );
   }
 
+  //TODO: Fehler verstehen und beheben
   useEffect(() => {
+    // Initialisierung der subtaskStates aus localStorage
+    const storedStates = window.localStorage.getItem('subtaskStates');
+    if (storedStates) {
+      setSubtaskStates(JSON.parse(storedStates));
+    }
+
+    // Aktualisierung des Zustands, wenn currentTask ändert
     if (currentTask && currentTask.subtasks) {
       setSubtasks(currentTask.subtasks);
     }
@@ -50,32 +58,35 @@ export default function TaskDetails({
 
   const isChecked = false;
 
-  const renderSubtasks = () => {
+  //TODO: die isChecked Markierung auf der Details Seite wird nicht gespeichert
+  function renderSubtasks() {
     return subtasks.map((subtask, index) => (
-      <StyledSubtaskLi key={index} $ischecked={isChecked}>
-        {/* <span > style={{ textDecoration: subtaskStates[subtask.id] ? 'line-through' : 'none' }}*/}
+      <StyledSubtaskLi key={index} $ischecked={subtaskStates[subtask.id]}>
         <input 
-        type="checkbox"
-        // onChange={() => handleToggleSubtask(subtask.isChecked)}
+          type="checkbox"
+          // checked={subtaskStates[subtask.id]}
+          onChange={() => handleToggleSubtask(subtask.id)}
         />
         <span>
           {index + 1}: {subtask.title}
         </span>
-        
-        </StyledSubtaskLi>
+      </StyledSubtaskLi>
     ));
   };
 
-  const handleToggleSubtask = (isChecked) => {
+  function handleToggleSubtask(isChecked) {
     setSubtaskStates(prevState => ({
-      ...prevState,
-      [isChecked]: !prevState[isChecked]
+     ...prevState,
+      [isChecked]:!prevState[isChecked]
     }));
-  };
 
-  const handleSubtaskChange = (index, newValue) => {
+    // Speichern der aktualisierten Zustände in localStorage
+    window.localStorage.setItem('subtaskStates', JSON.stringify(subtaskStates));
+    };
+
+  function handleSubtaskChange(index, isChecked) {
     setSubtasks(subtasks.map((subtask, i) => 
-      i === index ? { ...subtask, title: newValue } : subtask
+      i === index ? { ...subtask, isChecked: !isChecked } : subtask
     ));
   };
 
