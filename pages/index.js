@@ -4,6 +4,7 @@ import TaskForm from "@/components/TaskForm";
 import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
+import Image from "next/image";
 
 export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone }) {
 
@@ -26,6 +27,17 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
       <Head>
         <title>Home - Workflow Wizard</title>
       </Head>
+
+    <StyledLogoContainer>
+
+      <Image
+          src="/image/Logo.jpeg"
+          alt="Logo Workflow Wizard"
+          width="150"
+          height="150"
+          />
+    </StyledLogoContainer>
+
 
       <StyledDetails>
           <StyledSummary>Create New Task</StyledSummary>
@@ -83,6 +95,11 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
 }
 
 // ----- Styled Components -----
+
+const StyledLogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const StyledDetails = styled.details`
   display: flex;

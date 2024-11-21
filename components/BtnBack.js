@@ -4,7 +4,7 @@ import BackBtnSvg from "@/assets/icons/reply-solid.svg";
 
 const BackLinkWrapper = styled.div`
   position: fixed;
-  top: 50px;
+  top: 70px;
   left: 25px;
   z-index: 10;
   background-color: var(--bg-color-btn);

@@ -7,12 +7,12 @@ export default function RootLayout({ children }) {
         <>
             <StlyedHeader>
                 <StyledHeadline>Workflow Wizard</StyledHeadline>
-                <Image
+                {/* <Image
                     src="/image/Logo.jpeg"
                     alt="Logo Workflow Wizard"
                     width="150"
                     height="150"
-                />
+                /> */}
             </StlyedHeader>
             <StyledMain>
                 {children}
