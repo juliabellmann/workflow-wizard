@@ -16,7 +16,7 @@ export default function TaskDetails({
   toggleDone,
 }) {
   // const [isUpdating, setIsUpdating] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -64,11 +64,10 @@ export default function TaskDetails({
 
   // delete und rückführung zur Übersicht
   function handleDelete() {
-    setIsDeleting(true);
     onDeleteTask(currentTask.id);
     // TODO: Rückführung funktioniert nicht
     // Nach dem Löschvorgang wird zur Startseite zurückgeführt
-    router.replace("/");
+    router.push("/");
   }
 
   function handleCancel() {

@@ -20,8 +20,6 @@ export default function TaskForm({
   // Initialisieren des Due Date mit aktuellem Datum
   const [subtasks, setSubtasks] = useState(initialData.subTasks || []);
 
-  console.log("subtasks", subtasks);
-
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
 

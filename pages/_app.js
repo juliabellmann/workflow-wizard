@@ -4,31 +4,29 @@ import initialTasks from "@/assets/tasks";
 import useLocalStorageState from "use-local-storage-state";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
-import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {
     defaultValue: initialTasks,
   });
-  const [toggleButtonName, setToggleButtonName] = useState("Delete");
 
   function handleCreateTask(newTask) {
     const taskWithId = { id: uuidv4(), ...newTask };
     // fügt neue task am Anfang hinzu
     setTasks([taskWithId, ...tasks]);
   }
-
+  // edit task with taskId and editedTask
   function handleEditTask(taskId, editedTask) {
-    console.log("editedTask", editedTask);
-
+    // map over all tasks and replace the task with the same id
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
+        // if task.id is the same as the taskId, return the editedTask
         task.id === taskId
           ? {
+              //
               ...task,
               ...editedTask,
+              //
               subTasks: editedTask.subTasks || task.subTasks,
             }
           : task
