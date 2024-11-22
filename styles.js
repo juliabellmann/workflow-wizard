@@ -54,14 +54,15 @@ export default createGlobalStyle`
 
 
   body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
    
     background-color: var(--bg-color-body);
     font-family: var(--text-font);
     margin-bottom: calc(var(--nav-height) + 10px);
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    line-height: 1.5;
   }
 
   header {

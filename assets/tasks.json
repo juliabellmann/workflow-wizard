@@ -4,69 +4,99 @@
     "title": "Buy groceries",
     "description": "example description for tasks",
     "priority": "High",
-    "dueDate": "2024-11-15"
+    "dueDate": "2024-12-15",
+    "subTasks": [
+      {
+        "id": "1.1",
+        "title": "Buy fruits",
+        "completed": false
+      },
+      {
+        "id": "1.2",
+        "title": "Buy vegetables",
+        "completed": false
+      }
+    ],
+    "completed": false
   },
   {
     "id": "2",
     "title": "Finish project report",
     "description": "example description for tasks",
     "priority": "Medium",
-    "dueDate": "2024-11-13"
+    "dueDate": "2024-12-13",
+    "subTasks": [
+      {
+        "id": "2.1",
+        "title": "Write introduction",
+        "completed": false
+      },
+      {
+        "id": "2.2",
+        "title": "Review data analysis",
+        "completed": false
+      }
+    ],
+    "completed": false
   },
   {
     "id": "3",
     "title": "Gym workout",
     "description": "example description for tasks",
     "priority": "Low",
-    "dueDate": "2024-11-12"
+    "dueDate": "2024-11-12",
+    "subTasks": [
+      {
+        "id": "3.1",
+        "title": "Warm-up",
+        "completed": false
+      },
+      {
+        "id": "3.2",
+        "title": "Strength training",
+        "completed": false
+      }
+    ],
+    "completed": false
   },
   {
     "id": "4",
     "title": "Call plumber",
     "description": "example description for tasks",
     "priority": "High",
-    "dueDate": "2024-11-14"
+    "dueDate": "2024-11-14",
+    "subTasks": [
+      {
+        "id": "4.1",
+        "title": "Find plumber's number",
+        "completed": false
+      },
+      {
+        "id": "4.2",
+        "title": "Schedule appointment",
+        "completed": false
+      }
+    ],
+    "completed": false
   },
   {
     "id": "5",
     "title": "Schedule dentist appointment",
     "description": "example description for tasks",
     "priority": "Medium",
-    "dueDate": "2024-11-16"
-  },
-  {
-    "id": "6",
-    "title": "Prepare presentation",
-    "description": "example description for tasks",
-    "priority": "High",
-    "dueDate": "2024-11-17"
-  },
-  {
-    "id": "7",
-    "title": "Plan weekend trip",
-    "description": "example description for tasks",
-    "priority": "Low",
-    "dueDate": "2024-11-18"
-  },
-  {
-    "id": "8",
-    "title": "Organize closet",
-    "description": "example description for tasks",
-    "priority": "Medium",
-    "dueDate": "2024-11-19"
-  },
-  {
-    "id": "9",
-    "title": "Read a book",
-    "description": "example description for tasks",
-    "priority": "Low",
-    "dueDate": "2024-11-20"
-  },
-  {
-    "id": "10",
-    "title": "Update software",
-    "description": "example description for tasks lorem ipsum Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-    "priority": "Medium",
-    "dueDate": "2024-11-21"
+    "dueDate": "2024-11-16",
+    "subTasks": [
+      {
+        "id": "5.1",
+        "title": "Check dentist availability",
+        "completed": false
+      },
+      {
+        "id": "5.2",
+        "title": "Add appointment to calendar",
+        "completed": false
+      }
+    ],
+    "completed": false
   }
 ]
