@@ -18,7 +18,9 @@ export default function TaskForm({
   onCancel,
 }) {
   // Initialisieren des Due Date mit aktuellem Datum
-  const [subtasks, setSubtasks] = useState(initialData.subtasks || []);
+  const [subtasks, setSubtasks] = useState(initialData.subTasks || []);
+
+  console.log("subtasks", subtasks);
 
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
@@ -55,12 +57,12 @@ export default function TaskForm({
     // Include subtasks directly_JL
     const data = {
       ...Object.fromEntries(formData),
-      subtasks: validSubtasks,
+      subTasks: validSubtasks,
     };
 
     console.log("data", data);
     if (isEditMode) {
-      onEditTask(data);
+      onEditTask(initialData.id, data);
       onCancel();
     } else {
       onCreateTask(data);
@@ -135,9 +137,8 @@ export default function TaskForm({
               <h4>{index + 1}: </h4>
             </label>
             <StyledInput
-              key={`${index}_input`}
+              id={`subtask_${index}`}
               type="text"
-              name={`subtask_${index}`}
               placeholder={`Subtask ${index + 1} title`}
               value={subtask.title}
               onChange={(event) =>

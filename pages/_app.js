@@ -9,7 +9,9 @@ import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [tasks, setTasks] = useLocalStorageState("tasks-key", {defaultValue: initialTasks});
+  const [tasks, setTasks] = useLocalStorageState("tasks-key", {
+    defaultValue: initialTasks,
+  });
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
 
   function handleCreateTask(newTask) {
@@ -19,30 +21,37 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleEditTask(taskId, editedTask) {
-    console.log("taskid", taskId, editedTask);
+    console.log("editedTask", editedTask);
+
     setTasks((prevTasks) =>
-      prevTasks.map((task) => 
-        task.id === taskId ? { ...task, ...editedTask } : task
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              ...editedTask,
+              subTasks: editedTask.subTasks || task.subTasks,
+            }
+          : task
       )
     );
   }
 
   function handleDeleteTask(taskId) {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(updatedTasks);
     // router.push("/");
   }
 
   function handleToggleDone(id) {
     const task = tasks.find((task) => task.id === id);
-    if(!task) {
+    if (!task) {
       // Aufgabe nicht gefunden -> neue Aufgabe hinzufügen
-      setTasks([...tasks, {id, isDone: true }]);
+      setTasks([...tasks, { id, isDone: true }]);
     } else {
       // Aufgabe gefunden -> Status toggeln
       setTasks(
         tasks.map((task) =>
-          task.id === id ? { ...task, isDone: !task.isDone } : task 
+          task.id === id ? { ...task, isDone: !task.isDone } : task
         )
       );
     }
@@ -55,14 +64,14 @@ export default function App({ Component, pageProps }) {
       </Head>
       <GlobalStyle />
       <RootLayout>
-        <Component 
-          {...pageProps} 
+        <Component
+          {...pageProps}
           tasks={tasks}
           onCreateTask={handleCreateTask}
           onDeleteTask={handleDeleteTask}
           onEditTask={handleEditTask}
           toggleDone={handleToggleDone}
-          />
+        />
       </RootLayout>
     </>
   );

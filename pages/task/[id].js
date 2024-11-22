@@ -20,32 +20,15 @@ export default function TaskDetails({
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [subtasks, setSubtasks] = useState([]);
-  const [subtaskStates, setSubtaskStates] = useState({});
 
   const router = useRouter();
   const { id } = router.query;
-
-  // useEffect(() => {
-  //   // Initialisierung der subtaskStates aus localStorage
-  //   const storedStates = window.localStorage.getItem('subtaskStates');
-  //   if (storedStates) {
-  //     setSubtaskStates(JSON.parse(storedStates));
-  //   }
-
-  //   // Aktualisierung des Zustands, wenn currentTask ändert
-  //   if (currentTask && currentTask.subtasks) {
-  //     setSubtasks(currentTask.subtasks);
-  //   }
-  // }, [currentTask]);
 
   // Warten, bis der Router bereit ist
   if (!router.isReady) return <div>Loading ...</div>;
 
   // finde die Tasks
   const currentTask = tasks?.find((item) => item.id === id) || null;
-
-  console.log("current", currentTask)
 
   // Fallback für fehlende Daten
   if (!currentTask) {
@@ -57,39 +40,16 @@ export default function TaskDetails({
     );
   }
 
-  const isChecked = false;
+  function handleToggleSubtask(subtaskId) {
+    const updatedSubtasks = currentTask.subTasks.map((subtask) =>
+      subtask.id === subtaskId
+        ? { ...subtask, completed: !subtask.completed }
+        : subtask
+    );
 
-  //TODO: die isChecked Markierung auf der Details Seite wird nicht gespeichert
-  function renderSubtasks() {
-    return subtasks.map((subtask, index) => (
-      <StyledSubtaskLi key={index} $ischecked={subtaskStates[subtask.id]}>
-        <input 
-          type="checkbox"
-          // checked={subtaskStates[subtask.id]}
-          onChange={() => handleToggleSubtask(subtask.id)}
-        />
-        <span>
-          {index + 1}: {subtask.title}
-        </span>
-      </StyledSubtaskLi>
-    ));
-  };
-
-  function handleToggleSubtask(isChecked) {
-    setSubtaskStates(prevState => ({
-     ...prevState,
-      [isChecked]:!prevState[isChecked]
-    }));
-
-    // Speichern der aktualisierten Zustände in localStorage
-    window.localStorage.setItem('subtaskStates', JSON.stringify(subtaskStates));
-    };
-
-  function handleSubtaskChange(index, isChecked) {
-    setSubtasks(subtasks.map((subtask, i) => 
-      i === index ? { ...subtask, isChecked: !isChecked } : subtask
-    ));
-  };
+    const updatedTask = { ...currentTask, subTasks: updatedSubtasks };
+    onEditTask(currentTask.id, updatedTask);
+  }
 
   // toggle für confirm delete
   function toggleDeleteOption() {
@@ -109,10 +69,6 @@ export default function TaskDetails({
     // TODO: Rückführung funktioniert nicht
     // Nach dem Löschvorgang wird zur Startseite zurückgeführt
     router.replace("/");
-  }
-
-  function handleEdit(updatedTask) {
-    onEditTask(currentTask.id, updatedTask);
   }
 
   function handleCancel() {
@@ -143,7 +99,7 @@ export default function TaskDetails({
   } else if (priority === "Low") {
     prioIconSrc = "/icons/low.svg";
   }
-  
+
   return (
     <>
       <Head>
@@ -165,7 +121,7 @@ export default function TaskDetails({
         <>
           <TaskForm
             onCreateTask={onCreateTask}
-            onEditTask={handleEdit}
+            onEditTask={onEditTask}
             onCancel={handleCancel}
             isFormVisible={isFormVisible}
             isEditMode={true}
@@ -190,7 +146,18 @@ export default function TaskDetails({
         </StyledDescription>
         <div>
           <h4>Subtasks:</h4>
-          <StyledSubtaskList>{currentTask.subtasks?.map((task, index) => <li key= {index}>{task.title}</li>)}</StyledSubtaskList>
+          <StyledSubtaskList>
+            {currentTask.subTasks.map((subtask) => (
+              <StyledSubtaskLi key={subtask.id} $isChecked={subtask.completed}>
+                <input
+                  type="checkbox"
+                  checked={subtask.completed}
+                  onChange={() => handleToggleSubtask(subtask.id)}
+                />
+                <span>{subtask.title}</span>
+              </StyledSubtaskLi>
+            ))}
+          </StyledSubtaskList>
         </div>
 
         <StyledBtnWrapper>
@@ -307,11 +274,12 @@ const StyledDescription = styled.p`
 `;
 
 const StyledSubtaskList = styled.ul`
-
   margin-bottom: 20px;
 `;
 
 const StyledSubtaskLi = styled.li`
+  text-decoration: ${({ $isChecked }) =>
+    $isChecked ? "line-through" : "none"};
   background-color: var(--bg-color-btn);
   padding: 5px 10px;
   margin: 5px;

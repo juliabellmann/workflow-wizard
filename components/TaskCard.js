@@ -80,7 +80,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           <StyledSubtasksIcon>
             <SubtasksIcon />
           </StyledSubtasksIcon>
-          <p>{task.subtasks?.length || 0}</p>
+          <p>{task.subTasks?.length || 0}</p>
         </StyledSubtasksIconContainer>
 
         <StyledBtnWrapper>
@@ -173,20 +173,20 @@ const StyledDelBtnWrapper = styled.div`
 `;
 
 const StyledSubtasksIconContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    gap: 5px;
+  gap: 5px;
 `;
 
 const StyledSubtasksIcon = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    height: 15px;
-    width: 15px;
+  height: 15px;
+  width: 15px;
 `;
 
 const StyledBtnWrapper = styled.div`
