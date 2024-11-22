@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import NavBar from "./NavBar";
 import Image from "next/image";
+import Head from "next/head";
 
 export default function RootLayout({ children }) {
     return (
         <>
+            <Head>
+            <link rel="icon" href="/icon.png" />
+            </Head>
             <StlyedHeader>
                 <StyledHeadline>Workflow Wizard</StyledHeadline>
                 {/* <Image

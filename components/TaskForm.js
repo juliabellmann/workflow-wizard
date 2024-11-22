@@ -21,13 +21,15 @@ export default function TaskForm({
 
     const [subtasks, setSubtasks] = useState(initialData.subtasks || []);
 
+    console.log("subtasks", subtasks);
+
     const handleAddSubtask = () => {
       setSubtasks([...subtasks, { title: "" }]);
     };
   
     const handleSubtaskChange = (index, newValue) => {
       setSubtasks(subtasks.map((subtask, i) => 
-        i === index ? { ...subtask, title: newValue } : subtask
+        i === index ? { ...subtask, title: newValue, isDone: false } : subtask
       ));
     };
 
@@ -44,13 +46,14 @@ export default function TaskForm({
 
         // fügt die Subtasks zur Formulardaten hinzu
         data.subtasks = subtasks;
+
        
         console.log("data", data);
         if(isEditMode) {
             onEditTask(data);
             onCancel();
         } else {
-            onCreateTask({ ...initialData, ...data });
+            onCreateTask({ description: data.description, dueDate: data.dueDate, priority: data.priority, subtasks: subtasks, title: data.title });
         }
 
         // Formular Reset nach Klick

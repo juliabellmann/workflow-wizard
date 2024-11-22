@@ -12,6 +12,7 @@ export default function NavBar() {
 
   return (
     <StyledNav>
+
       <StyledNavLink href="/tasksdone" $isactive={pathname === "/tasksdone"}>
         <SquareCkeckBtn />
       </StyledNavLink>
@@ -23,6 +24,7 @@ export default function NavBar() {
       <StyledNavLink href="/taskcreate" $isactive={pathname === "/taskcreate"}>
         <SquarePlusBtn />
       </StyledNavLink>
+
     </StyledNav>
   );
 }
@@ -43,7 +45,7 @@ const StyledNav = styled.nav`
   z-index: 3;
 
   height: var(--nav-height);
-  background-color: white;
+  background-color: var(--bg-color-btn);
 
   border-top: 3px solid var(--accent-color);
 `;

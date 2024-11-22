@@ -4,14 +4,14 @@
     "title": "Buy groceries",
     "description": "example description for tasks",
     "priority": "High",
-    "dueDate": "2024-11-15"
+    "dueDate": "2024-12-15"
   },
   {
     "id": "2",
     "title": "Finish project report",
     "description": "example description for tasks",
     "priority": "Medium",
-    "dueDate": "2024-11-13"
+    "dueDate": "2024-12-13"
   },
   {
     "id": "3",
@@ -33,40 +33,5 @@
     "description": "example description for tasks",
     "priority": "Medium",
     "dueDate": "2024-11-16"
-  },
-  {
-    "id": "6",
-    "title": "Prepare presentation",
-    "description": "example description for tasks",
-    "priority": "High",
-    "dueDate": "2024-11-17"
-  },
-  {
-    "id": "7",
-    "title": "Plan weekend trip",
-    "description": "example description for tasks",
-    "priority": "Low",
-    "dueDate": "2024-11-18"
-  },
-  {
-    "id": "8",
-    "title": "Organize closet",
-    "description": "example description for tasks",
-    "priority": "Medium",
-    "dueDate": "2024-11-19"
-  },
-  {
-    "id": "9",
-    "title": "Read a book",
-    "description": "example description for tasks",
-    "priority": "Low",
-    "dueDate": "2024-11-20"
-  },
-  {
-    "id": "10",
-    "title": "Update software",
-    "description": "example description for tasks lorem ipsum Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-    "priority": "Medium",
-    "dueDate": "2024-11-21"
   }
 ]

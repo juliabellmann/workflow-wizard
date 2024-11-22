@@ -1,6 +1,6 @@
+import BackBtnSvg from "@/assets/icons/reply-solid.svg";
 import Link from "next/link";
 import styled from "styled-components";
-import BackBtnSvg from "@/assets/icons/reply-solid.svg";
 
 const BackLinkWrapper = styled.div`
   position: fixed;

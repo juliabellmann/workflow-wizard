@@ -26,11 +26,26 @@ export default function TaskDetails({
   const router = useRouter();
   const { id } = router.query;
 
+  // useEffect(() => {
+  //   // Initialisierung der subtaskStates aus localStorage
+  //   const storedStates = window.localStorage.getItem('subtaskStates');
+  //   if (storedStates) {
+  //     setSubtaskStates(JSON.parse(storedStates));
+  //   }
+
+  //   // Aktualisierung des Zustands, wenn currentTask ändert
+  //   if (currentTask && currentTask.subtasks) {
+  //     setSubtasks(currentTask.subtasks);
+  //   }
+  // }, [currentTask]);
+
   // Warten, bis der Router bereit ist
   if (!router.isReady) return <div>Loading ...</div>;
 
   // finde die Tasks
   const currentTask = tasks?.find((item) => item.id === id) || null;
+
+  console.log("current", currentTask)
 
   // Fallback für fehlende Daten
   if (!currentTask) {
@@ -41,20 +56,6 @@ export default function TaskDetails({
       </div>
     );
   }
-
-  //TODO: Fehler verstehen und beheben
-  useEffect(() => {
-    // Initialisierung der subtaskStates aus localStorage
-    const storedStates = window.localStorage.getItem('subtaskStates');
-    if (storedStates) {
-      setSubtaskStates(JSON.parse(storedStates));
-    }
-
-    // Aktualisierung des Zustands, wenn currentTask ändert
-    if (currentTask && currentTask.subtasks) {
-      setSubtasks(currentTask.subtasks);
-    }
-  }, [currentTask]);
 
   const isChecked = false;
 
@@ -189,7 +190,7 @@ export default function TaskDetails({
         </StyledDescription>
         <div>
           <h4>Subtasks:</h4>
-          <StyledSubtaskList>{renderSubtasks()}</StyledSubtaskList>
+          <StyledSubtaskList>{currentTask.subtasks?.map((task, index) => <li key= {index}>{task.title}</li>)}</StyledSubtaskList>
         </div>
 
         <StyledBtnWrapper>
@@ -247,7 +248,7 @@ export default function TaskDetails({
 
 const StyledEditBtn = styled.button`
   position: fixed;
-  top: 50px;
+  top: 70px;
   right: 25px;
   z-index: 10;
 
