@@ -65,6 +65,10 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
       </StyledUpperContentWrapper>
 
       <BtnMarkAsDone isDone={task.isDone} toggleDone={toggleDone} />
+
+      {/* Progress Bar */}
+      <StyledProgressbar value={task.subTasks?.filter(subtask => subtask.completed)?.length || 0} min="0" max={task.subTasks?.length || 0} >{`${(task.subTasks?.filter(subtask => subtask.completed)?.length || 0)} / ${task.subTasks?.length || 0}`}</StyledProgressbar>
+
       <StyledContentWrapper $variant={task.priority}>
         <StyledCardDate $variant={taskVariant}>
           <Image
@@ -82,6 +86,8 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           </StyledSubtasksIcon>
           <p>{task.subTasks?.length || 0}</p>
         </StyledSubtasksIconContainer>
+
+
 
         <StyledBtnWrapper>
           <StyledDelBtnWrapper>
@@ -143,6 +149,17 @@ const StyledTaskCard = styled.div`
     props.$isDone
       ? `background-color: lightgrey; color: grey; text-decoration:line-through; `
       : ``}
+`;
+
+const StyledProgressbar = styled.progress`
+  width: 100%;
+  height: 10px;
+  border: none;
+  /* TODO: warum funktioniert die Farbe nicht? */
+  background-color: var(--accent-color);
+  color: red;
+  border-radius: 4px;
+  margin-bottom: 10px;
 `;
 
 const StyledContentWrapper = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid"; 
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
 
 // Definieren der Optionen für priority
 const priorityOptions = [
@@ -9,6 +9,14 @@ const priorityOptions = [
   { id: "priority2", value: "Medium", label: "Medium" },
   { id: "priority3", value: "Low", label: "Low" },
 ];
+
+const tasklabels = [
+  { id: "tasklabel1", value: "Homework", label: "Homework" },
+  { id: "tasklabel2", value: "Groceries", label: "Groceries" },
+  { id: "tasklabel3", value: "Sport", label: "Sport" },
+  { id: "tasklabel4", value: "Work", label: "Work" },
+];
+
 
 export default function TaskForm({
   onCreateTask,
@@ -57,6 +65,9 @@ export default function TaskForm({
       ...Object.fromEntries(formData),
       subTasks: validSubtasks,
     };
+
+    const selectedLabels = formData.getAll("tasklabel");
+    data.tasklabel = selectedLabels;
 
     console.log("data", data);
     if (isEditMode) {
@@ -114,6 +125,7 @@ export default function TaskForm({
           ))}
         </StyledSelect>
 
+
         <label htmlFor="dueDate">
           <h3>Due Date: *</h3>
         </label>
@@ -123,6 +135,29 @@ export default function TaskForm({
           name="dueDate"
           defaultValue={initialData.dueDate || dueDate}
         />
+
+        {/* Label */}
+        <label htmlFor="tasklabel">
+          <h3>Task Label:</h3>
+        </label>
+        <section>
+          {tasklabels.map((option) => (
+            <div key={option.id}>
+              <StyledInput
+                type="checkbox"
+                id={option.id}
+                name="tasklabel"
+                value={option.value}
+                defaultChecked={isEditMode ? initialData?.tasklabel?.includes(option.value) : null}
+              />
+              <label htmlFor={option.id}>{option.label}</label>
+            </div>
+          ))}
+        </section>
+
+
+
+
         <label htmlFor="subtask">
           <h3>Subtask:</h3>
         </label>

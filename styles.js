@@ -20,7 +20,7 @@ export default createGlobalStyle`
 
     --bg-color-body: #ffffff;
     --bg-color-card: #f8f8f8;
-    --bg-color-btn: #ffffff;
+    --bg-color-btn: #fffff0;
 
     --accent-color: #006acd;
 
