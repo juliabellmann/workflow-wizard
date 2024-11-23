@@ -35,7 +35,7 @@ export default function TaskDetails({
     return (
       <div>
         No data available
-        <p> diese Anzeige darf eig nicht kommen </p>
+        <p> diese Anzeige darf eig nicht kommen ?</p>
       </div>
     );
   }
@@ -143,7 +143,7 @@ export default function TaskDetails({
         <StyledDescription $variant={currentTask.priority}>
           {currentTask.description}
         </StyledDescription>
-        <div>
+
           <h4>Subtasks:</h4>
           <StyledSubtaskList>
             {currentTask.subTasks.map((subtask) => (
@@ -157,7 +157,12 @@ export default function TaskDetails({
               </StyledSubtaskLi>
             ))}
           </StyledSubtaskList>
-        </div>
+
+          {currentTask.tasklabel?.map((label) => {
+              return <li key={label}>{label}</li>;
+            })}
+
+
 
         <StyledBtnWrapper>
           <StyledDivDatePrio>
