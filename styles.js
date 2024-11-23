@@ -22,6 +22,7 @@ export default createGlobalStyle`
     --bg-color-card: rgba(255, 255, 255, 0.85);
     --bg-color-btn: #ffffff;
 
+
     --accent-color: #006acd;
 
     --bg-High: rgb(178, 34, 34);
