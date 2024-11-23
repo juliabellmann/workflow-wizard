@@ -219,7 +219,7 @@ export default function TaskDetails({
 
 const StyledEditBtn = styled.button`
   position: fixed;
-  top: 70px;
+  top: 90px;
   right: 25px;
   z-index: 10;
 

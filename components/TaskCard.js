@@ -69,7 +69,13 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
       {/* Progress Bar */}
       <StyledProgressbar value={task.subTasks?.filter(subtask => subtask.completed)?.length || 0} min="0" max={task.subTasks?.length || 0} >{`${(task.subTasks?.filter(subtask => subtask.completed)?.length || 0)} / ${task.subTasks?.length || 0}`}</StyledProgressbar>
 
-      <StyledContentWrapper $variant={task.priority}>
+      {/* Trennbalken */}
+      <StyledLine $variant={task.priority}></StyledLine>
+
+      {/* Label */}
+      <div>{task.tasklabel}</div>
+
+      <StyledContentWrapper>
         <StyledCardDate $variant={taskVariant}>
           <Image
             src={"/icons/calendar-regular.svg"}
@@ -148,7 +154,7 @@ const StyledTaskCard = styled.div`
   ${(props) =>
     props.$isDone
       ? `background-color: lightgrey; color: grey; text-decoration:line-through; `
-      : ``}
+      : `background-color: var(--bg-color-card);`}
 `;
 
 const StyledProgressbar = styled.progress`
@@ -162,13 +168,7 @@ const StyledProgressbar = styled.progress`
   margin-bottom: 10px;
 `;
 
-const StyledContentWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  border-top: 3px solid red;
+const StyledLine = styled.div`
   padding-top: 10px;
 
   border-top: ${({ $variant }) =>
@@ -179,6 +179,17 @@ const StyledContentWrapper = styled.div`
       : $variant === "Low"
       ? "3px solid var(--bg-Low)"
       : null};
+`;
+
+const StyledContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+
+
+
 `;
 
 const StyledDelBtnWrapper = styled.div`
