@@ -2,6 +2,24 @@ import styled from "styled-components";
 import NavBar from "./NavBar";
 import Image from "next/image";
 import Head from "next/head";
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+
+function LanguageSwitcher() {
+    const router = useRouter()
+    const { t, i18n } = useTranslation()
+  
+    function changeLanguage(lng) {
+      i18n?.changeLanguage(lng)
+      router.push(router.asPath, undefined, { locale: lng })
+    }
+    return (
+        <select value={router.locale} onChange={(e) => changeLanguage(e.target.value)}>
+          <option value="en">EN</option>
+          <option value="de">DE</option>
+        </select>
+    )
+}
 
 export default function RootLayout({ children }) {
     return (
@@ -10,13 +28,14 @@ export default function RootLayout({ children }) {
             <link rel="icon" href="/icon.png" />
             </Head>
             <StlyedHeader>
-                <StyledHeadline>Workflow Wizard</StyledHeadline>
+                <StyledHeadline>Workflow Wizard<LanguageSwitcher/></StyledHeadline>
+                
                 <StyledLogo
                     src="/image/Logo.jpeg"
                     alt="Logo Workflow Wizard"
                     width="300"
                     height="300"
-                />
+                    />
             </StlyedHeader>
             <StyledMain>
                 {children}
@@ -48,7 +67,7 @@ const StyledHeadline= styled.h1`
     justify-content: center;
     white-space: nowrap;
 
-    padding: 20px 0 10px 0;
+    padding: 10px 0 5px 0;
 
     border-bottom: 3px solid var(--accent-color);
 `;

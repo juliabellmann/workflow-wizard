@@ -1,7 +1,7 @@
 import BtnBack from "@/components/BtnBack";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
@@ -219,7 +219,7 @@ export default function TaskDetails({
 
 const StyledEditBtn = styled.button`
   position: fixed;
-  top: 90px;
+  top: 80px;
   right: 25px;
   z-index: 10;
 

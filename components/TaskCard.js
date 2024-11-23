@@ -5,6 +5,7 @@ import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
 import { StyledCardDate } from "@/styles";
 import SubtasksIcon from "@/assets/icons/list-solid.svg";
+import { useTranslation } from 'next-i18next';
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -12,6 +13,8 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
   // Initialisieren des Priority States
   const [selectedPriority, setSelectedPriority] = useState("");
 
+  const { t } = useTranslation(); 
+  
   useEffect(() => {
     setSelectedPriority(task.priority || "");
   }, [task]);

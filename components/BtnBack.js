@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const BackLinkWrapper = styled.div`
   position: fixed;
-  top: 90px;
+  top: 80px;
   left: 25px;
   z-index: 10;
   `;

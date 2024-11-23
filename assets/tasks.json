@@ -9,15 +9,20 @@
       {
         "id": "1.1",
         "title": "Buy fruits",
-        "completed": false
+        "completed": true
       },
       {
         "id": "1.2",
         "title": "Buy vegetables",
         "completed": false
+      },
+      {
+        "id": "1.3",
+        "title": "Buy bread",
+        "completed": false
       }
     ],
-    "completed": false
+    "tasklabel": ["Groceries"]
   },
   {
     "id": "2",
@@ -47,7 +52,7 @@
         "completed": false
       }
     ],
-    "completed": false
+    "tasklabel": ["Work"]
   },
   {
     "id": "3",
@@ -59,16 +64,16 @@
       {
         "id": "3.1",
         "title": "Warm-up",
-        "completed": false
+        "completed": true
       },
       {
         "id": "3.2",
         "title": "Strength training",
-        "completed": false
+        "completed": true
       }
     ],
-    "tasklabel": ["Work", "Groceries"],
-    "completed": false
+    "tasklabel": ["Sport"],
+    "isDone": true
   },
   {
     "id": "4",
@@ -87,8 +92,7 @@
         "title": "Schedule appointment",
         "completed": false
       }
-    ],
-    "completed": false
+    ]
   },
   {
     "id": "5",
@@ -107,7 +111,36 @@
         "title": "Add appointment to calendar",
         "completed": false
       }
-    ],
-    "completed": false
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Prepare presentation",
+    "priority": "High",
+    "dueDate": "2024-07-17"
+  },
+  {
+    "id": "7",
+    "title": "Plan weekend trip",
+    "priority": "Low",
+    "dueDate": "2024-07-18"
+  },
+  {
+    "id": "8",
+    "title": "Organize closet",
+    "priority": "Medium",
+    "dueDate": "2024-07-19"
+  },
+  {
+    "id": "9",
+    "title": "Read a book",
+    "priority": "Low",
+    "dueDate": "2024-07-20"
+  },
+  {
+    "id": "10",
+    "title": "Update software",
+    "priority": "Medium",
+    "dueDate": "2024-07-21"
   }
 ]

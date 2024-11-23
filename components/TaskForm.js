@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid"; 
 import styled from "styled-components";
+import { useTranslation } from 'next-i18next';
 
 // Definieren der Optionen für priority
 const priorityOptions = [
@@ -27,6 +28,8 @@ export default function TaskForm({
 }) {
   // Initialisieren des Due Date mit aktuellem Datum
   const [subtasks, setSubtasks] = useState(initialData.subTasks || []);
+
+  const { t } = useTranslation();
 
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
@@ -87,7 +90,7 @@ export default function TaskForm({
     <>
       <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="title">
-          <h3>Task Name: *</h3>
+          <h3>{t("Task Name: *")}</h3>
         </label>
         <StyledInput
           type="text"

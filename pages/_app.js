@@ -4,8 +4,9 @@ import initialTasks from "@/assets/tasks";
 import useLocalStorageState from "use-local-storage-state";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
+import { appWithTranslation } from 'next-i18next';
 
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   const [tasks, setTasks] = useLocalStorageState("tasks-key", {
     defaultValue: initialTasks,
   });
@@ -74,3 +75,5 @@ export default function App({ Component, pageProps }) {
     </>
   );
 }
+
+export default appWithTranslation(App)
