@@ -158,9 +158,11 @@ export default function TaskDetails({
             ))}
           </StyledSubtaskList>
 
-          {currentTask.tasklabel?.map((label) => {
-              return <li key={label}>{label}</li>;
+          <StyledLabelContainer>
+            {currentTask.tasklabel?.map((label) => {
+              return <StyledLabelLi key={label}>{label}</StyledLabelLi>;
             })}
+          </StyledLabelContainer>
 
 
 
@@ -288,6 +290,19 @@ const StyledSubtaskLi = styled.li`
   padding: 5px 10px;
   margin: 5px;
   min-width: 60vw;
+`;
+
+const StyledLabelContainer = styled.div`
+display: flex;
+gap: 10px;
+`;
+
+const StyledLabelLi = styled.li`
+list-style: none;
+  border-radius: 50px;
+  padding: 2.5px 5px;
+  border: 1px solid var(--accent-color);
+  background-color: var(--bg-color-btn);
 `;
 
 const StyledBtnWrapper = styled.div`

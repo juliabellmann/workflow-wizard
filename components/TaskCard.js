@@ -73,7 +73,11 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
       <StyledLine $variant={task.priority}></StyledLine>
 
       {/* Label */}
-      <div>{task.tasklabel}</div>
+      <StyledLabelContainer>
+        {task.tasklabel?.map((label) => {
+          return <StyledLabelLi key={label}>{label}</StyledLabelLi>;
+        })}
+      </StyledLabelContainer>
 
       <StyledContentWrapper>
         <StyledCardDate $variant={taskVariant}>
@@ -181,15 +185,23 @@ const StyledLine = styled.div`
       : null};
 `;
 
+const StyledLabelContainer = styled.div`
+display: flex;
+gap: 10px;
+`;
+
+const StyledLabelLi = styled.li`
+  border-radius: 50px;
+  padding: 2.5px 5px;
+  border: 1px solid var(--accent-color);
+  background-color: var(--bg-color-btn);
+`;
+
 const StyledContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-
-
-
 `;
 
 const StyledDelBtnWrapper = styled.div`
