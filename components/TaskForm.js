@@ -102,7 +102,7 @@ export default function TaskForm({
         />
 
         <label htmlFor="description">
-          <h3>Description:</h3>
+          <h3>{t("Description:")}</h3>
         </label>
         <StyledTextarea
           rows="3"
