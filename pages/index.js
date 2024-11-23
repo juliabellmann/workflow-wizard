@@ -5,8 +5,11 @@ import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
   const getDateTimestamp = (dateString) => {
@@ -22,6 +25,11 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
   const undoneTasks = sortedTasks.filter(task => !task.isDone);
   const doneTasks = sortedTasks.filter(task => task.isDone);
 
+  // Filtert die Tasks nach dem Suchbegriff
+  const filteredTasks = isSearching ? tasks.filter((task) => 
+    task.title.toLowerCase().includes(searchTerm.toLowerCase())
+  ) : [];
+
   return (
     <>
       <Head>
@@ -29,7 +37,6 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
       </Head>
 
     <StyledLogoContainer>
-
       <Image
           src="/image/Logo.jpeg"
           alt="Logo Workflow Wizard"
@@ -38,6 +45,17 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
           />
     </StyledLogoContainer>
 
+    <div>
+        <input
+          type="text"
+          placeholder="Search task..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setIsSearching(e.target.value !== "");
+          }}
+        />
+    </div>
 
       <StyledDetails>
           <StyledSummary>Create New Task</StyledSummary>
@@ -50,49 +68,62 @@ export default function HomePage({tasks, onCreateTask, onDeleteTask, toggleDone 
       <StyledContentHeading>Task List</StyledContentHeading>
 
       <StyledTaskList>
-        {/* Wenn es Aufgaben gibt, zeige sie an: */}
-        {tasks.length > 0 ? (
-          <>
-            <StyledListHeading>- To Do -</StyledListHeading>
-            {undoneTasks.map(task => (
-              <TaskCard 
-                key={task.id} 
-                task={task} 
-                onDeleteTask={() => onDeleteTask(task.id)} 
-                toggleDone={() => toggleDone(task.id)} 
-              />
-            ))}
-            
-            {doneTasks.length > 0 && (
-              <>
-                <StyledListHeading>- Done -</StyledListHeading>
-                {doneTasks.map(task => (
-                  <TaskCard 
-                    key={task.id} 
-                    task={task} 
-                    onDeleteTask={() => onDeleteTask(task.id)} 
-                    toggleDone={() => toggleDone(task.id)} 
-                  />
-                ))}
-              </>
-            )}
-          </>
-        ) : (
-          // Wenn keine Aufgaben vorhanden sind, zeige eine Meldung an
-          <>
-            <StyledInfoWrapper>
-              <li>No tasks available. Please enter a new task.</li>
-              <NoTaskIconContainer>
-                <NoTaskIcon />
-              </NoTaskIconContainer>
-            </StyledInfoWrapper>
 
-          </>
-        )}
+        {/* Wenn nichts gesucht wird und es Aufgaben gibt, zeige sie an: */}
+            {!isSearching && tasks.length > 0 ? (
+                <>
+                  <StyledListHeading>- To Do -</StyledListHeading>
+                  {undoneTasks.map(task => (
+                    <TaskCard 
+                      key={task.id} 
+                      task={task} 
+                      onDeleteTask={() => onDeleteTask(task.id)} 
+                      toggleDone={() => toggleDone(task.id)} 
+                    />
+                  ))}
+                  
+                  {doneTasks.length > 0 && (
+                    <>
+                      <StyledListHeading>- Done -</StyledListHeading>
+                      {doneTasks.map(task => (
+                        <TaskCard 
+                          key={task.id} 
+                          task={task} 
+                          onDeleteTask={() => onDeleteTask(task.id)} 
+                          toggleDone={() => toggleDone(task.id)} 
+                        />
+                      ))}
+                    </>
+                  )}
+                </>
+              ) : (
+                filteredTasks.length > 0 ? (
+                // Wenn keine Aufgaben vorhanden sind, zeige eine Meldung an
+                <>
+                  <StyledListHeading>- Search Results -</StyledListHeading>
+                  {filteredTasks.map(task => (
+                    <TaskCard 
+                      key={task.id} 
+                      task={task} 
+                      onDeleteTask={() => onDeleteTask(task.id)} 
+                      toggleDone={() => toggleDone(task.id)} 
+                    />
+                  ))}
+                </>
+              ) : (
+                <StyledInfoWrapper>
+                    <li>No tasks available. Please enter a new task.</li>
+                    <NoTaskIconContainer>
+                        <NoTaskIcon />
+                    </NoTaskIconContainer>
+              </StyledInfoWrapper>
+              )
+            )}
       </StyledTaskList>
     </>
   );
 }
+
 
 // ----- Styled Components -----
 
