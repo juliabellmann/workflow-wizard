@@ -11,12 +11,12 @@ export default function RootLayout({ children }) {
             </Head>
             <StlyedHeader>
                 <StyledHeadline>Workflow Wizard</StyledHeadline>
-                {/* <Image
+                <StyledLogo
                     src="/image/Logo.jpeg"
                     alt="Logo Workflow Wizard"
-                    width="150"
-                    height="150"
-                /> */}
+                    width="300"
+                    height="300"
+                />
             </StlyedHeader>
             <StyledMain>
                 {children}
@@ -35,13 +35,31 @@ const StlyedHeader = styled.header`
 `;
 
 const StyledHeadline= styled.h1`
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+
+
+    background-color: var(--bg-color-btn);
+
     display: flex;
     justify-content: center;
     white-space: nowrap;
 
-    margin: 20px 0 10px 0;
+    padding: 20px 0 10px 0;
+
+    border-bottom: 3px solid var(--accent-color);
+`;
+
+const StyledLogo = styled(Image)`
+    position: fixed;
+    top: 100px;
+    z-index: -10;
+    opacity: 0.5;
 `;
 
 const StyledMain = styled.main`
-    margin: 0 20px;
+    margin: 90px 20px 0 20px;
 `;

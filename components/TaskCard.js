@@ -154,7 +154,7 @@ const StyledTaskCard = styled.div`
   ${(props) =>
     props.$isDone
       ? `background-color: lightgrey; color: grey; text-decoration:line-through; `
-      : ``}
+      : `background-color: var(--bg-color-card);`}
 `;
 
 const StyledProgressbar = styled.progress`
