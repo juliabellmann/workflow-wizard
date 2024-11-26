@@ -16,12 +16,12 @@ export default createGlobalStyle`
 
   :root.dark {
     --bg-color-body: rgb(33, 33, 33);
-    --bg-color-card: rgba(23, 23, 23, 0.5);
+    --bg-color-card: rgba(23, 23, 23, 0.7);
     --bg-color-btn: rgb(66, 67, 69);
 
     --accent-color: #0b5174;
 
-    --text-color: white;
+    --text-color: #ffffff;
   
   }
 
@@ -30,13 +30,13 @@ export default createGlobalStyle`
     --text-font-form: ${roboto.style.fontFamily}, 'Times New Roman', Times, serif; 
     --text-color: black;
 
-    --bg-color-body: #ffffff;
+    --bg-color-body: #8a9fadf9;
     --bg-color-card: rgba(255, 255, 255, 0.85);
     --bg-color-btn: #ffffff;
 
 
     --accent-color: #006acd;
-    --accent-color: #06354d;
+    /* --accent-color: #06354d; */
 
     --bg-High: rgb(178, 34, 34);
     --bg-Medium:rgb(255, 149, 0);
@@ -48,13 +48,14 @@ export default createGlobalStyle`
     
     --padding-btn: 15px 25px;
     --border-radius-btn: 10px;
-    --border-btn: 1px solid black;
+    --border-btn: 1px solid grey;
     
     --border-radius-input: 5px;
     
     --nav-height: 60px;
     
     --border-radius-form: var(--border-radius-btn);
+    --padding-icons: 10px;
 
   }
 

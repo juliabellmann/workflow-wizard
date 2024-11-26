@@ -26,8 +26,8 @@ export default function BtnToggleMode() {
     };
   
     return (
-      <button onClick={toggleTheme}>
+      <div onClick={toggleTheme}>
         {theme === 'light' ? <ModeDark /> : <ModeLight />}
-      </button>
+      </div>
     );
   };
