@@ -4,6 +4,7 @@ import styled from "styled-components";
 import HomeBtn from "@/assets/icons/home.svg";
 import SquareCkeckBtn from "@/assets/icons/square-check-regular.svg";
 import SquarePlusBtn from "@/assets/icons/square-plus-regular.svg";
+import BtnToggleMode from "./BtnToggleMode";
 
 export default function NavBar() {
   const { pathname } = useRouter();
@@ -24,6 +25,11 @@ export default function NavBar() {
       <StyledNavLink href="/taskcreate" $isactive={pathname === "/taskcreate"}>
         <SquarePlusBtn />
       </StyledNavLink>
+
+      <StyledToggleContainer>
+
+        <BtnToggleMode />
+      </StyledToggleContainer>
 
     </StyledNav>
   );
@@ -60,11 +66,22 @@ const StyledNavLink = styled(Link)`
 
   padding: 7px;
 
-  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "black")};
+  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "var(--text-color)")};
   background-color: ${({ $isactive }) =>
     $isactive ? "var(--bg-color-body)" : ""};
   border: ${({ $isactive }) =>
     $isactive ? "3px solid var(--accent-color)" : ""};
   border-radius: ${({ $isactive }) => ($isactive ? "5px" : "5px")};
   text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
+`;
+
+const StyledToggleContainer = styled.div`
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
 `;
