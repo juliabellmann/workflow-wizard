@@ -3,6 +3,7 @@ import Task from "@/db/models/Task";
 
 export default async function handler(request, response) {
   await dbConnect();
+  console.log("in api route");
 
   if (request.method === "GET") {
     const tasks = await Task.find();

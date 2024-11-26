@@ -21,17 +21,17 @@ export default function App({ Component, pageProps }) {
   // });
 
 
-  const router = useRouter();
-  const { id } = router.query;
+  // const router = useRouter();
+  // const { id } = router.query;
 
-  const { data, isLoading } = useSWR(`/api/tasks/${id}`);
+  const { data: tasks, isLoading } = useSWR(`/api/tasks`, fetcher);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
-  if (!data) {
-    return;
+  if (!tasks) {
+    return <h2>no task found...</h2>;
   }
 
 
@@ -62,6 +62,7 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleDeleteTask(taskId) {
+    // const response = fetch auf API api/tasks/${id}
     const updatedTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(updatedTasks);
     // router.push("/");
