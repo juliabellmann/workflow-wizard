@@ -4,11 +4,38 @@ import initialTasks from "@/assets/tasks";
 import useLocalStorageState from "use-local-storage-state";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { SWRConfig } from "swr";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((response) => response.json());
+
+
 
 export default function App({ Component, pageProps }) {
-  const [tasks, setTasks] = useLocalStorageState("tasks-key", {
-    defaultValue: initialTasks,
-  });
+
+
+
+  // const [tasks, setTasks] = useLocalStorageState("tasks-key", {
+  //   defaultValue: initialTasks,
+  // });
+
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { data, isLoading } = useSWR(`/api/tasks/${id}`);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return;
+  }
+
+
+
 
   function handleCreateTask(newTask) {
     const taskWithId = { id: uuidv4(), ...newTask };
@@ -62,14 +89,16 @@ export default function App({ Component, pageProps }) {
       </Head>
       <GlobalStyle />
       <RootLayout>
-        <Component
-          {...pageProps}
-          tasks={tasks}
-          onCreateTask={handleCreateTask}
-          onDeleteTask={handleDeleteTask}
-          onEditTask={handleEditTask}
-          toggleDone={handleToggleDone}
-        />
+          <SWRConfig value={{ fetcher }}>
+            <Component
+              {...pageProps}
+              tasks={tasks}
+              onCreateTask={handleCreateTask}
+              onDeleteTask={handleDeleteTask}
+              onEditTask={handleEditTask}
+              toggleDone={handleToggleDone}
+            />
+          </SWRConfig>
       </RootLayout>
     </>
   );
