@@ -24,6 +24,8 @@ export default function TaskDetails({
   const router = useRouter();
   const { id } = router.query;
 
+  const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
+
   // Warten, bis der Router bereit ist
   if (!router.isReady) return <div>Loading ...</div>;
 
@@ -63,8 +65,9 @@ export default function TaskDetails({
   }
 
   // delete und rückführung zur Übersicht
-  function handleDelete() {
-    onDeleteTask(currentTask.id);
+    async function handleDelete() {
+      const response = await fetch(`api/tasks/${id}`, { method: "DELETE", });
+    // onDeleteTask(currentTask.id);
     // TODO: Rückführung funktioniert nicht
     // Nach dem Löschvorgang wird zur Startseite zurückgeführt
     router.push("/");

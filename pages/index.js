@@ -4,7 +4,6 @@ import TaskForm from "@/components/TaskForm";
 import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function HomePage({
