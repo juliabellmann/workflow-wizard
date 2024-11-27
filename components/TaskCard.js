@@ -115,7 +115,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
               />
             </StyledCardBtn>
             {isDeleteOption && (
-              <StyledCardBtn onClick={() => onDeleteTask(task.id)}>
+              <StyledCardBtn onClick={() => onDeleteTask(task._id)}>
                 <Image
                   src={"/icons/trash-can-regular.svg"}
                   width="35"
@@ -127,7 +127,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           </StyledDelBtnWrapper>
 
           <StyledCardInfo>
-            <Link href={`task/${task.id}`}>
+            <Link href={`task/${task._id}`}>
               <Image
                 src={"/icons/info-solid.svg"}
                 width="35"

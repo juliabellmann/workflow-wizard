@@ -14,15 +14,19 @@ export default async function handler(request, response) {
     }
 
     response.status(200).json(task);
-    return;
+    
   }
 
+  
+  if (request.method === "DELETE") {
+    const task = await Task.findByIdAndDelete(id);
+    
+    response.status(200).json(task);
+    
+  }
+  
   response.status(405).json({ status: "Method not allowed." });
 }
-
-
-//   if (request.method === "DELETE") {
-  // const task = await Task.findByIdAndDelete(id);
 
 //   if (request.method === "DELETE") {
 //   if (request.method === "DELETE") {

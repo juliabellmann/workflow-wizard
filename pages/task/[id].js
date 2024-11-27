@@ -24,13 +24,11 @@ export default function TaskDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
-
   // Warten, bis der Router bereit ist
   if (!router.isReady) return <div>Loading ...</div>;
 
   // finde die Tasks
-  const currentTask = tasks?.find((item) => item.id === id) || null;
+  const currentTask = tasks?.find((item) => item._id === id) || null;
 
   // Fallback für fehlende Daten
   if (!currentTask) {

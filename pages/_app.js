@@ -10,7 +10,7 @@ import Task from '../db/models/Task';
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const { mutate } = useSWR("/api/products");
+  const { mutate } = useSWR("/api/tasks");
 
 
   const router = useRouter();
@@ -56,8 +56,8 @@ export default function App({ Component, pageProps }) {
     //   )
     // );
 
-    await Task.findByIdAndUpdate(taskId, editedTask, { new: true });
-    mutate('/api/tasks'); // Aktualisiert die SWR-Daten
+    // await Task.findByIdAndUpdate(taskId, editedTask, { new: true });
+    // mutate('/api/tasks'); // Aktualisiert die SWR-Daten
   }
 
  async function handleDeleteTask(taskId) {
@@ -67,8 +67,14 @@ export default function App({ Component, pageProps }) {
     // setTasks(updatedTasks);
     // router.push("/");
 
-    await Task.findByIdAndRemove(taskId);
-    mutate('/api/tasks'); // Aktualisiert die SWR-Daten
+    // await Task.findByIdAndRemove(taskId);
+    // mutate('/api/tasks'); // Aktualisiert die SWR-Daten
+
+    console.log("handle delete in app js");
+    const response = await fetch(`/api/tasks/${taskId}`, {method: "DELETE", });
+    if (!response.ok) {console.log("fehler", taskId)};
+    mutate();
+    router.push("/");
   }
 
   function handleToggleDone(id) {
@@ -84,8 +90,8 @@ export default function App({ Component, pageProps }) {
     //     )
     //   );
     // }
-    Task.findByIdAndUpdate(id, { $set: { isDone: { $not: "$isDone" } } }, { new: true })
-    .then(() => mutate('/api/tasks')); // Aktualisiert die SWR-Daten
+    // Task.findByIdAndUpdate(id, { $set: { isDone: { $not: "$isDone" } } }, { new: true })
+    // .then(() => mutate('/api/tasks')); // Aktualisiert die SWR-Daten
   }
 
   return (
