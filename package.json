@@ -20,6 +20,7 @@
     "nextjs-toploader": "^3.7.15",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^10.0.6",
     "styled-components": "^6.1.13",
     "swr": "^2.2.5",
     "use-local-storage-state": "^19.4.1",

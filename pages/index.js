@@ -7,6 +7,8 @@ import { useState } from "react";
 import SearchIcon from "@/assets/icons/magnifying-glass.svg";
 import useSWR from "swr";
 import BtnToggleMode from "@/components/BtnToggleMode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
@@ -31,6 +33,7 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
     if (response.ok) {
       await response.json();
       mutate();
+      toast.success("Task successfully created!");
     } else {
       console.error(`Error: ${response.status}`);
     }
@@ -42,6 +45,7 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
     });
 
     mutate();
+    toast.success("Task successfully deleted!");
   }
 
   async function handleToggleTask(currentTask) {
@@ -183,6 +187,7 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
           </StyledInfoWrapper>
         )}
       </StyledTaskList>
+      <ToastContainer />
     </>
   );
 }
