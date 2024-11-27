@@ -15,9 +15,10 @@ const roboto = Roboto({
 export default createGlobalStyle`
 
   :root.dark {
-    --bg-color-body: rgb(33, 33, 33);
+    --bg-color-body: rgb(32, 41, 47);
     --bg-color-card: rgba(23, 23, 23, 0.7);
-    --bg-color-btn: rgb(66, 67, 69);
+    --bg-color-done: rgba(33, 33, 33, 0.7);
+    --bg-color-btn: rgb(33, 33, 33);
 
     --accent-color: #0b5174;
 
@@ -25,6 +26,7 @@ export default createGlobalStyle`
   
   }
 
+  /* light mode colors */
   :root {
     --text-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --text-font-form: ${roboto.style.fontFamily}, 'Times New Roman', Times, serif; 
@@ -32,6 +34,7 @@ export default createGlobalStyle`
 
     --bg-color-body: #d7edfcf9;
     --bg-color-card: rgba(255, 255, 255, 0.85);
+    --bg-color-done: #d7edfcc1;
     --bg-color-btn: #ffffff;
 
 
@@ -110,7 +113,7 @@ export default createGlobalStyle`
 export const StyledContentHeading = styled.h2`
   display: flex;
   justify-content: center;
-  margin: 5px 0;
+  margin: 15px 0 25px 0;
   font-family: ${fonthead.style.fontFamily};
   letter-spacing: 3px;
 `;

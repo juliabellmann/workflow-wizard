@@ -293,7 +293,7 @@ const StyledEditBtn = styled.button`
   height: 48px;
   width: 48px;
   padding: var(--border-radius-btn);
-  fill: var(--accent-color);
+  fill: var(--text-color);
 
   border-radius: 50%;
   border: 1px solid var(--accent-color);
@@ -333,11 +333,11 @@ const StyledDescription = styled.p`
 
   border-top: ${({ $variant }) =>
     $variant === "High"
-      ? "3px solid var(--bg-High)"
+      ? "5px solid var(--bg-High)"
       : $variant === "Medium"
-      ? "3px solid var(--bg-Medium)"
+      ? "5px solid var(--bg-Medium)"
       : $variant === "Low"
-      ? "3px solid var(--bg-Low)"
+      ? "5px solid var(--bg-Low)"
       : null};
 `;
 

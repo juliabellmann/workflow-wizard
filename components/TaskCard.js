@@ -165,8 +165,10 @@ const StyledProgressIcon = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
+
+  fill: var(--text-color);
 `;
 
 const StyledTaskCard = styled.div`
@@ -182,7 +184,7 @@ const StyledTaskCard = styled.div`
   /* Hintergrundfarbe für die Visualisierung des Datums */
   ${(props) =>
     props.$isDone
-      ? `background-color: lightgrey; color: grey; text-decoration:line-through; `
+      ? `background-color: var(--bg-color-done); color: grey; text-decoration:line-through; `
       : `background-color: var(--bg-color-card);`}
 `;
 
@@ -241,7 +243,7 @@ const StyledDelBtnWrapper = styled.div`
   flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 `;
 
 const StyledSubtasksIconContainer = styled.div`
@@ -277,7 +279,7 @@ const StyledBtnWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
 `;
 
 const StyledPriority = styled.span`
@@ -305,6 +307,7 @@ const StyledTaskName = styled.h3`
   display: flex;
   justify-content: center;
   margin: 5px 0 5px 0;
+  max-width: 190px;
 `;
 
 const StyledCardInfo = styled.span`

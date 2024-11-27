@@ -16,6 +16,11 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleSearch = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   async function handleAddTask(place) {
     const response = await fetch("/api/tasks", {
@@ -99,19 +104,16 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
         <BtnToggleMode />
       </StyledToggleContainer>
 
-      {/* Toggle Create new Task */}
-      <StyledDetails>
-        <StyledSummary>Create New Task</StyledSummary>
-        <TaskForm onCreateTask={handleAddTask} />
-      </StyledDetails>
+
 
 
       {/* Searchbar */}
       <StyledSearchContainer>
-        <StyledSearchIcon>
+        <StyledSearchIcon  onClick={toggleSearch}>
           <SearchIcon />
         </StyledSearchIcon>
-        {/* <StyledSearch
+        {isExpanded && (
+        <StyledSearch
           type="text"
           placeholder="Search task..."
           value={searchTerm}
@@ -119,9 +121,16 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
             setSearchTerm(e.target.value);
             setIsSearching(e.target.value !== "");
           }}
-          /> */}
+          />
+        )}
       </StyledSearchContainer>
       </StyledUpperWrapper>
+
+            {/* Toggle Create new Task */}
+            <StyledDetails>
+        <StyledSummary>Create New Task</StyledSummary>
+        <TaskForm onCreateTask={handleAddTask} />
+      </StyledDetails>
 
           <StyledContentHeading>Task List</StyledContentHeading>
       <StyledTaskList>
@@ -197,7 +206,9 @@ const StyledUpperWrapper = styled.div`
 
 const StyledSearchContainer = styled.div`
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
+  gap: 20px;
 `;
 
 const StyledSearchIcon = styled.div`
@@ -212,14 +223,18 @@ const StyledSearchIcon = styled.div`
   padding: var(--padding-icons);
 
   background-color: var(--bg-color-btn);
-  border: 1px solid var(--accent-color);
+  border: 2px solid var(--accent-color);
   border-radius: 50%;
+
+  fill: var(--text-color);
 `;
 
 const StyledSearch = styled.input`
   padding: 12px 5px;
   border-radius: var(--border-radius-input);
   background-color: var(--bg-color-card);
+  margin-bottom: 10px;
+  width: 200px;
 `;
 
 const StyledDetails = styled.details`
@@ -286,7 +301,7 @@ const StyledToggleContainer = styled.div`
   background-color: ${({ $isactive }) =>
     $isactive ? "var(--bg-color-btn)" : ""};
   border: ${({ $isactive }) =>
-    $isactive ? "1px solid var(--accent-color)" : ""};
+    $isactive ? "2px solid var(--accent-color)" : ""};
   /* border-radius: ${({ $isactive }) => ($isactive ? "5px" : "5px")}; */
   text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
 `;

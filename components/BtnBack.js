@@ -18,11 +18,11 @@ const StyledSvgContainer = styled(Link)`
   width: 48px;
   padding: var(--border-radius-btn);
   
-  border: var(--border-btn);
+  border: 2px solid var(--accent-color);
   border-radius: 50%;
 
   background-color: var(--bg-color-btn);
-  fill: var(--accent-color);
+  fill: var(--text-color);
 `;
 
 export default function ButtonBack() {

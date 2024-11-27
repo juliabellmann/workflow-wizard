@@ -247,6 +247,7 @@ const StyledFormBtn = styled.button`
   border: var(--border-btn);
   border-radius: var(--border-radius-btn);
   background-color: var(--bg-color-btn);
+  color: var(--text-color);
 `;
 
 const StyledSubtaskList = styled.div`

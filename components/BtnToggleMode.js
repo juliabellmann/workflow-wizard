@@ -28,7 +28,7 @@ export default function BtnToggleMode() {
   
     return (
       <StyledSvgContainer onClick={toggleTheme}>
-        {theme === 'light' ? <ModeDark /> : <ModeLight />}
+        {theme === 'light' ? <StyledModeIcon><ModeDark /></StyledModeIcon> : <StyledModeIcon><ModeLight /></StyledModeIcon>}
       </StyledSvgContainer>
     );
   };
@@ -37,4 +37,13 @@ export default function BtnToggleMode() {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    fill: var(--accent-color);
+  `;
+
+  const StyledModeIcon = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    fill: red;
   `;

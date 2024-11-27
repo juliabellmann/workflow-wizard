@@ -13,7 +13,7 @@ export default function MyPlants({ onCreateTask }) {
     <>
       <BtnBack />
 
-      <StyledContentHeading>Create a new Task</StyledContentHeading>
+      <StyledContentHeading>New Task</StyledContentHeading>
 
       <StyledFormWrapper>
         <TaskForm onCreateTask={onCreateTask} />
