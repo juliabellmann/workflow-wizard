@@ -40,7 +40,7 @@ export default function TaskForm({
       setSelectedLabels([]);
     }
   }, []);
-  
+
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
 
@@ -67,10 +67,10 @@ export default function TaskForm({
     const checked = event.target.checked;
     const value = event.target.value;
 
-    setSelectedLabels(prevLabels =>
+    setSelectedLabels((prevLabels) =>
       checked
         ? [...prevLabels, value]
-        : prevLabels.filter(label => label !== value)
+        : prevLabels.filter((label) => label !== value)
     );
   }
 
@@ -84,6 +84,9 @@ export default function TaskForm({
 
     // Sammelt alle Formulardaten in einem Objekt
     const formData = new FormData(event.target);
+
+    const selectedLabels = formData.getAll("tasklabel");
+
     // Include subtasks directly_JL
     const data = {
       ...Object.fromEntries(formData),
@@ -91,10 +94,8 @@ export default function TaskForm({
       tasklabel: selectedLabels,
     };
 
-    const selectedLabels = formData.getAll("tasklabel");
     data.tasklabel = selectedLabels;
 
-    console.log("data", data);
     if (isEditMode) {
       onEditTask(data);
       onCancel();
@@ -201,7 +202,10 @@ export default function TaskForm({
                 handleSubtaskChange(subtask.id, event.target.value)
               }
             />
-            <StyledCloseBtn onClick={() => handleDeleteSubtask(subtask.id)}> X </StyledCloseBtn>
+            <StyledCloseBtn onClick={() => handleDeleteSubtask(subtask.id)}>
+              {" "}
+              X{" "}
+            </StyledCloseBtn>
           </StyledSubtaskList>
         ))}
 
