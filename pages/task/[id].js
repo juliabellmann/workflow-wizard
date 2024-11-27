@@ -296,7 +296,7 @@ const StyledEditBtn = styled.button`
   fill: var(--text-color);
 
   border-radius: 50%;
-  border: 1px solid var(--accent-color);
+  border: 2px solid var(--accent-color);
 
   background-color: var(--bg-color-btn);
 `;

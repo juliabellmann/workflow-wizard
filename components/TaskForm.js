@@ -15,6 +15,9 @@ const tasklabels = [
   { id: "tasklabel2", value: "Groceries", label: "Groceries" },
   { id: "tasklabel3", value: "Sport", label: "Sport" },
   { id: "tasklabel4", value: "Work", label: "Work" },
+  { id: "tasklabel5", value: "Me-Time", label: "Me-Time" },
+  { id: "tasklabel6", value: "Health", label: "Health" },
+  { id: "tasklabel7", value: "Travel", label: "Travel" },
 ];
 
 export default function TaskForm({
@@ -160,9 +163,9 @@ export default function TaskForm({
         <label htmlFor="subtask">
           <h3>Subtask:</h3>
         </label>
-        <StyledFormBtn type="button" onClick={handleAddSubtask}>
+        <StyledFormAddBtn type="button" onClick={handleAddSubtask}>
           + Add Subtask
-        </StyledFormBtn>
+        </StyledFormAddBtn>
         {subtasks.map((subtask, index) => (
           <StyledSubtaskList key={index}>
             <label htmlFor={`subtask_${index}`}>
@@ -177,7 +180,7 @@ export default function TaskForm({
                 handleSubtaskChange(subtask.id, event.target.value)
               }
             />
-            <button onClick={() => handleDeleteSubtask(subtask.id)}>X</button>
+            <StyledCloseBtn onClick={() => handleDeleteSubtask(subtask.id)}> X </StyledCloseBtn>
           </StyledSubtaskList>
         ))}
 
@@ -235,6 +238,13 @@ const StyledSelect = styled.select`
   font-family: var(--text-font-form);
 `;
 
+const StyledCloseBtn = styled.button`
+  border: var(--border-btn);
+  border-radius: var(--border-radius-btn);
+  background-color: var(--bg-color-btn);
+  padding: 5px;
+`;
+
 const StyledFormBtnContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -250,7 +260,17 @@ const StyledFormBtn = styled.button`
   color: var(--text-color);
 `;
 
+const StyledFormAddBtn = styled.button`
+  padding: 10px 15px;
+  border: var(--border-btn);
+  border-radius: var(--border-radius-btn);
+  background-color: var(--bg-color-btn);
+  color: var(--text-color);
+  margin: 10px 20px;
+`;
+
 const StyledSubtaskList = styled.div`
   display: flex;
   margin: 5px;
+  gap: 15px;
 `;
