@@ -185,7 +185,7 @@ const StyledDetails = styled.details`
 `;
 
 const StyledSummary = styled.summary`
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-btn);
 
   padding: 10px 15px 10px 15px;

@@ -1,13 +1,18 @@
 import BtnBack from "@/components/BtnBack";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
 import TaskForm from "@/components/TaskForm";
 import { StyledCardDate, StyledContentHeading } from "@/styles";
+import CalenderIcon from "@/assets/icons/calendar-regular.svg";
+import EditIcon from "@/assets/icons/pencil-solid.svg";
+import TrashIcon from "@/assets/icons/trash-can-regular.svg";
+import NoTrashIcon from "@/assets/icons/rectangle-xmark-regular.svg";
 import useSWR from "swr";
+
 
 export default function TaskDetails({ onCreateTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -185,12 +190,7 @@ export default function TaskDetails({ onCreateTask, toggleDone }) {
       <StyledContentHeading>Task Details</StyledContentHeading>
 
       <StyledEditBtn onClick={toggleFormVisibility}>
-        <Image
-          src={"/icons/pencil-solid.svg"}
-          alt="Icon Pencil for Edit"
-          width="30"
-          height="30"
-        />
+        <EditIcon />
       </StyledEditBtn>
 
       {isFormVisible && (
@@ -243,12 +243,9 @@ export default function TaskDetails({ onCreateTask, toggleDone }) {
         <StyledBtnWrapper>
           <StyledDivDatePrio>
             <StyledCardDate $variant={taskVariant}>
-              <Image
-                src={"/icons/calendar-regular.svg"}
-                width="20"
-                height="20"
-                alt="Icon Details"
-              />
+            <StyledCalenderIcon>
+            <CalenderIcon />
+          </StyledCalenderIcon>
               {currentTask.dueDate}
             </StyledCardDate>
             <StyledPriority $variant={currentTask.priority}>
@@ -263,25 +260,15 @@ export default function TaskDetails({ onCreateTask, toggleDone }) {
           <StyledDelBtnWrapper>
             {/* delete confirm Abfrage */}
             <StyledCardBtn onClick={toggleDeleteOption}>
-              <Image
-                src={
-                  !isDeleteOption
-                    ? "/icons/trash-can-regular.svg"
-                    : "/icons/rectangle-xmark-regular.svg"
-                }
-                alt={!isDeleteOption ? "Icon Delete" : "Icon Close"}
-                width="35"
-                height="35"
-              />
+              {!isDeleteOption ? <StyledTrashIcon><TrashIcon /></StyledTrashIcon> : <StyledTrashIcon><NoTrashIcon /></StyledTrashIcon>}
+           
             </StyledCardBtn>
             {isDeleteOption && (
-              <StyledCardBtn onClick={handleDelete}>
-                <Image
-                  src={"/icons/trash-can-regular.svg"}
-                  width="35"
-                  height="35"
-                  alt="Icon trash can"
-                />
+              <StyledCardBtn onClick={() => handleDelete()}>
+                <StyledTrashIcon>
+                  <TrashIcon />
+                </StyledTrashIcon>
+
               </StyledCardBtn>
             )}
           </StyledDelBtnWrapper>
@@ -306,6 +293,7 @@ const StyledEditBtn = styled.button`
   height: 48px;
   width: 48px;
   padding: var(--border-radius-btn);
+  fill: var(--accent-color);
 
   border-radius: 50%;
   border: 1px solid var(--accent-color);
@@ -323,7 +311,7 @@ const SytledDetailsCardWrapper = styled.div`
 
   background-color: var(--bg-color-card);
 
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-form);
 
   padding: 35px 20px 20px 20px;
@@ -375,7 +363,7 @@ const StyledLabelLi = styled.li`
   list-style: none;
   border-radius: 50px;
   padding: 2.5px 5px;
-  border: 1px solid var(--accent-color);
+  border: var(--border-btn);
   background-color: var(--bg-color-btn);
 `;
 
@@ -391,6 +379,16 @@ const StyledDivDatePrio = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+`;
+
+const StyledCalenderIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+
+  fill: var(--text-color);
 `;
 
 const StyledDelBtnWrapper = styled.div`
@@ -414,6 +412,14 @@ const StyledCardBtn = styled.button`
   width: 48px;
 `;
 
+const StyledTrashIcon = styled.div`
+  height: 48px;
+  width: 48px;
+  padding: var(--padding-icons);
+
+  fill: var(--text-color);
+`;
+
 const StyledPriority = styled.span`
   display: flex;
   align-items: center;
@@ -422,7 +428,7 @@ const StyledPriority = styled.span`
   height: 30px;
   width: 30px;
 
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-btn);
 
   background-color: ${({ $variant }) =>
@@ -433,9 +439,4 @@ const StyledPriority = styled.span`
       : $variant === "Low"
       ? "var(--bg-Low)"
       : null};
-`;
-
-const StyledToggebuttonWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
 `;

@@ -204,7 +204,7 @@ export default function TaskForm({
 
 const StyledForm = styled.form`
   background-color: var(--bg-color-card);
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-form);
   display: flex;
   flex-direction: column;
@@ -216,21 +216,21 @@ const StyledForm = styled.form`
 
 const StyledInput = styled.input`
   padding: 5px;
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-input);
   font-family: var(--text-font-form);
 `;
 
 const StyledTextarea = styled.textarea`
   padding: 5px;
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-input);
   font-family: var(--text-font-form);
 `;
 
 const StyledSelect = styled.select`
   padding: 5px;
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-input);
   font-family: var(--text-font-form);
 `;

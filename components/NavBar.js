@@ -4,6 +4,7 @@ import styled from "styled-components";
 import HomeBtn from "@/assets/icons/home.svg";
 import SquareCkeckBtn from "@/assets/icons/square-check-regular.svg";
 import SquarePlusBtn from "@/assets/icons/square-plus-regular.svg";
+import BtnToggleMode from "./BtnToggleMode";
 
 export default function NavBar() {
   const { pathname } = useRouter();
@@ -25,6 +26,10 @@ export default function NavBar() {
         <SquarePlusBtn />
       </StyledNavLink>
 
+      <StyledToggleContainer>
+        <BtnToggleMode />
+      </StyledToggleContainer>
+
     </StyledNav>
   );
 }
@@ -32,22 +37,20 @@ export default function NavBar() {
 // ----- Styled Components -----
 
 const StyledNav = styled.nav`
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  position: fixed;
-  /* unten fixieren */
-  bottom: 0;
-  /* volle Breite des Viewports */
-  right: 0;
-  left: 0;
-  /* in den Vordergrund */
-  z-index: 3;
+  
+  border-top: 3px solid var(--accent-color);
 
   height: var(--nav-height);
   background-color: var(--bg-color-btn);
-
-  border-top: 3px solid var(--accent-color);
 `;
 
 const StyledNavLink = styled(Link)`
@@ -60,7 +63,24 @@ const StyledNavLink = styled(Link)`
 
   padding: 7px;
 
-  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "black")};
+  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "var(--text-color)")};
+  background-color: ${({ $isactive }) =>
+    $isactive ? "var(--bg-color-body)" : ""};
+  border: ${({ $isactive }) =>
+    $isactive ? "3px solid var(--accent-color)" : ""};
+  border-radius: ${({ $isactive }) => ($isactive ? "5px" : "5px")};
+  text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
+`;
+
+const StyledToggleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
+  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "var(--text-color)")};
   background-color: ${({ $isactive }) =>
     $isactive ? "var(--bg-color-body)" : ""};
   border: ${({ $isactive }) =>

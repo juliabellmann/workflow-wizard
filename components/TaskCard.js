@@ -5,6 +5,10 @@ import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Image from "next/image";
 import { StyledCardDate } from "@/styles";
 import SubtasksIcon from "@/assets/icons/list-solid.svg";
+import CalenderIcon from "@/assets/icons/calendar-regular.svg";
+import TrashIcon from "@/assets/icons/trash-can-regular.svg";
+import NoTrashIcon from "@/assets/icons/rectangle-xmark-regular.svg";
+import DetailsIcon from "@/assets/icons/info-solid.svg";
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -89,12 +93,9 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
 
       <StyledContentWrapper>
         <StyledCardDate $variant={taskVariant}>
-          <Image
-            src={"/icons/calendar-regular.svg"}
-            width="20"
-            height="20"
-            alt="Icon Details"
-          />
+          <StyledCalenderIcon>
+            <CalenderIcon />
+          </StyledCalenderIcon>
           {task.dueDate}
         </StyledCardDate>
 
@@ -109,37 +110,23 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           <StyledDelBtnWrapper>
             {/* delete confirm Abfrage */}
             <StyledCardBtn onClick={toggleDeleteOption}>
-              <Image
-                src={
-                  !isDeleteOption
-                    ? "/icons/trash-can-regular.svg"
-                    : "/icons/rectangle-xmark-regular.svg"
-                }
-                alt={!isDeleteOption ? "Icon Delete" : "Icon Close"}
-                width="35"
-                height="35"
-              />
+              {!isDeleteOption ? <StyledTrashIcon><TrashIcon /></StyledTrashIcon> : <StyledTrashIcon><NoTrashIcon /></StyledTrashIcon>}
             </StyledCardBtn>
             {isDeleteOption && (
               <StyledCardBtn onClick={() => onDeleteTask(task.id)}>
-                <Image
-                  src={"/icons/trash-can-regular.svg"}
-                  width="35"
-                  height="35"
-                  alt="Icon trash can"
-                />
+                <StyledTrashIcon>
+                  <TrashIcon />
+                </StyledTrashIcon>
               </StyledCardBtn>
             )}
           </StyledDelBtnWrapper>
 
           <StyledCardInfo>
-            <Link href={`task/${task._id}`}>
-              <Image
-                src={"/icons/info-solid.svg"}
-                width="35"
-                height="35"
-                alt="Icon Details"
-              />
+
+            <Link href={`task/${task.id}`}>
+              <StyledTrashIcon>
+                <DetailsIcon />
+              </StyledTrashIcon>
             </Link>
           </StyledCardInfo>
         </StyledBtnWrapper>
@@ -153,7 +140,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
 const StyledTaskCard = styled.div`
   position: relative;
 
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-btn);
 
   width: 335px;
@@ -206,7 +193,7 @@ const StyledLabelContainer = styled.div`
 const StyledLabelLi = styled.li`
   border-radius: 50px;
   padding: 2.5px 5px;
-  border: 1px solid var(--accent-color);
+  border: var(--border-btn);
   background-color: var(--bg-color-btn);
 `;
 
@@ -220,8 +207,8 @@ const StyledContentWrapper = styled.div`
 const StyledDelBtnWrapper = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 10px;
 `;
 
@@ -231,6 +218,18 @@ const StyledSubtasksIconContainer = styled.div`
   justify-content: center;
 
   gap: 5px;
+
+  fill: var(--text-color);
+`;
+
+const StyledCalenderIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+
+  fill: var(--text-color);
 `;
 
 const StyledSubtasksIcon = styled.div`
@@ -257,7 +256,7 @@ const StyledPriority = styled.span`
   height: 30px;
   width: 30px;
 
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-btn);
 
   background-color: ${({ $variant }) =>
@@ -278,7 +277,7 @@ const StyledCardInfo = styled.span`
   height: 48px;
   width: 48px;
 
-  border: 1px solid black;
+  border: var(--border-btn);
   border-radius: var(--border-radius-btn);
 
   background-color: var(--bg-color-btn);
@@ -295,6 +294,14 @@ const StyledCardBtn = styled.button`
 
   height: 48px;
   width: 48px;
+`;
+
+const StyledTrashIcon = styled.div`
+  height: 48px;
+  width: 48px;
+  padding: var(--padding-icons);
+
+  fill: var(--text-color);
 `;
 
 const StyledUpperContentWrapper = styled.div`

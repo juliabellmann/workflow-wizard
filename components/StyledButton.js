@@ -6,7 +6,7 @@ export const StyledButton = styled.button`
     align-items: center;
 
     background-color: white;
-    border: 1px solid black;
+    border: var(--border-btn);
     min-width: 50px;
     min-height: 50px;
 `;
@@ -14,7 +14,7 @@ export const StyledButton = styled.button`
  display: flex;
  align-items: center;
  justify-content: center;
- border: 1px solid black;
+ border: var(--border-btn);
 `;
 
 export const StyledDoneButton = styled(BaseButton)`
@@ -34,6 +34,6 @@ export const Button = styled.button`
     justify-content: center;
     padding: ${({ padding }) => padding || "10px"};
     position: ${({ position }) => position || "relative"};
-    border: 1px solid black;
+    border: var(--border-btn);
     border-radius: ${({ borderRadius }) => borderRadius || "0"};
 `;
