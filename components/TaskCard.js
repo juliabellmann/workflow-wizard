@@ -138,7 +138,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
 
           <StyledCardInfo>
 
-            <Link href={`task/${task.id}`}>
+            <Link href={`task/${task._id}`}>
               <StyledTrashIcon>
                 <DetailsIcon />
               </StyledTrashIcon>
