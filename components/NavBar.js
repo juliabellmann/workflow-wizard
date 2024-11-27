@@ -26,9 +26,9 @@ export default function NavBar() {
         <SquarePlusBtn />
       </StyledNavLink>
 
-      <StyledToggleContainer>
+      {/* <StyledToggleContainer $isactive>
         <BtnToggleMode />
-      </StyledToggleContainer>
+      </StyledToggleContainer> */}
 
     </StyledNav>
   );

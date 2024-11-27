@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ModeDark from "@/assets/icons/mode-dark.svg";
 import ModeLight from "@/assets/icons/mode-light.svg";
+import styled from "styled-components";
 
 export default function BtnToggleMode() {
     const [theme, setTheme] = useState('light');
@@ -26,8 +27,14 @@ export default function BtnToggleMode() {
     };
   
     return (
-      <div onClick={toggleTheme}>
+      <StyledSvgContainer onClick={toggleTheme}>
         {theme === 'light' ? <ModeDark /> : <ModeLight />}
-      </div>
+      </StyledSvgContainer>
     );
   };
+
+  const StyledSvgContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `;

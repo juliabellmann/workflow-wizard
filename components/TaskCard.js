@@ -9,6 +9,7 @@ import CalenderIcon from "@/assets/icons/calendar-regular.svg";
 import TrashIcon from "@/assets/icons/trash-can-regular.svg";
 import NoTrashIcon from "@/assets/icons/rectangle-xmark-regular.svg";
 import DetailsIcon from "@/assets/icons/info-solid.svg";
+import ProgressIcon from "@/assets/icons/chart-line-solid.svg";
 
 export default function TaskCard({ task, onDeleteTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
@@ -53,6 +54,11 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
     prioIconSrc = "/icons/low.svg";
   }
 
+  const calculatePercentage = (completed, total) => {
+    const percentage = Math.min(100, Math.max(0, (completed / total) * 100));
+    return `${percentage.toFixed(0)}%`;
+  };
+
   return (
     <StyledTaskCard $isDone={task.isDone}>
       <StyledUpperContentWrapper>
@@ -65,21 +71,30 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
             height="25"
           />
         </StyledPriority>
-        <h3>{task.title}</h3>
+        <StyledTaskName>{task.title}</StyledTaskName>
       </StyledUpperContentWrapper>
 
       <BtnMarkAsDone isDone={task.isDone} toggleDone={() => toggleDone(task)} />
 
       {/* Progress Bar */}
+      <StyledProgressbarWrapper>
+      <StyledProgressIcon>
+        <ProgressIcon />
+      </StyledProgressIcon>
       <StyledProgressbar
         value={
           task.subTasks?.filter((subtask) => subtask.completed)?.length || 0
         }
         min="0"
         max={task.subTasks?.length || 0}
-      >{`${
-        task.subTasks?.filter((subtask) => subtask.completed)?.length || 0
-      } / ${task.subTasks?.length || 0}`}</StyledProgressbar>
+        >{`${
+          task.subTasks?.filter((subtask) => subtask.completed)?.length || 0
+        } / ${task.subTasks?.length || 0}`}</StyledProgressbar>
+          {`${calculatePercentage(
+            task.subTasks?.filter((subtask) => subtask.completed)?.length || 0,
+            task.subTasks?.length || 0
+          )}`}
+        </StyledProgressbarWrapper>
 
       {/* Trennbalken */}
       <StyledLine $variant={task.priority}></StyledLine>
@@ -137,6 +152,23 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
 
 // ----- Styled Components -----
 
+const StyledProgressbarWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 5px 0;
+`;
+
+const StyledProgressIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 15px;
+  height: 15px;
+`;
+
 const StyledTaskCard = styled.div`
   position: relative;
 
@@ -144,8 +176,8 @@ const StyledTaskCard = styled.div`
   border-radius: var(--border-radius-btn);
 
   width: 335px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
 
   /* Hintergrundfarbe für die Visualisierung des Datums */
   ${(props) =>
@@ -156,9 +188,9 @@ const StyledTaskCard = styled.div`
 
 const StyledProgressbar = styled.progress`
   width: 100%;
-  height: 15px;
+  height: 10px;
   border: none;
-  margin: 10px 0 20px 0;
+  margin: 0 10px;
   
   &::-webkit-progress-bar{
     background-color: lightgray;
@@ -177,11 +209,11 @@ const StyledLine = styled.div`
 
   border-top: ${({ $variant }) =>
     $variant === "High"
-      ? "3px solid var(--bg-High)"
+      ? "5px solid var(--bg-High)"
       : $variant === "Medium"
-      ? "3px solid var(--bg-Medium)"
+      ? "5px solid var(--bg-Medium)"
       : $variant === "Low"
-      ? "3px solid var(--bg-Low)"
+      ? "5px solid var(--bg-Low)"
       : null};
 `;
 
@@ -226,8 +258,8 @@ const StyledCalenderIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
 
   fill: var(--text-color);
 `;
@@ -253,8 +285,8 @@ const StyledPriority = styled.span`
   align-items: center;
   justify-content: center;
 
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
 
   border: var(--border-btn);
   border-radius: var(--border-radius-btn);
@@ -267,6 +299,12 @@ const StyledPriority = styled.span`
       : $variant === "Low"
       ? "var(--bg-Low)"
       : null};
+`;
+
+const StyledTaskName = styled.h3`
+  display: flex;
+  justify-content: center;
+  margin: 5px 0 5px 0;
 `;
 
 const StyledCardInfo = styled.span`

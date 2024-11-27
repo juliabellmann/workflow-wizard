@@ -30,7 +30,7 @@ export default createGlobalStyle`
     --text-font-form: ${roboto.style.fontFamily}, 'Times New Roman', Times, serif; 
     --text-color: black;
 
-    --bg-color-body: #bfd3e0f9;
+    --bg-color-body: #d7edfcf9;
     --bg-color-card: rgba(255, 255, 255, 0.85);
     --bg-color-btn: #ffffff;
 
@@ -56,6 +56,8 @@ export default createGlobalStyle`
     
     --border-radius-form: var(--border-radius-btn);
     --padding-icons: 10px;
+
+    --font-family-heading: ${fonthead.style.fontFamily};
 
   }
 
@@ -83,6 +85,7 @@ export default createGlobalStyle`
 
   header {
     font-family: ${fonthead.style.fontFamily};
+    letter-spacing: 1px;
   }
 
   main {
@@ -107,7 +110,9 @@ export default createGlobalStyle`
 export const StyledContentHeading = styled.h2`
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 5px 0;
+  font-family: ${fonthead.style.fontFamily};
+  letter-spacing: 3px;
 `;
 
 export const StyledCardDate = styled.span`

@@ -14,8 +14,8 @@ export default function RootLayout({ children }) {
                 <StyledLogo
                     src="/image/Logo.png"
                     alt="Logo Workflow Wizard"
-                    width="300"
-                    height="300"
+                    width="350"
+                    height="350"
                 />
             </StlyedHeader>
             <StyledMain>

@@ -2,10 +2,12 @@ import styled from "styled-components";
 import TaskCard from "@/components/TaskCard";
 import TaskForm from "@/components/TaskForm";
 import Head from "next/head";
-import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
 import { useState } from "react";
+import SearchIcon from "@/assets/icons/magnifying-glass.svg";
 import useSWR from "swr";
+import BtnToggleMode from "@/components/BtnToggleMode";
+
 
 export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
   const { data: tasks, mutate } = useSWR("/api/tasks", { fallbackData: [] });
@@ -90,17 +92,26 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
         <title>Home - Workflow Wizard</title>
       </Head>
 
+    <StyledUpperWrapper>
+
+
+      <StyledToggleContainer $isactive>
+        <BtnToggleMode />
+      </StyledToggleContainer>
+
       {/* Toggle Create new Task */}
       <StyledDetails>
         <StyledSummary>Create New Task</StyledSummary>
         <TaskForm onCreateTask={handleAddTask} />
       </StyledDetails>
 
-      <StyledContentHeading>Task List</StyledContentHeading>
 
       {/* Searchbar */}
       <StyledSearchContainer>
-        <StyledSearch
+        <StyledSearchIcon>
+          <SearchIcon />
+        </StyledSearchIcon>
+        {/* <StyledSearch
           type="text"
           placeholder="Search task..."
           value={searchTerm}
@@ -108,9 +119,11 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
             setSearchTerm(e.target.value);
             setIsSearching(e.target.value !== "");
           }}
-        />
+          /> */}
       </StyledSearchContainer>
+      </StyledUpperWrapper>
 
+          <StyledContentHeading>Task List</StyledContentHeading>
       <StyledTaskList>
         {/* Wenn nichts gesucht wird und es Aufgaben gibt, zeige sie an: */}
         {!isSearching && tasks.length > 0 ? (
@@ -167,9 +180,40 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
 
 // ----- Styled Components -----
 
+const StyledContentHeading = styled.h2`
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+  font-family: var(--font-family-heading);
+  letter-spacing: 3px;
+`;
+
+const StyledUpperWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const StyledSearchContainer = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const StyledSearchIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  height: 48px;
+  width: 48px;
+
+  padding: var(--padding-icons);
+
+  background-color: var(--bg-color-btn);
+  border: 1px solid var(--accent-color);
+  border-radius: 50%;
 `;
 
 const StyledSearch = styled.input`
@@ -189,7 +233,7 @@ const StyledSummary = styled.summary`
   border-radius: var(--border-radius-btn);
 
   padding: 10px 15px 10px 15px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   background-color: var(--bg-color-btn);
 `;
 
@@ -207,7 +251,7 @@ const StyledTaskList = styled.ul`
 const StyledListHeading = styled.h3`
   display: flex;
   justify-content: center;
-  margin: 20px 0 10px 0;
+  margin: 5px 0 5px 0;
 `;
 
 const StyledInfoWrapper = styled.div`
@@ -226,4 +270,23 @@ const NoTaskIconContainer = styled.li`
 
   height: 5vw;
   width: 5vw;
+`;
+
+const StyledToggleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  fill: ${({ $isactive }) => ($isactive ? "var(--accent-color)" : "var(--text-color)")};
+  background-color: ${({ $isactive }) =>
+    $isactive ? "var(--bg-color-btn)" : ""};
+  border: ${({ $isactive }) =>
+    $isactive ? "1px solid var(--accent-color)" : ""};
+  /* border-radius: ${({ $isactive }) => ($isactive ? "5px" : "5px")}; */
+  text-decoration: ${({ $isactive }) => ($isactive ? "underline" : "none")};
 `;
