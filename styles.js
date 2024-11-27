@@ -30,7 +30,7 @@ export default createGlobalStyle`
     --text-font-form: ${roboto.style.fontFamily}, 'Times New Roman', Times, serif; 
     --text-color: black;
 
-    --bg-color-body: #8a9fadf9;
+    --bg-color-body: #bfd3e0f9;
     --bg-color-card: rgba(255, 255, 255, 0.85);
     --bg-color-btn: #ffffff;
 
