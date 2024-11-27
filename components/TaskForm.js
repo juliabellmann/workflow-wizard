@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 
@@ -30,6 +30,17 @@ export default function TaskForm({
   // Initialisieren des Due Date mit aktuellem Datum
   const [subtasks, setSubtasks] = useState(initialData.subTasks || []);
 
+  const [selectedLabels, setSelectedLabels] = useState(
+    initialData.tasklabel ? [...initialData.tasklabel] : []
+  );
+
+  useEffect(() => {
+    // Initialisierung von selectedLabels nach dem ersten Render
+    if (!selectedLabels.length) {
+      setSelectedLabels([]);
+    }
+  }, []);
+  
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
 
@@ -52,6 +63,17 @@ export default function TaskForm({
     setSubtasks(subtasks.filter((subtask) => subtask.id !== id));
   }
 
+  function handleLabelChange(event) {
+    const checked = event.target.checked;
+    const value = event.target.value;
+
+    setSelectedLabels(prevLabels =>
+      checked
+        ? [...prevLabels, value]
+        : prevLabels.filter(label => label !== value)
+    );
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -66,6 +88,7 @@ export default function TaskForm({
     const data = {
       ...Object.fromEntries(formData),
       subTasks: validSubtasks,
+      tasklabel: selectedLabels,
     };
 
     const selectedLabels = formData.getAll("tasklabel");
@@ -83,6 +106,7 @@ export default function TaskForm({
     event.target.reset();
     // Reset subtasks_JL
     setSubtasks([]);
+    setSelectedLabels([]);
   }
 
   return (
@@ -149,11 +173,8 @@ export default function TaskForm({
                 id={option.id}
                 name="tasklabel"
                 value={option.value}
-                defaultChecked={
-                  isEditMode
-                    ? initialData?.tasklabel?.includes(option.value)
-                    : null
-                }
+                checked={selectedLabels.includes(option.value)}
+                onChange={handleLabelChange}
               />
               <label htmlFor={option.id}>{option.label}</label>
             </div>
