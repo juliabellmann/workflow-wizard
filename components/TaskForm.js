@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid"; 
+import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 
 // Definieren der Optionen für priority
@@ -16,7 +16,6 @@ const tasklabels = [
   { id: "tasklabel3", value: "Sport", label: "Sport" },
   { id: "tasklabel4", value: "Work", label: "Work" },
 ];
-
 
 export default function TaskForm({
   onCreateTask,
@@ -71,10 +70,10 @@ export default function TaskForm({
 
     console.log("data", data);
     if (isEditMode) {
-      onEditTask(initialData.id, data);
+      onEditTask(data);
       onCancel();
     } else {
-      onCreateTask(data);
+      onCreateTask({ ...data, isDone: false });
     }
 
     // Formular Reset nach Klick
@@ -125,7 +124,6 @@ export default function TaskForm({
           ))}
         </StyledSelect>
 
-
         <label htmlFor="dueDate">
           <h3>Due Date: *</h3>
         </label>
@@ -148,15 +146,16 @@ export default function TaskForm({
                 id={option.id}
                 name="tasklabel"
                 value={option.value}
-                defaultChecked={isEditMode ? initialData?.tasklabel?.includes(option.value) : null}
+                defaultChecked={
+                  isEditMode
+                    ? initialData?.tasklabel?.includes(option.value)
+                    : null
+                }
               />
               <label htmlFor={option.id}>{option.label}</label>
             </div>
           ))}
         </section>
-
-
-
 
         <label htmlFor="subtask">
           <h3>Subtask:</h3>

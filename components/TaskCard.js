@@ -64,10 +64,18 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
         <h3>{task.title}</h3>
       </StyledUpperContentWrapper>
 
-      <BtnMarkAsDone isDone={task.isDone} toggleDone={toggleDone} />
+      <BtnMarkAsDone isDone={task.isDone} toggleDone={() => toggleDone(task)} />
 
       {/* Progress Bar */}
-      <StyledProgressbar value={task.subTasks?.filter(subtask => subtask.completed)?.length || 0} min="0" max={task.subTasks?.length || 0} >{`${(task.subTasks?.filter(subtask => subtask.completed)?.length || 0)} / ${task.subTasks?.length || 0}`}</StyledProgressbar>
+      <StyledProgressbar
+        value={
+          task.subTasks?.filter((subtask) => subtask.completed)?.length || 0
+        }
+        min="0"
+        max={task.subTasks?.length || 0}
+      >{`${
+        task.subTasks?.filter((subtask) => subtask.completed)?.length || 0
+      } / ${task.subTasks?.length || 0}`}</StyledProgressbar>
 
       {/* Trennbalken */}
       <StyledLine $variant={task.priority}></StyledLine>
@@ -97,8 +105,6 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           <p>{task.subTasks?.length || 0}</p>
         </StyledSubtasksIconContainer>
 
-
-
         <StyledBtnWrapper>
           <StyledDelBtnWrapper>
             {/* delete confirm Abfrage */}
@@ -127,7 +133,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
           </StyledDelBtnWrapper>
 
           <StyledCardInfo>
-            <Link href={`task/${task.id}`}>
+            <Link href={`task/${task._id}`}>
               <Image
                 src={"/icons/info-solid.svg"}
                 width="35"
@@ -193,8 +199,8 @@ const StyledLine = styled.div`
 `;
 
 const StyledLabelContainer = styled.div`
-display: flex;
-gap: 10px;
+  display: flex;
+  gap: 10px;
 `;
 
 const StyledLabelLi = styled.li`

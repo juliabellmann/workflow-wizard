@@ -7,16 +7,9 @@ import BtnMarkAsDone from "@/components/BtnMarkAsDone";
 import Head from "next/head";
 import TaskForm from "@/components/TaskForm";
 import { StyledCardDate, StyledContentHeading } from "@/styles";
+import useSWR from "swr";
 
-export default function TaskDetails({
-  tasks,
-  onEditTask,
-  onDeleteTask,
-  onCreateTask,
-  toggleDone,
-}) {
-  // const [isUpdating, setIsUpdating] = useState(false);
-
+export default function TaskDetails({ onCreateTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -24,11 +17,16 @@ export default function TaskDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  // Warten, bis der Router bereit ist
-  if (!router.isReady) return <div>Loading ...</div>;
+  const {
+    data: currentTask,
+    isLoading,
+    mutate,
+    error,
+  } = useSWR(`/api/tasks/${id}`);
 
-  // finde die Tasks
-  const currentTask = tasks?.find((item) => item.id === id) || null;
+  console.log(currentTask);
+
+  if (isLoading || error) return <h2>Task is loading...</h2>;
 
   // Fallback für fehlende Daten
   if (!currentTask) {
@@ -40,15 +38,90 @@ export default function TaskDetails({
     );
   }
 
-  function handleToggleSubtask(subtaskId) {
-    const updatedSubtasks = currentTask.subTasks.map((subtask) =>
-      subtask.id === subtaskId
-        ? { ...subtask, completed: !subtask.completed }
-        : subtask
+  async function handleDelete() {
+    await fetch(`/api/tasks/${id}`, {
+      method: "DELETE",
+    });
+    router.push("/");
+  }
+
+  async function handleEditTask(updatedTask) {
+    const response = await fetch(`/api/tasks/${currentTask._id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedTask),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const updatedData = await response.json();
+      console.log("Task updated successfully:", updatedData);
+      mutate();
+      setIsFormVisible(false);
+    } else {
+      console.error("Failed to update task");
+    }
+  }
+
+  async function handleToggleSubtask(subtaskId) {
+    const updatedSubtask = currentTask.subTasks.find(
+      (subtask) => subtask.id === subtaskId
     );
 
-    const updatedTask = { ...currentTask, subTasks: updatedSubtasks };
-    onEditTask(currentTask.id, updatedTask);
+    if (updatedSubtask) {
+      try {
+        const response = await fetch(`/api/tasks/${currentTask._id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            // Markiert, dass es sich um eine Subtask handelt
+            isSubtask: true,
+            subtaskId,
+            // Toggle completed
+            completed: !updatedSubtask.completed,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update subtask: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Subtask updated successfully:", data);
+        mutate(); // Aktualisiere die SWR-Daten
+      } catch (error) {
+        console.error("Error updating subtask:", error);
+      }
+    }
+  }
+
+  async function handleToggleTask(_id) {
+    try {
+      const response = await fetch(`/api/tasks/${currentTask._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          // Signalisiert das Togglen der Task
+          isToggleDone: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to toggle task: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Task toggled successfully:", data);
+      // Aktualisiere die SWR-Daten
+      mutate();
+    } catch (error) {
+      console.error("Error toggling task:", error);
+    }
   }
 
   // toggle für confirm delete
@@ -62,14 +135,6 @@ export default function TaskDetails({
     }
   }
 
-  // delete und rückführung zur Übersicht
-  function handleDelete() {
-    onDeleteTask(currentTask.id);
-    // TODO: Rückführung funktioniert nicht
-    // Nach dem Löschvorgang wird zur Startseite zurückgeführt
-    router.push("/");
-  }
-
   function handleCancel() {
     setIsFormVisible(false);
   }
@@ -79,13 +144,25 @@ export default function TaskDetails({
   }
 
   function getTaskVariant(dueDate) {
+    if (!dueDate) {
+      console.error("Invalid due date provided:", dueDate);
+      return "default"; // Fallback variant
+    }
+
+    const parsedDate = new Date(dueDate);
+    if (isNaN(parsedDate)) {
+      console.error("Unable to parse due date:", dueDate);
+      return "default"; // Fallback variant
+    }
+
     const currentDate = new Date().toISOString().split("T")[0];
-    const taskDueDate = new Date(dueDate).toISOString().split("T")[0];
+    const taskDueDate = parsedDate.toISOString().split("T")[0];
 
     if (currentDate > taskDueDate) return "overdue";
     if (currentDate === taskDueDate) return "today";
     return "default";
   }
+
   const taskVariant = getTaskVariant(currentTask.dueDate);
 
   let prioIconSrc = "";
@@ -119,8 +196,7 @@ export default function TaskDetails({
       {isFormVisible && (
         <>
           <TaskForm
-            onCreateTask={onCreateTask}
-            onEditTask={onEditTask}
+            onEditTask={handleEditTask}
             onCancel={handleCancel}
             isFormVisible={isFormVisible}
             isEditMode={true}
@@ -134,8 +210,8 @@ export default function TaskDetails({
         <StyledPlacingMarkButton>
           <BtnMarkAsDone
             isDone={currentTask.isDone}
-            toggleDone={toggleDone}
-            id={currentTask.id}
+            toggleDone={handleToggleTask}
+            id={currentTask._id}
           />
         </StyledPlacingMarkButton>
 
@@ -144,27 +220,25 @@ export default function TaskDetails({
           {currentTask.description}
         </StyledDescription>
 
-          <h4>Subtasks:</h4>
-          <StyledSubtaskList>
-            {currentTask.subTasks.map((subtask) => (
-              <StyledSubtaskLi key={subtask.id} $isChecked={subtask.completed}>
-                <input
-                  type="checkbox"
-                  checked={subtask.completed}
-                  onChange={() => handleToggleSubtask(subtask.id)}
-                />
-                <span>{subtask.title}</span>
-              </StyledSubtaskLi>
-            ))}
-          </StyledSubtaskList>
+        <h4>Subtasks:</h4>
+        <StyledSubtaskList>
+          {currentTask.subTasks.map((subtask) => (
+            <StyledSubtaskLi key={subtask.id} $isChecked={subtask.completed}>
+              <input
+                type="checkbox"
+                checked={subtask.completed}
+                onChange={() => handleToggleSubtask(subtask.id)}
+              />
+              <span>{subtask.title}</span>
+            </StyledSubtaskLi>
+          ))}
+        </StyledSubtaskList>
 
-          <StyledLabelContainer>
-            {currentTask.tasklabel?.map((label) => {
-              return <StyledLabelLi key={label}>{label}</StyledLabelLi>;
-            })}
-          </StyledLabelContainer>
-
-
+        <StyledLabelContainer>
+          {currentTask.tasklabel?.map((label) => {
+            return <StyledLabelLi key={label}>{label}</StyledLabelLi>;
+          })}
+        </StyledLabelContainer>
 
         <StyledBtnWrapper>
           <StyledDivDatePrio>
@@ -201,7 +275,7 @@ export default function TaskDetails({
               />
             </StyledCardBtn>
             {isDeleteOption && (
-              <StyledCardBtn onClick={() => handleDelete()}>
+              <StyledCardBtn onClick={handleDelete}>
                 <Image
                   src={"/icons/trash-can-regular.svg"}
                   width="35"
@@ -293,12 +367,12 @@ const StyledSubtaskLi = styled.li`
 `;
 
 const StyledLabelContainer = styled.div`
-display: flex;
-gap: 10px;
+  display: flex;
+  gap: 10px;
 `;
 
 const StyledLabelLi = styled.li`
-list-style: none;
+  list-style: none;
   border-radius: 50px;
   padding: 2.5px 5px;
   border: 1px solid var(--accent-color);

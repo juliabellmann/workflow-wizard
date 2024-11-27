@@ -4,17 +4,64 @@ import TaskForm from "@/components/TaskForm";
 import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
-import Image from "next/image";
 import { useState } from "react";
+import useSWR from "swr";
 
-export default function HomePage({
-  tasks,
-  onCreateTask,
-  onDeleteTask,
-  toggleDone,
-}) {
+export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
+  const { data: tasks, mutate } = useSWR("/api/tasks", { fallbackData: [] });
+
+  console.log("tasks", tasks);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+
+  async function handleAddTask(place) {
+    const response = await fetch("/api/tasks", {
+      method: "POST",
+      body: JSON.stringify(place),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      await response.json();
+      mutate();
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
+  }
+
+  async function handleDelete(id) {
+    await fetch(`/api/tasks/${id}`, {
+      method: "DELETE",
+    });
+
+    mutate();
+  }
+
+  async function handleToggleTask(currentTask) {
+    try {
+      const response = await fetch(`/api/tasks/${currentTask._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          // Signalisiert das Togglen der Task
+          isToggleDone: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to toggle task: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Task toggled successfully:", data);
+      // Aktualisiere die SWR-Daten
+      mutate();
+    } catch (error) {
+      console.error("Error toggling task:", error);
+    }
+  }
 
   // Funktion zum Konvertieren eines Datumsstrings in ein Zeitstempel
   const getDateTimestamp = (dateString) => {
@@ -46,7 +93,7 @@ export default function HomePage({
       {/* Toggle Create new Task */}
       <StyledDetails>
         <StyledSummary>Create New Task</StyledSummary>
-        <TaskForm onSubmit={onCreateTask} onCreateTask={onCreateTask} />
+        <TaskForm onCreateTask={handleAddTask} />
       </StyledDetails>
 
       <StyledContentHeading>Task List</StyledContentHeading>
@@ -71,10 +118,10 @@ export default function HomePage({
             <StyledListHeading>- To Do -</StyledListHeading>
             {undoneTasks.map((task) => (
               <TaskCard
-                key={task.id}
+                key={task._id}
                 task={task}
-                onDeleteTask={() => onDeleteTask(task.id)}
-                toggleDone={() => toggleDone(task.id)}
+                onDeleteTask={() => handleDelete(task._id)}
+                toggleDone={handleToggleTask}
               />
             ))}
 
@@ -83,10 +130,10 @@ export default function HomePage({
                 <StyledListHeading>- Done -</StyledListHeading>
                 {doneTasks.map((task) => (
                   <TaskCard
-                    key={task.id}
+                    key={task._id}
                     task={task}
                     onDeleteTask={() => onDeleteTask(task.id)}
-                    toggleDone={() => toggleDone(task.id)}
+                    toggleDone={() => handleToggleTask(task)}
                   />
                 ))}
               </>
@@ -100,7 +147,7 @@ export default function HomePage({
                 key={task.id}
                 task={task}
                 onDeleteTask={() => onDeleteTask(task.id)}
-                toggleDone={() => toggleDone(task.id)}
+                toggleDone={() => handleToggleTask(task)}
               />
             ))}
           </>
