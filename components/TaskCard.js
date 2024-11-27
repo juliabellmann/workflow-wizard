@@ -169,13 +169,20 @@ const StyledTaskCard = styled.div`
 
 const StyledProgressbar = styled.progress`
   width: 100%;
-  height: 10px;
+  height: 15px;
   border: none;
-  /* TODO: warum funktioniert die Farbe nicht? */
-  background-color: var(--accent-color);
-  color: red;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  margin: 10px 0 20px 0;
+  
+  &::-webkit-progress-bar{
+    background-color: lightgray;
+    color: red;
+    border-radius: 10px;
+  }
+
+  &::-webkit-progress-value {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+  }
 `;
 
 const StyledLine = styled.div`
