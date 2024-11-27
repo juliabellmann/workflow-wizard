@@ -5,13 +5,13 @@ import Head from "next/head";
 import { StyledContentHeading } from "@/styles";
 import NoTaskIcon from "@/assets/icons/notask.svg";
 import { useState } from "react";
+import useSWR from "swr";
 
-export default function HomePage({
-  tasks,
-  onCreateTask,
-  onDeleteTask,
-  toggleDone,
-}) {
+export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
+  const { data: tasks } = useSWR("/api/tasks", { fallbackData: [] });
+
+  console.log("tasks", tasks);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
@@ -70,7 +70,7 @@ export default function HomePage({
             <StyledListHeading>- To Do -</StyledListHeading>
             {undoneTasks.map((task) => (
               <TaskCard
-                key={task.id}
+                key={task._id}
                 task={task}
                 onDeleteTask={() => onDeleteTask(task.id)}
                 toggleDone={() => toggleDone(task.id)}
@@ -82,7 +82,7 @@ export default function HomePage({
                 <StyledListHeading>- Done -</StyledListHeading>
                 {doneTasks.map((task) => (
                   <TaskCard
-                    key={task.id}
+                    key={task._id}
                     task={task}
                     onDeleteTask={() => onDeleteTask(task.id)}
                     toggleDone={() => toggleDone(task.id)}
