@@ -9,13 +9,7 @@ import TaskForm from "@/components/TaskForm";
 import { StyledCardDate, StyledContentHeading } from "@/styles";
 import useSWR from "swr";
 
-export default function TaskDetails({
-  tasks,
-  onEditTask,
-  onDeleteTask,
-  onCreateTask,
-  toggleDone,
-}) {
+export default function TaskDetails({ onCreateTask, toggleDone }) {
   const [isDeleteOption, setIsDeleteOption] = useState(false);
   const [toggleButtonName, setToggleButtonName] = useState("Delete");
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -70,39 +64,63 @@ export default function TaskDetails({
     }
   }
 
-  function handleToggleSubtask(subtaskId) {
+  async function handleToggleSubtask(subtaskId) {
     const updatedSubtask = currentTask.subTasks.find(
       (subtask) => subtask.id === subtaskId
     );
-    console.log(currentTask._id);
 
     if (updatedSubtask) {
-      fetch(`/api/tasks/${currentTask._id}`, {
+      try {
+        const response = await fetch(`/api/tasks/${currentTask._id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            // Markiert, dass es sich um eine Subtask handelt
+            isSubtask: true,
+            subtaskId,
+            // Toggle completed
+            completed: !updatedSubtask.completed,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update subtask: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Subtask updated successfully:", data);
+        mutate(); // Aktualisiere die SWR-Daten
+      } catch (error) {
+        console.error("Error updating subtask:", error);
+      }
+    }
+  }
+
+  async function handleToggleTask(_id) {
+    try {
+      const response = await fetch(`/api/tasks/${currentTask._id}`, {
         method: "PUT",
         body: JSON.stringify({
-          // Markiert, dass es sich um eine Subtask handelt
-          isSubtask: true,
-          subtaskId,
-          // Toggle completed
-          completed: !updatedSubtask.completed,
+          // Signalisiert das Togglen der Task
+          isToggleDone: true,
         }),
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update subtask");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Subtask updated successfully:", data);
-          mutate();
-        })
-        .catch((error) => {
-          console.error("Error updating subtask:", error);
-        });
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to toggle task: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Task toggled successfully:", data);
+      // Aktualisiere die SWR-Daten
+      mutate();
+    } catch (error) {
+      console.error("Error toggling task:", error);
     }
   }
 
@@ -178,7 +196,6 @@ export default function TaskDetails({
       {isFormVisible && (
         <>
           <TaskForm
-            onCreateTask={onCreateTask}
             onEditTask={handleEditTask}
             onCancel={handleCancel}
             isFormVisible={isFormVisible}
@@ -193,8 +210,8 @@ export default function TaskDetails({
         <StyledPlacingMarkButton>
           <BtnMarkAsDone
             isDone={currentTask.isDone}
-            toggleDone={toggleDone}
-            id={currentTask.id}
+            toggleDone={handleToggleTask}
+            id={currentTask._id}
           />
         </StyledPlacingMarkButton>
 
@@ -258,7 +275,7 @@ export default function TaskDetails({
               />
             </StyledCardBtn>
             {isDeleteOption && (
-              <StyledCardBtn onClick={() => handleDelete()}>
+              <StyledCardBtn onClick={handleDelete}>
                 <Image
                   src={"/icons/trash-can-regular.svg"}
                   width="35"

@@ -21,6 +21,8 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const taskData = request.body;
+
+      console.log("taskData", taskData);
       await Task.create(taskData);
       return response.status(201).json({ status: "Task created" });
     } catch (error) {

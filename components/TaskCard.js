@@ -64,7 +64,7 @@ export default function TaskCard({ task, onDeleteTask, toggleDone }) {
         <h3>{task.title}</h3>
       </StyledUpperContentWrapper>
 
-      <BtnMarkAsDone isDone={task.isDone} toggleDone={toggleDone} />
+      <BtnMarkAsDone isDone={task.isDone} toggleDone={() => toggleDone(task)} />
 
       {/* Progress Bar */}
       <StyledProgressbar

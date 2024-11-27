@@ -35,9 +35,29 @@ export default async function handler(request, response) {
     try {
       const taskData = request.body;
 
-      console.log("Received taskData:", taskData);
+      console.log("taskData", taskData.isToggleDone);
 
-      // Prüfen, ob es sich um eine Subtask handelt
+      // 1. Prüfen, ob die gesamte Task getoggelt werden soll
+      if (taskData.isToggleDone) {
+        const task = await Task.findById(id);
+
+        console.log("task", task);
+        if (!task) {
+          return response.status(404).json({ message: "Task not found" });
+        }
+
+        // setzte true oder toggle isDone
+        task.isDone = task.isDone ? !task.isDone : true;
+
+        // Speichern der Task
+        await task.save();
+
+        return response
+          .status(200)
+          .json({ message: "Task toggled successfully", task });
+      }
+
+      // 2. Prüfen, ob eine Subtask aktualisiert werden soll
       if (taskData.isSubtask) {
         const { subtaskId, completed } = taskData;
 
@@ -52,16 +72,15 @@ export default async function handler(request, response) {
           return response.status(404).json({ message: "Subtask not found" });
         }
 
-        // Aktualisiere das `completed`-Feld
         subtask.completed = completed;
 
-        // Speichere die aktualisierte Task
+        // Speichern der Task
         await task.save();
 
         return response.status(200).json({ message: "Subtask updated", task });
       }
 
-      // Aktualisiere die gesamte Task
+      // 3. Aktualisieren der gesamten Task
       const updatedTask = await Task.findByIdAndUpdate(id, taskData, {
         new: true,
         runValidators: true,

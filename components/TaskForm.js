@@ -73,7 +73,7 @@ export default function TaskForm({
       onEditTask(data);
       onCancel();
     } else {
-      onCreateTask(data);
+      onCreateTask({ ...data, isDone: false });
     }
 
     // Formular Reset nach Klick
