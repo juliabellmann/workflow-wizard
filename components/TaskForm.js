@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 
@@ -30,6 +30,17 @@ export default function TaskForm({
   // Initialisieren des Due Date mit aktuellem Datum
   const [subtasks, setSubtasks] = useState(initialData.subTasks || []);
 
+  const [selectedLabels, setSelectedLabels] = useState(
+    initialData.tasklabel ? [...initialData.tasklabel] : []
+  );
+
+  useEffect(() => {
+    // Initialisierung von selectedLabels nach dem ersten Render
+    if (!selectedLabels.length) {
+      setSelectedLabels([]);
+    }
+  }, []);
+
   //  We don't need a state for the due date._JL
   const dueDate = new Date().toISOString().split("T")[0];
 
@@ -52,6 +63,17 @@ export default function TaskForm({
     setSubtasks(subtasks.filter((subtask) => subtask.id !== id));
   }
 
+  function handleLabelChange(event) {
+    const checked = event.target.checked;
+    const value = event.target.value;
+
+    setSelectedLabels((prevLabels) =>
+      checked
+        ? [...prevLabels, value]
+        : prevLabels.filter((label) => label !== value)
+    );
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -62,16 +84,18 @@ export default function TaskForm({
 
     // Sammelt alle Formulardaten in einem Objekt
     const formData = new FormData(event.target);
+
+    const selectedLabels = formData.getAll("tasklabel");
+
     // Include subtasks directly_JL
     const data = {
       ...Object.fromEntries(formData),
       subTasks: validSubtasks,
+      tasklabel: selectedLabels,
     };
 
-    const selectedLabels = formData.getAll("tasklabel");
     data.tasklabel = selectedLabels;
 
-    console.log("data", data);
     if (isEditMode) {
       onEditTask(data);
       onCancel();
@@ -83,6 +107,7 @@ export default function TaskForm({
     event.target.reset();
     // Reset subtasks_JL
     setSubtasks([]);
+    setSelectedLabels([]);
   }
 
   return (
@@ -149,11 +174,8 @@ export default function TaskForm({
                 id={option.id}
                 name="tasklabel"
                 value={option.value}
-                defaultChecked={
-                  isEditMode
-                    ? initialData?.tasklabel?.includes(option.value)
-                    : null
-                }
+                checked={selectedLabels.includes(option.value)}
+                onChange={handleLabelChange}
               />
               <label htmlFor={option.id}>{option.label}</label>
             </div>
@@ -180,7 +202,10 @@ export default function TaskForm({
                 handleSubtaskChange(subtask.id, event.target.value)
               }
             />
-            <StyledCloseBtn onClick={() => handleDeleteSubtask(subtask.id)}> X </StyledCloseBtn>
+            <StyledCloseBtn onClick={() => handleDeleteSubtask(subtask.id)}>
+              {" "}
+              X{" "}
+            </StyledCloseBtn>
           </StyledSubtaskList>
         ))}
 

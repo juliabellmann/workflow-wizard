@@ -81,6 +81,16 @@ export default async function handler(request, response) {
       }
 
       // 3. Aktualisieren der gesamten Task
+      if (taskData.labels) {
+        const task = await Task.findByIdAndUpdate(id, { labels: taskData.labels }, { new: true });
+
+        if (!task) {
+          return response.status(404).json({ message: "Task not found" });
+        }
+
+        return response.status(200).json({ message: "Labels updated", task });
+      }
+
       const updatedTask = await Task.findByIdAndUpdate(id, taskData, {
         new: true,
         runValidators: true,

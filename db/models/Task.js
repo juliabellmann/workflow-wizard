@@ -17,7 +17,8 @@ const taskSchema = new Schema({
   priority: { type: String, required: true },
   dueDate: { type: String, required: true },
   subTasks: [{ type: subtaskSchema }],
-  isDone: { type: Boolean },
+  isDone: { type: Boolean, required: true },
+  tasklabel: { type: [String] },
 });
 
 const Task = mongoose.models?.Task || mongoose.model("Task", taskSchema);

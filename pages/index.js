@@ -158,7 +158,7 @@ export default function HomePage({ onCreateTask, onDeleteTask, toggleDone }) {
                   <TaskCard
                     key={task._id}
                     task={task}
-                    onDeleteTask={() => onDeleteTask(task.id)}
+                    onDeleteTask={() => handleDelete(task._id)}
                     toggleDone={() => handleToggleTask(task)}
                   />
                 ))}
