@@ -263,9 +263,27 @@ const StyledTaskList = styled.ul`
   align-items: center;
   justify-content: center;
 
+
+
+
+
   list-style: none;
   padding: 0;
   margin: 0;
+
+
+  @media (min-width: 768px) {
+    display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  h3 {
+    width: 100%;
+  }
+  }
 `;
 
 const StyledListHeading = styled.h3`
@@ -288,8 +306,12 @@ const NoTaskIconContainer = styled.li`
   align-items: center;
   justify-content: center;
 
-  height: 5vw;
-  width: 5vw;
+  backdrop-filter: blur(5px);
+
+  height: 75px;
+  width: 75px;
+
+  padding: 10px;
 `;
 
 const StyledToggleContainer = styled.div`
