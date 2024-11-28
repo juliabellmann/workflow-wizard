@@ -357,6 +357,7 @@ const StyledSubtaskLi = styled.li`
 const StyledLabelContainer = styled.div`
   display: flex;
   gap: 10px;
+  margin-bottom: 20px;
 `;
 
 const StyledLabelLi = styled.li`
